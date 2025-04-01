@@ -12,9 +12,11 @@ module load R/4.4.1
 cd $SLURM_SUBMIT_DIR
 
 PROJECT='birdpopvar'
+LIB_NAME='birdpopvar-17b47494'
 
 # renv config : set renv paths to sensible behavior
 export RENV_PATHS_ROOT=$HOME/.cache/R/renv/
+export RENV_PATHS_LIBRARY=$HOME/.cache/R/renv/library/$LIB_NAME
 
 # make sure the global R installation is accessible :
 # disable sandbox and point to correct path
