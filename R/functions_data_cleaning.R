@@ -34,6 +34,18 @@ clean_fbbs <- function(survey) {
       SAMPLING = passage,
       ABUNDANCE = maxabd
     ) %>%
-    select(SITE2, SITE1, YEAR, SPECIES, ABUNDANCE, SAMPLING) %>%
+    select(SITE2, SITE1, YEAR, SPECIES, ABUNDANCE, SAMPLING, lon, lat, habitat_p, habitat_s) %>%
     filter(SITE2 != "" & SITE1 != "" & str_detect(SITE2, "[0-9]{6}"))
+}
+
+clean_sampling_info <- function(df) {
+  df %>%
+    rename(
+      SITE2 = carre,
+      SITE1 = point,
+      YEAR = annee,
+      SAMPLING = passages,
+      HABITAT_CODE = p_milieu
+    ) %>%
+    select(-s_milieux)
 }
