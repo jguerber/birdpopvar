@@ -3,12 +3,10 @@
 default_dependencies <- function() {
   c(
     "dplyr",
-    "readr",
     "ggplot2",
     "stringr",
     "tidyr",
     "purrr",
-    "parallel",
     "rmarkdown",
     "here"
   )
