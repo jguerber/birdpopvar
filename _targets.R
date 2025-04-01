@@ -1,6 +1,7 @@
 library(targets)
 library(tarchetypes)
 library(crew)
+library(crew.cluster)
 
 tar_source(here::here(c("R", "scripts/import_dependencies.R")))
 
