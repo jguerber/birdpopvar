@@ -30,7 +30,7 @@ rsync -azP --exclude={'output','_targets','.env','.Renviron'} ./* $SCRATCH/$PROJ
 # go there and execute
 cd $SCRATCH/$PROJECT
 
-/bin/bash $(which R) CMD BATCH --no-save Scripts/build.R
+/bin/bash $(which R) CMD BATCH --no-save scripts/build.R
 
 # pull output folders to $HOME/$PROJECT
 cp build.Rout $SLURM_SUBMIT_DIR
