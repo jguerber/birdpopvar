@@ -7,7 +7,7 @@ list(
   tar_target(
     raw_data,
     read_path(
-      "data/STOC/fbbs_200m.csv", sep = ";"
+      "data/STOC/fbbs_200m.csv", sep = ";", row.names = NULL
     )
   ),
   tar_target(
