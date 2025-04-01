@@ -1,4 +1,4 @@
-build_communities <- function() {
+step_build_communities <- function() {
   list(
     tar_target(
       points_by_habitat,
