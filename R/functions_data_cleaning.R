@@ -1,5 +1,5 @@
-#' clean function for "short" version of STOC : with species codes + coordinates already present
-clean_stoc_short <- function(survey) {
+#' clean function for "short" version of FBBS : with species codes + coordinates already present
+clean_fbbs <- function(survey) {
   survey %>%
     rename(
       id_carre = V1,
