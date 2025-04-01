@@ -14,6 +14,10 @@ cd $SLURM_SUBMIT_DIR
 PROJECT='birdpopvar'
 LIB_NAME='birdpopvar-17b47494'
 
+# project config : we use environment variables to distinguish on which type of
+# machine the project is running
+export IS_SLURM=TRUE
+
 # renv config : set renv paths to sensible behavior
 export RENV_PATHS_ROOT=$HOME/.cache/R/renv/
 export RENV_PATHS_LIBRARY=$HOME/.cache/R/renv/library/$LIB_NAME
