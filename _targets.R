@@ -1,6 +1,8 @@
 library(targets)
 library(tarchetypes)
 
+tar_source(here::here("R"))
+
 list(
   tar_target(
     raw_data,
