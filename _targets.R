@@ -1,7 +1,7 @@
 library(targets)
 library(tarchetypes)
 
-tar_source(here::here("R"))
+tar_source(here::here(c("R", "scripts/import_dependencies.R")))
 
 list(
   tar_target(
