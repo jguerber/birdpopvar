@@ -224,6 +224,32 @@
       ],
       "Hash": "09fd631e607a236f8cc7f9604db32cb8"
     },
+    "crew": {
+      "Package": "crew",
+      "Version": "1.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "R6",
+        "cli",
+        "data.table",
+        "getip",
+        "later",
+        "mirai",
+        "nanonext",
+        "processx",
+        "promises",
+        "ps",
+        "rlang",
+        "stats",
+        "tibble",
+        "tidyselect",
+        "tools",
+        "utils"
+      ],
+      "Hash": "7b67c00ac2d9944dfed7cfd04c50afcf"
+    },
     "curl": {
       "Package": "curl",
       "Version": "6.2.2",
@@ -449,6 +475,16 @@
         "zip"
       ],
       "Hash": "b886f9838f82444c47a9962adc5ab8e8"
+    },
+    "getip": {
+      "Package": "getip",
+      "Version": "0.1-4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "0e81e7f976441581680fa2ebc5866212"
     },
     "gh": {
       "Package": "gh",
@@ -724,6 +760,27 @@
         "utils"
       ],
       "Hash": "fec5f52652d60615fdb3957b3d74324a"
+    },
+    "mirai": {
+      "Package": "mirai",
+      "Version": "2.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "nanonext"
+      ],
+      "Hash": "469c3356c425d8908c3bd9cc32556d20"
+    },
+    "nanonext": {
+      "Package": "nanonext",
+      "Version": "1.5.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "e0b0cc584b30905433fdd976f21eba6a"
     },
     "openssl": {
       "Package": "openssl",
