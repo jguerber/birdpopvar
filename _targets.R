@@ -29,6 +29,7 @@ tar_option_set(
   )
 )
 
+# call the correct target list in R/pipeline_*
 target_list(
   parameters
 )
