@@ -16,13 +16,19 @@ step_build_communities <- function() {
       available_data %>%
         filter(HABITAT_GROUP %in% c("farmland", "woodland", "built"))
     ),
-    tar_target(
+    tar_target( # aggregate species from different listening points in the same community
       aggregate_survey,
       available_data %>%
         select(c(matches("SITE"), YEAR, SAMPLING, SPECIES, ABUNDANCE)) %>%
         fill_absences(sampling = "SAMPLING") %>%
         left_join(points_by_habitat, by = str_subset(colnames(.), "^SITE")) %>%
         aggregate_communities
+    ),
+    tar_target(
+      aggregate_survey_filtered,
+      aggregate_survey %>%
+        filter_survey_coverage %>%
+        filter_species_presence
     )
   )
 }
