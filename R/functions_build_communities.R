@@ -80,7 +80,7 @@ aggregate_communities <- function(joined) {
   joined <- joined %>%
     unite(
       "COMMUNITY_ID",
-      all_of(c(sites_without_points, "GROUP")),
+      all_of(c(sites_without_points, "HABITAT_GROUP")),
       remove = F
     )
 
