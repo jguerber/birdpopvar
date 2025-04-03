@@ -19,6 +19,7 @@ tar_option_set(
   retrieval = "worker",
   deployment = "worker",
   trust_timestamps = T, # don't hash big files
+  format = "qs", # compress objects in target store
   # available packages and libraries
   packages = default_dependencies(),
   library = renv::paths$library(),

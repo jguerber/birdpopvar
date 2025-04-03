@@ -15,6 +15,13 @@ step_build_communities <- function() {
       available_data_in_habitats_of_interest, # habitats of interest
       available_data %>%
         filter(HABITAT_GROUP %in% c("farmland", "woodland", "built"))
+    ),
+    tar_target(
+      aggregate_survey,
+      available_data %>%
+        fill_absences %>%
+        left_join(points_by_habitat, by = str_subset(colnames(.), "^SITE")) %>%
+        aggregate_communities
     )
   )
 }
