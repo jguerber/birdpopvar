@@ -106,6 +106,12 @@ aggregate_communities <- function(joined) {
 
 
 #' Add zeros for absences
+#'
+#' All combinations of (SPECIES, !!!by, !!!sampling) that are missing will
+#' be filled by a zero
+#'
+#' @param by columns to group by. Defaults to all columns that match `"SITE"`
+#' @param sampling columns that define a sampling-specific information
 fill_absences <- function(survey, by = NULL, sampling = NULL) {
 
   if (is.null(by)) {
