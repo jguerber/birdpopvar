@@ -49,3 +49,41 @@ clean_sampling_info <- function(df) {
     ) %>%
     select(-s_milieux)
 }
+
+#### Processed data filtering
+
+filter_survey_coverage <- function(df) {
+  df %>%
+    filter(N_POINTS >= 3) %>% # need to be filtered before N_YEARS because some communities will be only partially removed from this
+    group_by(COMMUNITY_ID) %>%
+    mutate(NYEARS = n_distinct(YEAR)) %>%
+    filter(NYEARS >= 9) %>%
+    group_by(COMMUNITY_ID, SPECIES) %>%
+    mutate(
+      N_absent = sum(AB_SUM == 0)
+    ) %>%
+    ungroup
+  filter(N_POINTS >= 3) %>% # need to be filtered before N_YEARS because some communities will be only partially removed from this
+    group_by(COMMUNITY_ID) %>%
+    mutate(NYEARS = n_distinct(YEAR)) %>%
+    filter(NYEARS >= 9) %>%
+    group_by(COMMUNITY_ID, SPECIES) %>%
+    mutate(
+      N_absent = sum(AB_SUM == 0)
+    ) %>%
+    ungroup
+}
+
+filter_species_presence <- function(df) {
+  df %>%
+    filter(
+      NYEARS - N_absent >= 0.5*NYEARS
+    )
+}
+
+filter_habitats <- function(df, col_check = "COMMUNITY_ID") {
+  df %>%
+    filter(
+      !str_detect(!!sym(col_check), "other")
+    )
+}
