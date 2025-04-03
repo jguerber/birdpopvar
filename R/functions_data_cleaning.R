@@ -63,15 +63,6 @@ filter_survey_coverage <- function(df) {
       N_absent = sum(AB_SUM == 0)
     ) %>%
     ungroup
-  filter(N_POINTS >= 3) %>% # need to be filtered before N_YEARS because some communities will be only partially removed from this
-    group_by(COMMUNITY_ID) %>%
-    mutate(NYEARS = n_distinct(YEAR)) %>%
-    filter(NYEARS >= 9) %>%
-    group_by(COMMUNITY_ID, SPECIES) %>%
-    mutate(
-      N_absent = sum(AB_SUM == 0)
-    ) %>%
-    ungroup
 }
 
 filter_species_presence <- function(df) {
