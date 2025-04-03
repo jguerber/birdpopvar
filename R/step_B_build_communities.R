@@ -19,7 +19,8 @@ step_build_communities <- function() {
     tar_target(
       aggregate_survey,
       available_data %>%
-        fill_absences %>%
+        select(c(matches("SITE"), YEAR, SAMPLING, SPECIES, ABUNDANCE)) %>%
+        fill_absences(sampling = "SAMPLING") %>%
         left_join(points_by_habitat, by = str_subset(colnames(.), "^SITE")) %>%
         aggregate_communities
     )
