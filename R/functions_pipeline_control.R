@@ -67,7 +67,7 @@ slurm_controller_group <- function(
     workers = 4,
     seconds_idle = 120, # don't let a SLURM job hanging without work for more than two minutes
     crashes_error = 2, # retry twice on error
-    options_cluster = custom_options
+    options_cluster = custom_crew_options
   )
 
   controller_heavy <- crew_controller_slurm(
@@ -75,7 +75,7 @@ slurm_controller_group <- function(
     workers = as.integer(parameters$remote_n_tasks),
     seconds_idle = 60,
     crashes_error = 2,
-    options_cluster = custom_options
+    options_cluster = custom_crew_options
   )
 
   controller_group <- crew_controller_group(
