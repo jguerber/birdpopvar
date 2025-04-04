@@ -26,7 +26,7 @@ step_data_cleaning <- function() {
     tar_target(
       clc_legend, # originally from
       # https://www.eea.europa.eu/data-and-maps/data/corine-land-cover-2/corine-land-cover-classes-and/clc_legend.csv
-      read_path(file.path("data", "CLC", "clc_legend.csv")) %>% clean_clc_legend
+      read_path(file.path("data", "CLC", "clc_legend.csv"), method = read.csv) %>% clean_clc_legend
     ),
 
     tar_target(
