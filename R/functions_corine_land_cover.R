@@ -34,3 +34,20 @@ load_clc <- function(rel_path, legend_df, legend_code = "Code_18") {
     st_transform(crs = 2154) %>% # Lambert-93 projection for France
     left_join(legend_df, by = join_by(Code_18 == CLC_CODE))
 }
+
+
+#' RGB in xxx-xxx-xxx to hex value
+rgb_to_color <- function(x) {
+  cols <- sapply(str_split(x, "-"), function(s) {
+    if (all(!is.na(s)) & all(length(s) > 1)) {
+      c <- as.numeric(s)
+      c <- c / 255
+
+      rgb(c[1], c[2], c[3])
+    } else {
+      return(NA)
+    }
+  })
+
+  as.vector(cols)
+}
