@@ -4,8 +4,11 @@ target_list_all <- function() {
 
   build_communities <- step_build_communities()
 
+  local_trends <- step_local_trends()
+
   list(
     data_cleaning,
-    build_communities
+    build_communities,
+    local_trends
   )
 }
