@@ -1,0 +1,18 @@
+stages:
+  - deploy
+
+deploy:
+  image: ubuntu:latest
+  stage: deploy
+  only:
+    - main
+  before_script:
+    - apt-get -yq update
+    - apt-get -yqq install ssh
+    - install -m 600 -D /dev/null ~/.ssh/id_rsa
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
+  script:
+    - ssh $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout main && git pull && exit"
+  after_script:
+    - rm -rf ~/.ssh
