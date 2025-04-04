@@ -13,6 +13,6 @@ deploy:
     - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
     - ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
   script:
-    - ssh $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout main && git remote set-url https://$GITLAB_USER:$GITLAB_TOKEN@$REPO_URL && git pull && git remote set-url https://$REPO_URL && exit"
+    - ssh $SSH_USER@$SSH_HOST "cd $WORK_DIR && git checkout main && git remote set-url origin https://$GITLAB_USER:$GITLAB_TOKEN@$REPO_URL && git pull && git remote set-url origin https://$REPO_URL && exit"
   after_script:
     - rm -rf ~/.ssh
