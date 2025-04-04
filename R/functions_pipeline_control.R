@@ -19,13 +19,20 @@ target_list <- function(params) {
   }
 }
 
+is_slurm <- function() {
+  if (Sys.getenv("IS_SLURM") != "") {
+    if (Sys.getenv("IS_SLURM") %in%  c("T", "TRUE", TRUE)) {
+      return (TRUE)
+    }
+  }
+  return(FALSE)
+}
+
 #' Build a sensible crew controller group depending on the environment
 custom_controller_group <- function(parameters, ...) {
 
-  if (Sys.getenv("IS_SLURM") != "") {
-    if (Sys.getenv("IS_SLURM") %in%  c("T", "TRUE", TRUE)) {
-      return(slurm_controller_group(parameters, ...))
-    }
+  if (is_slurm()) {
+    return(slurm_controller_group(parameters, ...))
   }
 
   local_controller_group(parameters, ...)
