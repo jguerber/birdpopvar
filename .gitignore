@@ -4,7 +4,8 @@
 .Ruserdata
 .env
 
-data/
+data/*
+!data/README.md
 output/
 quarto/build/
 _targets/
