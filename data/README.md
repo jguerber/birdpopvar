@@ -12,3 +12,4 @@ Cleaned French Bird Survey database extraction (extracted by Benoît Fontaine on
 [Corine Land Cover](https://land.copernicus.eu/en/products/corine-land-cover) data. Extracted via the Copernicus web interface on 10/06/2024.
 
 - `CLC_2018` shapefiles of 2018 land cover data for continental France
+- `clc_legend.csv` correspondence between CLC land cover codes and land cover description
