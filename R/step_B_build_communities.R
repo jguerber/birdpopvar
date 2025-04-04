@@ -28,7 +28,8 @@ step_build_communities <- function() {
       aggregate_survey_filtered,
       aggregate_survey %>%
         filter_survey_coverage %>%
-        filter_species_presence
+        filter_species_presence %>%
+        filter_habitats(col_check = "COMMUNITY_ID")
     )
   )
 }
