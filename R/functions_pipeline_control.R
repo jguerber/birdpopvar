@@ -15,7 +15,7 @@ default_dependencies <- function() {
 #' Call different target list based on selected pipeline option
 target_list <- function(params) {
   if (params$run_steps == "all") {
-    target_list_all()
+    target_list_all(params)
   }
 }
 
