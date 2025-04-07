@@ -2,7 +2,7 @@
 
 #SBATCH -p std
 #SBATCH -n 1
-#SBATCH --time=00:10:00
+#SBATCH --time=04:00:00
 #SBATCH -J pipeline-main
 #SBATCH -o stdout.txt
 #SBATCH -e stderr.txt

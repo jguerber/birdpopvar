@@ -32,7 +32,10 @@ step_local_trends <- function(parameters) {
           override_arguments = list(try_families = c("gaussian", "poisson"))
         ), # for now, only check that branching works
       pattern = map(survey_in_batches),
-      iteration = "list"
+      iteration = "list",
+      resources = tar_resources(
+        controller = tar_resources_crew(controller_group$names$heavy)
+      )
     ),
     tar_target(
       local_trends_summaries,
