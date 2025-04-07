@@ -20,7 +20,7 @@ step_local_trends <- function(parameters) {
     tar_group_by(
       survey_in_batches,
       communities_in_batches %>%
-        slice_sample(n = 3) %>% # debug
+        # slice_sample(n = 3) %>% # debug
         left_join(aggregate_survey_filtered, by = "COMMUNITY_ID"),
       batch_id
     ),
@@ -33,6 +33,33 @@ step_local_trends <- function(parameters) {
         ), # for now, only check that branching works
       pattern = map(survey_in_batches),
       iteration = "list"
+    ),
+    tar_target(
+      local_trends_summaries,
+      do.call(
+        bind_rows,
+        map(trends_output, \(l) l$summaries)
+      )
+    ),
+    tar_target(
+      local_trends_predictions,
+      do.call(
+        bind_rows,
+        map(trends_output, \(l) l$predictions)
+      )
+    ),
+    tar_target(
+      all_local_trends_outputs,
+      join_summaries_and_predictions(
+        local_trends_summaries,
+        predictions_metrics(
+          local_trends_predictions,
+          ab_col = "AB_SUM",
+          preferred_family = "poisson"
+        ),
+        preferred_model = "poisson",
+        rtype = "pearson"
+      )
     )
   )
 }
