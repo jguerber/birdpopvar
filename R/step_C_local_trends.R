@@ -34,7 +34,7 @@ step_local_trends <- function(parameters) {
       pattern = map(survey_in_batches),
       iteration = "list",
       resources = tar_resources(
-        controller = tar_resources_crew(controller_group$names$heavy)
+        crew = tar_resources_crew(controller_group$names$heavy)
       )
     ),
     tar_target(
