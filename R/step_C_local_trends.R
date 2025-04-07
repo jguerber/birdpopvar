@@ -20,14 +20,19 @@ step_local_trends <- function(parameters) {
     tar_group_by(
       survey_in_batches,
       communities_in_batches %>%
+        slice_sample(n = 3) %>% # debug
         left_join(aggregate_survey_filtered, by = "COMMUNITY_ID"),
       batch_id
     ),
     tar_target(
       trends_output,
       survey_in_batches %>%
-        pull(COMMUNITY_ID) %>% unique, # for now, only check that branching works
-      pattern = map(survey_in_batches)
+        wrap_local_trends(
+          type = "species",
+          override_arguments = list(try_families = c("gaussian", "poisson"))
+        ), # for now, only check that branching works
+      pattern = map(survey_in_batches),
+      iteration = "list"
     )
   )
 }
