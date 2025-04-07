@@ -13,8 +13,7 @@ deploy:
     - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
     - ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
   script:
-    - rsync -azP ./ $SSH_USER@$SSH_HOST:$WORK_DIR
+    - rsync -azP --exclude={'.git'} ./ $SSH_USER@$SSH_HOST:$WORK_DIR
+    - ssh $SSH_USER@SSH_HOST "cd $WORK_DIR && sbatch slurm/run_pipeline.sh"
   after_script:
     - rm -rf ~/.ssh
-
-# TODO : still not working
