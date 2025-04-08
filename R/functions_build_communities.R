@@ -161,3 +161,49 @@ fill_absences <- function(survey, by = NULL, sampling = NULL) {
 replace_nas <- function(x, by = 0) {
   ifelse(is.na(x), by, x)
 }
+
+
+#' Check that coordinates carry valuable information
+#'
+#'  - coordinates from points are not too far away from coordinates of squares
+#'  - as many different (lon, lat) pairs as there are points in each square
+check_coordinates <- function(points_coordinates, threshold_distance = 4000) {
+
+  points_coordinates %>% # two filters based on sanity of coordinates :
+    group_by(SITE2) %>%
+    filter(if_all(matches("lon|lat"), ~ !is.na(.x))) %>% # 1. no nas in coordinates
+    filter(n_distinct(SITE1) == n_distinct(lon1, lat1)) %>% # 2. as many pairs of coordinates as there are points
+    ungroup %>% # then, distance based filter
+    mutate( # compute distance of each point to its square (ungrouped is easier to compute)
+      dist = st_distance(
+        x = st_as_sf(., coords = c("lon1", "lat1"), crs = st_crs(4326))$geometry,
+        y = st_as_sf(., coords = c("lon2", "lat2"), crs = st_crs(4326))$geometry,
+        by_element = T
+      )
+    ) %>%
+    group_by(SITE2) %>%
+    filter(all(as.numeric(dist) <= threshold_distance)) %>% # points must be close enough to square
+    select(-c(dist)) %>%
+    ungroup
+
+}
+
+coordinates_by_community <- function(survey, points_habitat, sampling) {
+  communities_survey <- survey %>%
+    select(COMMUNITY_ID, YEAR) %>%
+    unique %>%
+    split_community_id
+
+  points_habitat %>%
+    unite("COMMUNITY_ID", SITE2, HABITAT_GROUP, sep = "_", remove = F) %>%
+    filter(COMMUNITY_ID %in% communities_survey$COMMUNITY_ID) %>%
+    right_join(sampling, by = c("SITE2", "SITE1")) %>%
+    filter(!is.na(COMMUNITY_ID)) %>%  # only keep points that are in the survey
+    rename(
+      lon1 = longitude_wgs84,
+      lon2 = longitude_grid_wgs84,
+      lat1 = latitude_wgs84,
+      lat2 = latitude_grid_wgs84
+    ) %>%
+    select(-c(SAMPLING, HABITAT_CODE)) # SAMPLING should be the one form survey, not from sampling
+}

@@ -1,9 +1,9 @@
-split_community_id <- function(df, keep = T) {
+split_community_id <- function(df, new_col = "HABITAT_GROUP", keep = T) {
   df %>%
     separate_wider_delim(
       COMMUNITY_ID,
       delim = "_",
-      names = c("SITE2", "type_milieu"),
+      names = c("SITE2", new_col),
       cols_remove = !keep
     )
 }

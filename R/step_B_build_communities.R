@@ -30,6 +30,16 @@ step_build_communities <- function() {
         filter_survey_coverage %>%
         filter_species_presence %>%
         filter_habitats(col_check = "COMMUNITY_ID")
+    ),
+    tar_target( # from survey and point data, built community_id, year, group, site2, site1
+      communities_points,
+      aggregate_survey %>% # unfiltered because we might want to extract pressure values everywhere
+        coordinates_by_community(
+          points_by_habitat,
+          sampling_info
+        ) %>%
+        check_coordinates(threshold_distance = 5000),
+      packages = c("sf")
     )
   )
 }
