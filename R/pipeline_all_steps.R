@@ -6,9 +6,12 @@ target_list_all <- function(parameters) {
 
   local_trends <- step_local_trends(parameters)
 
+  community_data <- step_community_data(parameters)
+
   list(
     data_cleaning,
     build_communities,
-    local_trends
+    local_trends,
+    community_data
   )
 }
