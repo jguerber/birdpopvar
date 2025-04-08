@@ -33,7 +33,7 @@ step_local_trends <- function(parameters) {
         ), # for now, only check that branching works
       pattern = map(survey_in_batches),
       iteration = "list",
-      resources = tar_resources(
+      resources = tar_resources( # select the heavy-duty crew controller
         crew = tar_resources_crew(controller_group$names$heavy)
       )
     ),
