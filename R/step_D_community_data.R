@@ -35,6 +35,17 @@ step_community_data <- function(parameters) {
     )
   )
 
+  human_impact <- list(
+    tar_target(
+      hii_proxy,
+      stack_from_repo(
+        "data/HII/HII_France",
+        as_proxy = T
+      ),
+      packages = c(default_dependencies(), "stars")
+    )
+  )
+
   list(
     landscape_complexity
   )
