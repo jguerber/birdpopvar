@@ -27,7 +27,7 @@ step_stats <- function(parameters) {
       population_variability_data %>%
         split_community_id %>%
         mutate(
-          across(
+          across( # don't scale because piecewiseSEM scales within communities later
             c(lon, lat), ~ scale(.x)
           ),
           across(c(sd_r_average, abs_trend_average), log, .names = "{.col}_log"),
