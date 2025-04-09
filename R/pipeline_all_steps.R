@@ -8,10 +8,13 @@ target_list_all <- function(parameters) {
 
   community_data <- step_community_data(parameters)
 
+  stats_and_plots <- step_stats(parameters)
+
   list(
     data_cleaning,
     build_communities,
     local_trends,
-    community_data
+    community_data,
+    stats_and_plots
   )
 }
