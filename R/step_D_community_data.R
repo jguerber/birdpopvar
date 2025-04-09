@@ -134,12 +134,37 @@ step_community_data <- function(parameters) {
     )
   )
 
+  survey_covariates <- list(
+    tar_target(
+      survey_information,
+      aggregate_survey %>%
+        group_by(COMMUNITY_ID, YEAR) %>%
+        summarise( # for each community each year, number of present species and
+          # sampling effort (number of listening points)
+          SR = sum(AB_SUM > 0),
+          N_POINTS = unique(N_POINTS),
+          .groups = "drop_last"
+        ) %>% # across years : for each community, average richness and average sampling effort
+        summarise(
+          mu_SR = mean(SR),
+          N_POINTS_avg = mean(N_POINTS),
+          .groups = "drop"
+        )
+    )
+  )
+
+  stability_metrics <- list(
+
+  )
+
   list(
     geography,
     landscape_complexity,
     human_impact_sequential, # first target group of single operation per community
     human_impact_mapped, # static branching over buffer sizes
     human_impact_combined, # aggregate static branches in the same dataframe
-    human_impact_summaries # summarise metrics from the (big) yearly_hii_all_buffers target
+    human_impact_summaries, # summarise metrics from the (big) yearly_hii_all_buffers target
+    survey_covariates,
+    stability_metrics
   )
 }
