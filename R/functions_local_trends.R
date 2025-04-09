@@ -1,4 +1,4 @@
-#' Attribute a batch_id to each community in survey
+#' Attribute a batch_id to each community in a dataframe
 #'
 #' Creates a maximum of 4 times more batches than there are available workers,
 #' minimum 2

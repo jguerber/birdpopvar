@@ -9,35 +9,32 @@ stack_from_repo <- function(repo, as_proxy = T) {
 
   dates <- files %>%
     str_extract("[0-9]{4}-[0-9]{2}-[0-9]{2}") %>%
-    parse_date_time("ymd")
+    lubridate::parse_date_time("ymd")
 
   read_stars(file.path(repo, files), proxy = as_proxy, along = "time") %>%
     st_set_dimensions("time", values = dates)
 }
 
 
-#' Extract yearly hii
+#' Extract yearly hii from point locations
 build_yearly_hii_focal <- function(
     hii_proxy,
     coords_df,
-    dataset,
     crs_epsg = 4326,
     buffer_size = "focal"
 ) {
 
   coords_col <- c("lon1", "lat1")
-  extract_fn <- extract_hii_focal
 
   coords_sf <- coords_df %>%
     point_coordinates_to_sf(
       coords = coords_col,
       crs_code = crs_epsg
     )
-
+  browser()
   hii_proxy %>%
     extract_hii_focal(
-      coords_sf,
-      dist
+      coords_sf
     ) %>% # output of st_extract has a weird, wide format : need to convert to
     # easier shape
     clean_hii_extraction(coords_sf, buffer_size)
