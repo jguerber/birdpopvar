@@ -154,7 +154,28 @@ step_community_data <- function(parameters) {
   )
 
   stability_metrics <- list(
-
+    tar_target(
+      stability_metrics,
+      all_local_trends_outputs %>%
+        filter(
+          model_name == "poisson",
+          residual_type == "pearson",
+          convProblems <= threshold_warnings
+        ) %>%
+        split_series_id %>%
+        group_by(COMMUNITY_ID) %>%
+        mutate(
+          abs_trend = abs(trend)
+        ) %>%
+        summarise(
+          across(
+            c(sd_r, abs_trend, mean_ab),
+            ~ mean(.x),
+            .names = "{.col}_average"
+          ),
+          N_series = n_distinct(series_id) # this is NOT the species richness
+        )
+    )
   )
 
   list(
