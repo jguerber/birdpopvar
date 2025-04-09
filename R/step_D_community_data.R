@@ -7,6 +7,19 @@
 #  - average stability metrics from results of step C
 
 step_community_data <- function(parameters) {
+  geography <- list(
+    tar_target( # a single pair of coordinates for each community
+      community_coordinates,
+      communities_points %>%
+        select(-YEAR) %>%
+        unique %>%
+        group_by(COMMUNITY_ID) %>%
+        centroid_coordinates(
+          coords = c("lon1", "lat1")
+        )
+    )
+  )
+
   landscape_complexity <- list(
     tar_map(
       values = tibble(
