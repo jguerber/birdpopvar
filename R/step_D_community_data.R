@@ -5,6 +5,7 @@
 #  - landscape complexity from Corine Land Cover
 #  - human impact data from HII rasters
 #  - average stability metrics from results of step C
+#  - sampling and survey covariates (species richness and number of listening points)
 
 step_community_data <- function(parameters) {
   geography <- list(
@@ -48,7 +49,7 @@ step_community_data <- function(parameters) {
     )
   )
 
-  human_impact <- list(
+  human_impact_sequential <- list(
     tar_target(
       hii_proxy_relative_path,
       "data/HII/HII_France"
@@ -78,12 +79,15 @@ step_community_data <- function(parameters) {
         prepare_trend_batches(parameters) %>%
         left_join(community_coordinates, by = "COMMUNITY_ID"),
       batch_id
-    ),
-    tar_map(
+    )
+  )
+
+  human_impact_mapped <- tar_map(
       values = tibble(
         buffer_size = c("5km", "10km", "25km")
       ),
       names = "buffer_size",
+      unlist = F,
       tar_target(
         yearly_hii_buffer,
         community_coordinates_in_batches %>%
@@ -102,11 +106,40 @@ step_community_data <- function(parameters) {
         packages = c(default_dependencies(), "sf", "stars")
       )
     )
+
+  human_impact_combined <- tar_combine(
+    yearly_hii_all_buffers,
+    human_impact_mapped[["yearly_hii_buffer"]],
+    command = dplyr::bind_rows(!!!.x)
+  )
+
+  human_impact_summaries <- list(
+    tar_target(
+      all_yearly_hii,
+      bind_rows(
+        yearly_hii_focal,
+        yearly_hii_all_buffers
+      )
+    ),
+    tar_target(
+      human_impact,
+      all_yearly_hii %>%
+        mutate( # the HII protocol change in 2015 really impact French values,
+          # keep the two values separated
+          hii_version = ifelse(YEAR < 2015, "v1", "v1b")
+        ) %>%
+        group_by(COMMUNITY_ID, buffer, hii_version) %>%
+        summarise(HII_mu = mean(HII, na.rm = F)) %>%
+        pivot_wider(names_from = buffer, values_from = HII_mu, names_prefix = "HII_")
+    )
   )
 
   list(
     geography,
     landscape_complexity,
-    human_impact
+    human_impact_sequential, # first target group of single operation per community
+    human_impact_mapped, # static branching over buffer sizes
+    human_impact_combined, # aggregate static branches in the same dataframe
+    human_impact_summaries # summarise metrics from the (big) yearly_hii_all_buffers target
   )
 }
