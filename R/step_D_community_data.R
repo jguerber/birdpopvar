@@ -81,16 +81,19 @@ step_community_data <- function(parameters) {
     ),
     tar_map(
       values = tibble(
-        buffer_size = c("5km", "10km")
+        buffer_size = c("5km", "10km", "25km")
       ),
       names = "buffer_size",
       tar_target(
         yearly_hii_buffer,
         community_coordinates_in_batches %>%
-          head(n = 2) %>%
-          summarise(n = n(), nc = n_distinct(COMMUNITY_ID)) %>%
-          mutate(
-            hii_buffer = buffer_size
+          build_yearly_hii_buffer(
+            stack_from_repo(
+              hii_proxy_relative_path, as_proxy = T
+            ),
+            .,
+            crs_epsg = 4326,
+            buffer_size = buffer_size
           ),
         pattern = map(community_coordinates_in_batches),
         resources = tar_resources( # pass the heavy-duty crew controller
