@@ -25,3 +25,13 @@ split_series_id <- function(df, series_col = "series_id", keep = T) {
       .keep = ifelse(keep, "all", "unused")
     )
 }
+
+mutate_community_id <- function(df, group_col = "HABITAT_GROUP", keep = T) {
+  df %>%
+    unite(
+      "COMMUNITY_ID",
+      SITE2, !!sym(group_col),
+      sep = "_",
+      remove = !keep
+    )
+}
