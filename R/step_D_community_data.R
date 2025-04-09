@@ -74,12 +74,10 @@ step_community_data <- function(parameters) {
     # parallelize via dynamic (over community batches)-within-static
     # (over buffer size) branching
     tar_group_by(
-      communities_points_in_batches,
-      communities_points %>%
-        select(-YEAR) %>%
-        unique %>%
+      community_coordinates_in_batches,
+      community_coordinates %>%
         prepare_trend_batches(parameters) %>%
-        right_join(communities_points, by = "COMMUNITY_ID"),
+        left_join(community_coordinates, by = "COMMUNITY_ID"),
       batch_id
     ),
     tar_map(
@@ -89,13 +87,13 @@ step_community_data <- function(parameters) {
       names = "buffer_size",
       tar_target(
         yearly_hii_buffer,
-        communities_points_in_batches %>%
+        community_coordinates_in_batches %>%
           head(n = 2) %>%
           summarise(n = n(), nc = n_distinct(COMMUNITY_ID)) %>%
           mutate(
             hii_buffer = buffer_size
           ),
-        pattern = map(communities_points_in_batches),
+        pattern = map(community_coordinates_in_batches),
         resources = tar_resources( # pass the heavy-duty crew controller
           crew = tar_resources_crew(controller = controller_group$names$heavy)
         )
