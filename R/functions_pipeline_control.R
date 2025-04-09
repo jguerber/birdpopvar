@@ -14,9 +14,14 @@ default_dependencies <- function() {
 
 #' Call different target list based on selected pipeline option
 target_list <- function(params) {
+
   if (params$run_steps == "all") {
     target_list_all(params)
+  } else if (params$run_steps == "shortcut") {
+    target_list_shortcut(params)
   }
+
+  stop(glue::glue("Unrecognized run_steps value {params$run_steps}"))
 }
 
 is_slurm <- function() {

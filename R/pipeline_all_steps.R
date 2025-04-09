@@ -18,3 +18,16 @@ target_list_all <- function(parameters) {
     stats_and_plots
   )
 }
+
+target_list_shortcut <- function(parameters) {
+
+  load_targets <- step_load_targets(parameters)
+
+  stats_and_plots <- step_stats(parameters)
+
+  list(
+    load_targets,
+    stats_and_plots
+  )
+
+}
