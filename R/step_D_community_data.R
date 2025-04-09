@@ -203,7 +203,7 @@ step_community_data <- function(parameters) {
         filter(rowSums(is.na(.)) == 0)
     ),
     tar_target(
-      population_variability_file,
+      population_variability_data_file,
       write_path(
         population_variability_data,
         rel_path = "data/processed/bird_population_variability.csv",
