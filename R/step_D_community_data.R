@@ -98,7 +98,8 @@ step_community_data <- function(parameters) {
         pattern = map(community_coordinates_in_batches),
         resources = tar_resources( # pass the heavy-duty crew controller
           crew = tar_resources_crew(controller = controller_group$names$heavy)
-        )
+        ),
+        packages = c(default_dependencies(), "sf", "stars")
       )
     )
   )
