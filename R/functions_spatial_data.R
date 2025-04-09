@@ -35,3 +35,33 @@ centroid_coordinates <- function(
     ) %>%
     st_drop_geometry
 }
+
+
+#' same as starsExtra::extract2 but working with a stars_proxy
+st_extract_proxy <- function(proxy, layer, fun, dims = NULL, ...) {
+  if (is.data.frame(layer)) {
+    geometries <- st_geometry(layer)
+  } else {
+    geometries <- layer
+  }
+
+  return_list <- (length(geometries) > 1)
+
+  if (is.null(dims)) {
+    dims <- length(dim(proxy))
+  }
+
+  result <- list()
+
+  for (i in 1:length(geometries)) {
+    result[[i]] <- proxy[geometries[i]] %>%
+      st_apply(dims, fun, ...) %>%
+      st_as_stars
+  }
+
+  if (!return_list) {
+    return(result[[1]])
+  }
+
+  return(result)
+}

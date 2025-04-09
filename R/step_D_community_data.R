@@ -50,12 +50,8 @@ step_community_data <- function(parameters) {
 
   human_impact <- list(
     tar_target(
-      hii_proxy,
-      stack_from_repo(
-        "data/HII/HII_France",
-        as_proxy = T
-      ),
-      packages = c(default_dependencies(), "stars")
+      hii_proxy_relative_path,
+      "data/HII/HII_France"
     ), # for each point (focal) or community, extract the 20-year time series of HII
     tar_target(
       yearly_hii_focal,
@@ -63,7 +59,10 @@ step_community_data <- function(parameters) {
         select(-YEAR) %>% # remove year from sampling to keep all hii years
         unique %>%
         build_yearly_hii_focal(
-          hii_proxy,
+          stack_from_repo(
+            hii_proxy_relative_path,
+            as_proxy = T
+          ),
           .,
           crs_epsg = 4326,
           buffer_size = "focal"
