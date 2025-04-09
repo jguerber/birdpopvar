@@ -9,7 +9,7 @@ prepare_trend_batches <- function(survey, parameters) {
   } else {
     as.integer(parameters$local_n_cores) - 1
   }
-  print(n_workers)
+
   survey %>%
     select(COMMUNITY_ID) %>%
     unique %>%
