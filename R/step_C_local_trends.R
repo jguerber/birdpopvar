@@ -36,7 +36,8 @@ step_local_trends <- function(parameters) {
       resources = tar_resources( # select the heavy-duty crew controller
         crew = tar_resources_crew(controller_group$names$heavy)
       ),
-      cue = tarchetypes::tar_cue_skip(!is_slurm()) # for development, allows
+      cue = tar_cue(mode = "thorough")
+      # cue = tarchetypes::tar_cue_skip(!is_slurm()) # for development, allows
       # to run other targets locally even if this is outdated
     ),
     tar_target(
