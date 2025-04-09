@@ -28,7 +28,7 @@ step_stats <- function(parameters) {
         split_community_id %>%
         mutate(
           across(
-            c(HII_focal, H_fine, N_POINTS_avg, mu_SR, lon, lat), ~ scale(.x)
+            c(lon, lat), ~ scale(.x)
           ),
           across(c(sd_r_average, abs_trend_average), log, .names = "{.col}_log"),
           HABITAT_GROUP = factor(HABITAT_GROUP, levels = c("woodland", "farmland", "built"))
@@ -49,8 +49,7 @@ step_stats <- function(parameters) {
       tar_target(
         data_for_spatial_sem_buffer,
         data_for_spatial_sem %>%
-          convert_hii_raw(hii_colname) %>%
-          mutate(HII_buffer = scale(HII_buffer))
+          convert_hii_raw(hii_colname)
       ),
       tar_target(
         spatial_sem_buffer_output,
