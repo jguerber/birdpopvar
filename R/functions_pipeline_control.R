@@ -19,9 +19,10 @@ target_list <- function(params) {
     target_list_all(params)
   } else if (params$run_steps == "shortcut") {
     target_list_shortcut(params)
+  } else {
+    stop(glue::glue("Unrecognized run_steps value {params$run_steps}"))
   }
 
-  stop(glue::glue("Unrecognized run_steps value {params$run_steps}"))
 }
 
 is_slurm <- function() {
