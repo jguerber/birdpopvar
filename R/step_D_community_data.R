@@ -21,10 +21,9 @@ step_community_data <- function(parameters) {
     )
   )
 
-  landscape_complexity <- list(
-    tar_map(
+  landscape_complexity <- tar_map(
       values = tibble(
-        buffer_size = c(250, 500, 750)
+        buffer_size = c(250, 500)
       ),
       names = "buffer_size",
       tar_target(
@@ -47,7 +46,6 @@ step_community_data <- function(parameters) {
           select(COMMUNITY_ID, area_buffer, H, H_fine)
       )
     )
-  )
 
   human_impact_sequential <- list(
     tar_target(
@@ -148,6 +146,7 @@ step_community_data <- function(parameters) {
         summarise(
           mu_SR = mean(SR),
           N_POINTS_avg = mean(N_POINTS),
+          N_YEARS = n_distinct(YEAR),
           .groups = "drop"
         )
     )
@@ -169,12 +168,48 @@ step_community_data <- function(parameters) {
         ) %>%
         summarise(
           across(
-            c(sd_r, abs_trend, mean_ab),
+            c(sd_r, abs_trend),
             ~ mean(.x),
             .names = "{.col}_average"
           ),
           N_series = n_distinct(series_id) # this is NOT the species richness
         )
+    )
+  )
+
+  join_everything <- list(
+    tar_target(
+      all_community_data,
+      stability_metrics %>%
+        left_join(
+          community_coordinates, by = "COMMUNITY_ID"
+        ) %>%
+        left_join(
+          landscape_complexity_250, by = "COMMUNITY_ID"
+        ) %>%
+        left_join(
+          filter(human_impact, hii_version == "v1"), by = "COMMUNITY_ID"
+        ) %>%
+        left_join(
+          survey_information, by = "COMMUNITY_ID"
+        ) %>%
+        select(
+          -c(hii_version)
+        )
+    ),
+    tar_target(
+      population_variability_data,
+      all_community_data %>%
+        filter(rowSums(is.na(.)) == 0)
+    ),
+    tar_target(
+      population_variability_file,
+      write_path(
+        population_variability_data,
+        rel_path = "data/processed/bird_population_variability.csv",
+        row.names = F
+      ),
+      format = "file"
     )
   )
 
@@ -186,6 +221,7 @@ step_community_data <- function(parameters) {
     human_impact_combined, # aggregate static branches in the same dataframe
     human_impact_summaries, # summarise metrics from the (big) yearly_hii_all_buffers target
     survey_covariates,
-    stability_metrics
+    stability_metrics,
+    join_everything
   )
 }

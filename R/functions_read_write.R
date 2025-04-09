@@ -5,3 +5,14 @@ read_path <- function(x, method = read.table, ...) {
     ...
   )
 }
+
+write_path <- function(df, rel_path, method = write.csv, ...) {
+
+  method(
+    df,
+    file = here::here(rel_path),
+    ...
+  )
+
+  return(rel_path)
+}
