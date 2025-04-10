@@ -65,3 +65,30 @@ st_extract_proxy <- function(proxy, layer, fun, dims = NULL, ...) {
 
   return(result)
 }
+
+france_bbox <- function(corsica = T) {
+  if (corsica) {
+    c(xmin = -5.225,xmax =  9.55,ymin = 41.333,ymax =	51.2)
+  } else {
+    c(xmin = -5.225, xmax = 8.3, ymin = 42.1, ymax = 51.2)
+  }
+}
+
+france_shp <- function(
+    path = "Spatial/regions/regions-20180101.shp",
+    bbox = NULL,
+    dTol = 1000,
+    corsica = F
+) {
+  if (is.null(bbox)) {
+    bbox <- france_bbox(corsica)
+  }
+
+  read_sf(
+    path
+  ) %>%
+    st_crop(bbox) %>%
+    st_simplify(dTolerance = dTol)
+
+}
+
