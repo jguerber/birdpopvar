@@ -2,10 +2,12 @@
 summary_plot <- function(model, title = NULL, conf.level = 0.95, plot_type = "col", reorder_terms = T) {
   if (class(model)[1] == "glmmTMB") {
     tidy_model <- model %>%
-      broom.mixed::tidy(component = "cond", effects = "fixed")
+      broom.mixed::tidy(component = "cond", effects = "fixed", conf.int = T)
 
   } else if (class(model)[1] == "tbl_df") {
     tidy_model <- model
+  } else if (class(model)[1] == "sdmTMB") {
+    tidy_model <- model %>% sdmTMB::tidy(component = "cond", effects = "fixed", conf.int = T)
   } else {
     stop("Unsupported model class. Maybe try broom::tidy(model)")
   }

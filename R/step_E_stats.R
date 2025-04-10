@@ -1,5 +1,5 @@
 step_stats <- function(parameters) {
-  list(
+  run_stats <- list(
     tar_target( # Stats for fig 2 : all communities, scale covariates
       data_for_models_across_habitats,
       population_variability_data %>%
@@ -34,7 +34,20 @@ step_stats <- function(parameters) {
           HABITAT_GROUP = factor(HABITAT_GROUP, levels = c("woodland", "farmland", "built"))
       )
     ),
-    tar_target( # Supplementary 1 : re-run SEMs, but add HII in buffer as impact variable
+    tar_target( # Supplementary 1 : fit models for fig2 with a sdmTMB spatial random intercept
+      spatial_models_across_habitats,
+      data_for_models_across_habitats %>%
+        mutate(
+          across(c(sd_r_average, abs_trend_average), log, .names = "{.col}_log")
+        ) %>%
+        run_spatial_models(
+          responses = c("sd_r_average_log", "abs_trend_average_log"),
+          fixed_effects = fixed_effects_list("HABITAT_GROUP"),
+          spde_cutoff = 10
+        ),
+      packages = c("sdmTMB")
+    ),
+    tar_target( # Supplementary 2 : re-run SEMs, but add HII in buffer as impact variable
       spatial_sem_output,
       data_for_spatial_sem %>%
         run_spatial_sems,
@@ -58,5 +71,24 @@ step_stats <- function(parameters) {
         packages = c(default_dependencies(), c("piecewiseSEM", "nlme"))
       )
     )
+  )
+
+  simulate_examples <- list(
+      tar_target(
+        example_communities_models,
+        generate_example_communities(seed = 1876) %>%
+          measure_var_trend()
+      ),
+      tar_target(
+        table_summary,
+        example_communities_models %>%
+          summarise_metrics() %>%
+          build_summary_table()
+      )
+    )
+
+  list(
+    run_stats,
+    simulate_examples
   )
 }

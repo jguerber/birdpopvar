@@ -53,3 +53,47 @@ calibrate_and_run_models <- function(
 
   return(list(models = models))
 }
+
+
+run_spatial_models <- function(
+    data_model,
+    responses = c("sd_r_average_log", "abs_trend_average_log"),
+    fixed_effects = fixed_effects_list("category"),
+    family = gaussian(link = "identity"),
+    spde_cutoff = 10,
+    random_effects = "",
+    quiet = T
+) {
+  data_model_spat <- data_model %>% # coordinates to km
+    mutate(
+      across(c(X, Y), ~ .x / 1000)
+    )
+
+  if (str_detect(random_effects, "SITE2")) {
+    data_model_spat <- data_model_spat %>%
+      mutate(SITE2 = as.factor(SITE2))
+  }
+
+  mesh <- data_model_spat %>%
+    make_mesh(xy_cols = c("X", "Y"), cutoff = spde_cutoff)
+
+  models <- responses %>%
+    set_names %>%
+    map(function(r) {
+      if (!quiet) message("Response ", r)
+      formulas <- build_formulas(r, fixed_effects, suffix = random_effects)
+
+      formulas %>% map(function(f) {
+        if (!quiet) message("formula ", f)
+        sdmTMB::sdmTMB(
+          formula = as.formula(f),
+          family = family,
+          mesh = mesh,
+          spatial = "on",
+          data = data_model_spat
+        )
+      })
+    })
+
+  return(list(models = models))
+}
