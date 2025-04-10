@@ -27,7 +27,8 @@ step_stats <- function(parameters) {
       population_variability_data %>%
         split_community_id %>%
         mutate(
-          across( # don't scale because piecewiseSEM scales within communities later
+          across( # don't scale covariates because piecewiseSEM scales within communities later,
+            # but scale coordinates for nlme corExp object
             c(lon, lat), ~ scale(.x)
           ),
           across(c(sd_r_average, abs_trend_average), log, .names = "{.col}_log"),
