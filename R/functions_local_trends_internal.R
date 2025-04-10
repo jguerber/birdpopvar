@@ -15,7 +15,7 @@ single_series_local_trend <- function(
   # default return values in case things fail
   output <- NULL
   form <- NULL
-  was_corrected <- NULL
+  local_c <- NULL
 
   N_absences <- df %>%
     filter(!!sym(response_var) == 0) %>%
