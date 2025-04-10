@@ -126,8 +126,9 @@ step_community_data <- function(parameters) {
           # keep the two values separated
           hii_version = ifelse(YEAR < 2015, "v1", "v1b")
         ) %>%
-        group_by(COMMUNITY_ID, buffer, hii_version) %>%
-        summarise(HII_mu = mean(HII, na.rm = F)) %>%
+        group_by(COMMUNITY_ID, buffer, hii_version, YEAR) %>%
+        summarise(HII_com = mean(HII, na.rm = F), .groups = "drop_last") %>%
+        summarise(HII_mu = mean(HII_com, na.rm = F)) %>%
         pivot_wider(names_from = buffer, values_from = HII_mu, names_prefix = "HII_")
     )
   )
