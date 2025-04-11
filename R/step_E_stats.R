@@ -44,17 +44,30 @@ step_stats <- function(parameters) {
         run_spatial_models(
           responses = c("sd_r_average_log", "abs_trend_average_log"),
           fixed_effects = fixed_effects_list("HABITAT_GROUP"),
-          spde_cutoff = 10
+          spde_cutoff = 10,
+          random_effects = "+ (1|SITE2)"
         ),
       packages = c("sdmTMB")
     ),
-    tar_target( # Supplementary 2 : re-run SEMs, but add HII in buffer as impact variable
+    tar_target(
+      residuals_spatial_models,
+      spatial_models_across_habitats %>%
+        simulate_residuals_from_spatial_model,
+      packages = c(default_dependencies(), "DHARMa", "sdmTMB")
+    ),
+    tar_target(
+      estimates_spatial_models,
+      spatial_models_across_habitats %>%
+        extract_estimates_from_spatial_model,
+      packages = c(default_dependencies(), "sdmTMB")
+    ),
+    tar_target(
       spatial_sem_output,
       data_for_spatial_sem %>%
         run_spatial_sems,
       packages = c("piecewiseSEM", "nlme")
     ),
-    tar_map(
+    tar_map( # Supplementary 2 : re-run SEMs, but add HII in buffer as impact variable
       values = tibble(
         buffer_size = c("5km", "10km", "25km"),
         hii_colname = paste0("HII_", buffer_size)
