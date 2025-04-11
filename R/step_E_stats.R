@@ -35,6 +35,12 @@ step_stats <- function(parameters) {
           HABITAT_GROUP = factor(HABITAT_GROUP, levels = c("woodland", "farmland", "built"))
       )
     ),
+    tar_target(
+      spatial_sem_output,
+      data_for_spatial_sem %>%
+        run_spatial_sems,
+      packages = c("piecewiseSEM", "nlme")
+    ),
     tar_target( # Supplementary 1 : fit models for fig2 with a sdmTMB spatial random intercept
       spatial_models_across_habitats,
       data_for_models_across_habitats %>%
@@ -60,12 +66,6 @@ step_stats <- function(parameters) {
       spatial_models_across_habitats %>%
         extract_estimates_from_spatial_model,
       packages = c(default_dependencies(), "sdmTMB")
-    ),
-    tar_target(
-      spatial_sem_output,
-      data_for_spatial_sem %>%
-        run_spatial_sems,
-      packages = c("piecewiseSEM", "nlme")
     ),
     tar_map( # Supplementary 2 : re-run SEMs, but add HII in buffer as impact variable
       values = tibble(
