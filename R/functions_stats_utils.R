@@ -126,3 +126,38 @@ slice_best_model <- function(df) {
     return(slice_best_model(df[-1,]))
   }
 }
+
+#' Refit a model and compute visreg residuals
+#'
+#' looks like visreg or glmmtmb need formula and data to be defined in the environment
+#' to be able to call the correct predict() methods. Quick fix : refit the model
+#'
+#' @param ... parameters to pass to [visreg::visreg]
+#' @param model fitted model to refit
+#' @param xvar providing a character vector will return a list of visreg outputs
+#'
+#' @examples
+#' \dontrun{
+#' extract_visreg_residuals(fit, xvar = c("x1", "x2"), partial = T, plot = F)
+#' }
+extract_visreg_residuals <- function(model, xvar, ...) {
+  form = model$call$formula
+  original_frame <- model$frame
+
+  model_fit <- glmmTMB(
+    formula = form,
+    data = original_frame,
+    family = "lognormal",
+    zi = ~0,
+    disp = ~1
+  )
+
+  if (length(xvar) == 1) {
+    visreg::visreg(model_fit, xvar = xvar, ...)
+  } else {
+    xvar %>%
+      set_names %>%
+      map(\(x) visreg::visreg(model_fit, xvar = x, ...))
+  }
+
+}
