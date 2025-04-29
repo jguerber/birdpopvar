@@ -1,0 +1,25 @@
+---
+title: "List of figures"
+format: pdf
+knitr:
+  opts_chunk: 
+    out.width: "70%"
+    fig.width: 6
+    fig.asp: 0.618
+    fig.align: "center"
+execute: 
+  cache: true
+  echo: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| cache: false
+
+library(targets)
+source(here::here("scripts/import_dependencies.R"))
+devtools::load_all(here::here())
+```
+
+{{< include sup_partials_covariables.qmd >}}

@@ -128,7 +128,7 @@
     },
     "Rdpack": {
       "Package": "Rdpack",
-      "Version": "2.6.3",
+      "Version": "2.6.4",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -138,7 +138,7 @@
         "tools",
         "utils"
       ],
-      "Hash": "bf6104ba9f100ca37aee79bbed40b978"
+      "Hash": "1b2ca1972e3b00cd0bb5a98e16403028"
     },
     "TMB": {
       "Package": "TMB",
@@ -920,6 +920,35 @@
       ],
       "Hash": "0e81e7f976441581680fa2ebc5866212"
     },
+    "ggforce": {
+      "Package": "ggforce",
+      "Version": "0.4.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "MASS",
+        "R",
+        "Rcpp",
+        "RcppEigen",
+        "cli",
+        "ggplot2",
+        "grDevices",
+        "grid",
+        "gtable",
+        "lifecycle",
+        "polyclip",
+        "rlang",
+        "scales",
+        "stats",
+        "systemfonts",
+        "tidyselect",
+        "tweenr",
+        "utils",
+        "vctrs",
+        "withr"
+      ],
+      "Hash": "384b388bd9155468d2c851846ee69f9f"
+    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.5.1",
@@ -1641,6 +1670,16 @@
         "R"
       ],
       "Hash": "bd54ba8a0a5faded999a7aab6e46b374"
+    },
+    "polyclip": {
+      "Package": "polyclip",
+      "Version": "1.10-7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "5879bf5aae702ffef0a315c44328f984"
     },
     "praise": {
       "Package": "praise",
@@ -2398,6 +2437,21 @@
       ],
       "Hash": "68e6032b8c16f33fab8756e40a0dca1a"
     },
+    "tweenr": {
+      "Package": "tweenr",
+      "Version": "2.0.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cpp11",
+        "farver",
+        "magrittr",
+        "rlang",
+        "vctrs"
+      ],
+      "Hash": "82fac2b73e6a1f3874fc000aaf96d8bc"
+    },
     "units": {
       "Package": "units",
       "Version": "0.8-7",
@@ -2503,6 +2557,16 @@
         "R"
       ],
       "Hash": "c826c7c4241b6fc89ff55aaea3fa7491"
+    },
+    "visreg": {
+      "Package": "visreg",
+      "Version": "2.7.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "lattice"
+      ],
+      "Hash": "f8f4418faf69c4b1c0814bb0b9781d76"
     },
     "waldo": {
       "Package": "waldo",
