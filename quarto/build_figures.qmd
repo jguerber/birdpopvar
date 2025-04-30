@@ -1,5 +1,5 @@
 ---
-title: "List of figures"
+title: "Generated figures"
 format: pdf
 knitr:
   opts_chunk: 
