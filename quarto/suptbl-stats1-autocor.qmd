@@ -1,0 +1,24 @@
+```{r}
+residuals <- c(variability = "sd_r_average", trend = "abs_trend_average") %>% 
+  map(\(r) out_glm$models[[r]]$full %>% DHARMa::simulateResiduals(n = 1000))
+  
+
+autocor <- map(residuals, \(r) DHARMa::testSpatialAutocorrelation(r, x = data$X, y = data$Y))
+
+residuals_spat <- targets::tar_read(
+  residuals_spatial_models,
+  branches = 1,
+  store=  sel_store
+)
+
+autocor_spat <- map(residuals_spat, \(r) DHARMa::testSpatialAutocorrelation(r, x = data$X, y = data$Y))
+
+build_tbl_stats1_autocor(
+  autocor,
+  autocor_spat
+) %>%
+    dispatch_format(
+      docx_fn = ifelse(running_from_pipeline, NULL, format_autocor_flex),
+      other_fn = format_autocor_kable
+    )
+```

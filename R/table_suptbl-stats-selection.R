@@ -35,17 +35,6 @@ build_stats1_selection_table <- function(out_glm) {
   anova_tables
 }
 
-adapt_formatting <- function(table_stats, docx_ok = FALSE) {
-
-  if (!is_html_or_latex() && !interactive() && docx_ok) { # flextable for docx
-    out <- format_selection_flex(table_stats)
-  } else {
-    out <- format_selection_kable(table_stats)
-  }
-
-  out
-}
-
 is_html_or_latex <- function() {
   (knitr::is_html_output() || knitr::is_latex_output())
 }
