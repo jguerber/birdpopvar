@@ -1,0 +1,17 @@
+```{r}
+
+build_stats1_selection_table(
+  out_glm = targets::tar_read(
+    models_stab_across_habitats,
+    store = sel_store,
+    branches = 1
+  )
+) %>% 
+  dispatch_format(  # different formatting function depending on output document type
+    other_fn = format_selection_kable,
+    docx_fn = ifelse(running_from_pipeline(), NULL, format_selection_flex) # format_selection_flex is not defined in R/, but is never called from this document
+  )
+
+
+# format_selection_kable(anova_tables)
+```

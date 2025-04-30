@@ -66,6 +66,7 @@ st_extract_proxy <- function(proxy, layer, fun, dims = NULL, ...) {
   return(result)
 }
 
+#' Bounding box around continental France, with or without `corsica`
 france_bbox <- function(corsica = T) {
   if (corsica) {
     c(xmin = -5.225,xmax =  9.55,ymin = 41.333,ymax =	51.2)
@@ -74,6 +75,7 @@ france_bbox <- function(corsica = T) {
   }
 }
 
+#' Read the shapefile in `path` and crop to `bbox` (defaults to continental France)
 france_shp <- function(
     path = "Spatial/regions/regions-20180101.shp",
     bbox = NULL,
@@ -84,11 +86,11 @@ france_shp <- function(
     bbox <- france_bbox(corsica)
   }
 
-  read_sf(
+  sf::read_sf(
     path
   ) %>%
-    st_crop(bbox) %>%
-    st_simplify(dTolerance = dTol)
+    sf::st_crop(bbox) %>%
+    sf::st_simplify(dTolerance = dTol)
 
 }
 

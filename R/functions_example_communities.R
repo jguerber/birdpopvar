@@ -120,32 +120,3 @@ build_summary_table <- function(metrics_summary) {
     tibble::column_to_rownames("metric")
 }
 
-plot_example_communities <- function(example_data, ...) {
-  example_data %>%
-    mutate(
-      com_label = case_match(
-        comm,
-        "trended" ~ "Community B",
-        "untrended" ~ "Community A"
-      )
-    ) %>%
-    select(-c(model, coefs, beta, residuals, sdr, cv, mu)) %>%
-    unnest(c(data, fit)) %>%
-    ggplot(
-      aes(x = t, color = species)
-    ) +
-    geom_line(aes(y = y, group = species)) +
-    geom_point(aes(y =y), size = 0.5) +
-    geom_line(aes(y = fit), linewidth = 1) +
-    facet_wrap(~com_label) +
-    cowplot::theme_cowplot(...) +
-    theme(
-      legend.position = "none",
-      strip.background = element_blank()
-    ) +
-    labs(
-      x = "Time",
-      y = "Abundance"
-    )
-
-}
