@@ -1,0 +1,13 @@
+```{r}
+
+build_stats1_selection_table(
+  out_glm = targets::tar_read(
+    models_stab_across_habitats,
+    store = sel_store,
+    branches = 1
+  )
+) %>% 
+  adapt_formatting(docx_ok = !running_from_pipeline()) # different formatting function depending on output document type
+
+# format_selection_kable(anova_tables)
+```
