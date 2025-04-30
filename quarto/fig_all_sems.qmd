@@ -1,0 +1,21 @@
+```{r}
+#| label: fig-all-sems
+#| fig-asp: 1.618123
+#| out-width: "65%"
+#| fig-width: 6.5
+#| cache: false
+
+build_fig_all_sems(
+  store = here_from_pipeline("_targets"),
+  sem_type = "nlme",
+  label_variables = c(
+    sd_r_average_log = "Variability",
+    abs_trend_average_log = "Trend",
+    HII_focal = "Impact",
+    mu_SR = "Richness",
+    H_fine = "Complexity"
+  ),
+  selected_branch = 1,
+  categories = c("farmland", "woodland", "built")
+)
+```
