@@ -1,0 +1,9 @@
+```{r}
+#| fig-asp: 1
+#| out-width: "70%"
+#| fig-width: 6
+
+build_fig_maps(
+  birdpopvar::here_from_pipeline("_targets")
+)
+```
