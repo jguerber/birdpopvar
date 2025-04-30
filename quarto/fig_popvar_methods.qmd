@@ -1,6 +1,4 @@
 ```{r}
-#| label: fig-popvar-method
-
 build_fig_methods_alt(
   store = here_from_pipeline("_targets"),
   debug = F

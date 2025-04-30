@@ -3,7 +3,6 @@
 #| fig-asp: 1.618123
 #| out-width: "65%"
 #| fig-width: 6.5
-#| cache: false
 
 build_fig_all_sems(
   store = here_from_pipeline("_targets"),
