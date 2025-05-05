@@ -1,7 +1,11 @@
 ```{r}
-#| label: fig-across-hab
+#| fig-asp: 0.6180355
+#| out-width: "100%"
+#| fig-width: 10
+#| cache: false
 
 build_fig_across_habitats(
-  store = here_from_pipeline("_targets")
+  store = here_from_pipeline("_targets"),
+  font_size = 16
 )
 ```

@@ -1,4 +1,8 @@
 ```{r}
+#| fig-asp: 0.618355
+#| out-width: "66%"
+#| fig-width: 6.6
+
 build_fig_stability_dimensions(
   store = here_from_pipeline("_targets"),
   type = "single"

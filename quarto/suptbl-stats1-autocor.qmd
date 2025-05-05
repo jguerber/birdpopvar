@@ -3,7 +3,7 @@ residuals <- c(variability = "sd_r_average", trend = "abs_trend_average") %>%
   map(\(r) out_glm$models[[r]]$full %>% DHARMa::simulateResiduals(n = 1000))
   
 
-autocor <- map(residuals, \(r) DHARMa::testSpatialAutocorrelation(r, x = data$X, y = data$Y))
+autocor <- map(residuals, \(r) DHARMa::testSpatialAutocorrelation(r, x = data$X, y = data$Y, plot = F))
 
 residuals_spat <- targets::tar_read(
   residuals_spatial_models,
@@ -11,7 +11,7 @@ residuals_spat <- targets::tar_read(
   store=  sel_store
 )
 
-autocor_spat <- map(residuals_spat, \(r) DHARMa::testSpatialAutocorrelation(r, x = data$X, y = data$Y))
+autocor_spat <- map(residuals_spat, \(r) DHARMa::testSpatialAutocorrelation(r, x = data$X, y = data$Y, plot = F))
 
 build_tbl_stats1_autocor(
   autocor,

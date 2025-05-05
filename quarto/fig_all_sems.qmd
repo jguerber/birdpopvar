@@ -1,8 +1,7 @@
 ```{r}
-#| label: fig-all-sems
 #| fig-asp: 1.618123
-#| out-width: "65%"
-#| fig-width: 6.5
+#| out-width: "66%"
+#| fig-width: 6.6
 
 build_fig_all_sems(
   store = here_from_pipeline("_targets"),
