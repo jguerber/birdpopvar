@@ -1,0 +1,7 @@
+```{r}
+build_fig_stability_dimensions(
+  store = here_from_pipeline("_targets"),
+  type = "single"
+)
+```
+
