@@ -1,0 +1,7 @@
+```{r}
+#| label: fig-across-hab
+
+build_fig_across_habitats(
+  store = here_from_pipeline("_targets")
+)
+```
