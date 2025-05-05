@@ -173,6 +173,7 @@ component_correlation_plot <- function(
     ) +
     scale_habitats() +
     scale_x_log10() +
+    coord_cartesian(xlim = c(0.95*unique(lims$mn_x), 1.1*unique(lims$mx_x))) +
     scale_y_log10() +
     cowplot::theme_cowplot() +
     scale_alpha_manual(
@@ -209,10 +210,11 @@ component_correlation_plot <- function(
     p <- p +
       geom_label(
         data = left_join(lims, correlations, by = "metric"),
-        aes(x = 0.9*mx_x, y = 1.075*mn_y, label = latex2exp::TeX(txt_clean, output = "character")),
+        aes(x = 0.9*mx_x, y = 1.1*mn_y, label = latex2exp::TeX(txt_clean, output = "character")),
         size = 5,
         label.r = unit(0, "mm"),
-        parse = T
+        parse = T,
+        alpha = 0
       )
   }
 

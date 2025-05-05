@@ -1,11 +1,11 @@
 #' Wrapper around visreg calls and compose_plot_across_habitats
-build_fig_across_habitats <- function(store) {
+build_fig_across_habitats <- function(store, font_size = 14) {
   # define list of components
   components <- c("sd_r_average", "abs_trend_average") %>%
     set_names
 
   # read model wrapper from pipeline
-  mods <- tar_read(
+  mods <- targets::tar_read(
     models_stab_across_habitats,
     store = store
   )
@@ -60,45 +60,46 @@ build_fig_across_habitats <- function(store) {
 
   compose_plot_across_habitats(
     projected_dat,
-    model_predictions
+    model_predictions,
+    font_size = font_size
   )
 }
 
-compose_plot_across_habitats <- function(point_data, visreg_fits) {
-  top_plot <- point_data %>%
+compose_plot_across_habitats <- function(point_data, visreg_fits, font_size = 14) {
+  bottom_plot <- point_data %>%
     filter(type == "partial_hab") %>%
-    core_plot( font_size = 12) +
+    core_plot( font_size = font_size) +
     facet_wrap(
       ~component,
       ncol = 2,
-      scales = "free",
-      labeller = labeller(
-        component = c(sd_r = "Mean detrended population variability", abs_trend = "Mean absolute trend")
-      )
+      scales = "free"
     ) +
     geom_errorbar(
       data = visreg_fits,
       aes(ymin = visregLwr, ymax = visregUpr)
     ) +
     theme(
-      axis.text.x = element_blank(),
-      strip.text = element_text(size = 12)
+      strip.text = element_blank()
     ) +
     labs(
-      y = "Partial residuals\nfor habitat category"
+      y = "Partial residuals\nfor habitat category",
+      x = "Habitat category"
     )
 
-  bottom_plot <- point_data %>%
+  top_plot <- point_data %>%
     filter(type == "observed") %>%
-    core_plot( font_size = 12) +
-    geom_boxplot(aes(y = value), alpha = 0) +
-    facet_wrap(~component, scales = "free_y") +
+    core_plot( font_size = font_size) +
+    geom_boxplot(aes(y = value), alpha = 0, color = "black") +
+    facet_wrap(~component, scales = "free",  ncol = 2, labeller = labeller(
+      component = c(sd_r = "Mean detrended population variability", abs_trend = "Mean absolute trend")
+    )) +
     theme(
-      strip.text = element_blank(),
-      axis.title.y = element_text(margin = margin(r = 10, unit = "pt"))
+      strip.text = element_text(size = font_size),
+      axis.text.x = element_blank(),
+      axis.title.y = element_text(margin = margin(r = font_size - 2, unit = "pt"))
     ) +
     labs(
-      x = "Habitat category",
+      x = "",
       y = "Observed values"
     ) +
     scale_y_log10(n.breaks = 5)
@@ -108,9 +109,9 @@ compose_plot_across_habitats <- function(point_data, visreg_fits) {
     NULL,
     bottom_plot,
     ncol = 1,
-    align = "v",
-    axis = "lr",
-    rel_heights = c(1,-0.1,1)
+    align = "vh",
+    axis = "tblr",
+    rel_heights = c(1,-0.2,1)
   )
 }
 
