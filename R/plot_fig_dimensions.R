@@ -2,7 +2,7 @@
 #'
 #' @param type "single" or "both" for detrended variability or detrended and
 #' classical variability
-build_fig_stability_dimensions <- function(store, type = "single") {
+build_fig_stability_dimensions <- function(store, type = "single", font_size = 14) {
   # compute weighted population CV
   compare <- tar_read(all_local_trends_outputs, store = store) %>%
     filter(
@@ -55,7 +55,8 @@ build_fig_stability_dimensions <- function(store, type = "single") {
       regression_data = regressions,
       correlation_data = correl_info,
       variability_var = y_var,
-      y_lab = y_lab
+      y_lab = y_lab,
+      font_size = font_size
     )
 
   if (type == "both") { # in case of double plot, add an ad-hoc facet
@@ -130,7 +131,8 @@ component_correlation_plot <- function(
     regression_data,
     y_lab,
     correlation_data = NULL,
-    variability_var = "sd_r_average"
+    variability_var = "sd_r_average",
+    font_size = 14
 ) {
   regressions <- regression_data %>%
     filter(metric %in% variability_var)
@@ -175,7 +177,7 @@ component_correlation_plot <- function(
     scale_x_log10() +
     coord_cartesian(xlim = c(0.95*unique(lims$mn_x), 1.1*unique(lims$mx_x))) +
     scale_y_log10() +
-    cowplot::theme_cowplot() +
+    cowplot::theme_cowplot(font_size = font_size) +
     scale_alpha_manual(
       values = c(
         yes = 1,

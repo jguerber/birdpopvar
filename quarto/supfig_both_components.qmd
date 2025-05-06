@@ -1,6 +1,10 @@
 ```{r}
+#| fig-asp: 1.2
+#| out-width: "66%"
+#| fig-width: 6.6
 build_fig_stability_dimensions(
   store = here_from_pipeline("_targets"),
-  type = "both"
+  type = "both",
+  font_size = 16
 )
 ```
