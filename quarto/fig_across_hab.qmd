@@ -1,10 +1,11 @@
 ```{r}
-#| fig-asp: 0.6180355
-#| out-width: "100%"
-#| fig-width: 10
+#| fig-asp: 0.618
+#| out-width: "0.66%"
+#| fig-width: 6.6
 
-build_fig_across_habitats(
+build_fig_across_habitats_emmeans(
   store = here_from_pipeline("_targets"),
-  font_size = 16
+  model_name = "habitat_controlled",
+  font_size = 12
 )
 ```

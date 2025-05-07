@@ -1,5 +1,9 @@
+#### visreg #####
+
 #' Wrapper around visreg calls and compose_plot_across_habitats
-build_fig_across_habitats <- function(store, font_size = 14) {
+#'
+#' @param model_name name to use in the model wrapper from the pipeline
+build_fig_across_habitats_visreg <- function(store, model_name = "full", font_size = 14) {
   # define list of components
   components <- c("sd_r_average", "abs_trend_average") %>%
     set_names
@@ -13,14 +17,31 @@ build_fig_across_habitats <- function(store, font_size = 14) {
   # map over ?extract_visreg_residuals
   partials_extraction <- components %>%
     map(function(r) {
-      mods$models[[r]]$full %>%
+      mods$models[[r]][[model_name]] %>%
         extract_visreg_residuals(xvar = "HABITAT_GROUP", scale = "response", plot = F, partial = T, re.form = NA)
     })
 
   # arrange all visreg residuals in the same dataframe
   projected_dat <- components %>%
+    join_frame_and_extracted_residuals(partials_extraction, mods)
+
+  # arrange all visreg fits in the same dataframe
+  model_predictions <- components %>%
+    gather_partial_predictions(partials_extraction)
+
+  compose_plot_across_habitats(
+    projected_dat,
+    model_predictions,
+    font_size = font_size
+  )
+}
+
+
+#' add extracted partial residuals to data from model frame
+join_frame_and_extracted_residuals <- function(components, partials, mods) {
+  components %>%
     map(function(r) {
-      mods$models[[r]]$full$frame %>% # original data
+      mods$models[[r]][[model_name]]$frame %>% # original data
         mutate(
           component = str_replace(r, "_average$", "")
         ) %>%
@@ -28,7 +49,7 @@ build_fig_across_habitats <- function(store, font_size = 14) {
           observed = !!sym(r) # standardize column names across different response variables
         ) %>%
         mutate(
-          partial_hab = partials_extraction[[r]]$res$visregRes # residuals info
+          partial_hab = partials[[r]]$res$visregRes # residuals info
         )
     }) %>%
     do.call(bind_rows, .) %>%
@@ -42,27 +63,24 @@ build_fig_across_habitats <- function(store, font_size = 14) {
       type = factor(type, levels = c("partial_hab", "observed"))
     )
 
-  # arrange all visreg fits in the same dataframe
-  model_predictions <- components %>%
+}
+
+#' extract fits from list of objects produced extract_visreg_residuals
+gather_partial_predictions <- function(components, partials) {
+  components %>%
     map(function(r) {
-      partials_extraction[[r]]$fit %>%
-        rename(
-          median = !!sym(r)
-        ) %>%
-        mutate(
-          component = str_replace(r, "_average$", "")
-        )
+    partials[[r]]$fit %>%
+      rename(
+        median = !!sym(r)
+      ) %>%
+      mutate(
+        component = str_replace(r, "_average$", "")
+      )
     }) %>%
     do.call(bind_rows, .) %>%
     mutate(
       component = factor(component, levels = c("sd_r", "abs_trend"))
     )
-
-  compose_plot_across_habitats(
-    projected_dat,
-    model_predictions,
-    font_size = font_size
-  )
 }
 
 compose_plot_across_habitats <- function(point_data, visreg_fits, font_size = 14) {
@@ -90,9 +108,7 @@ compose_plot_across_habitats <- function(point_data, visreg_fits, font_size = 14
     filter(type == "observed") %>%
     core_plot( font_size = font_size) +
     geom_boxplot(aes(y = value), alpha = 0, color = "black") +
-    facet_wrap(~component, scales = "free",  ncol = 2, labeller = labeller(
-      component = c(sd_r = "Mean detrended population variability", abs_trend = "Mean absolute trend")
-    )) +
+    facet_wrap(~component, scales = "free",  ncol = 2, labeller = labeller_components()) +
     theme(
       strip.text = element_text(size = font_size),
       axis.text.x = element_blank(),
@@ -115,6 +131,91 @@ compose_plot_across_habitats <- function(point_data, visreg_fits, font_size = 14
   )
 }
 
+#### emmeans ####
+
+build_fig_across_habitats_emmeans <- function(store, model_name, font_size = 14) {
+  # define list of components
+  components <- c("sd_r_average", "abs_trend_average") %>%
+    set_names
+
+  # read model wrapper from pipeline
+  mods <- targets::tar_read(
+    models_stab_across_habitats,
+    store = store
+  )
+
+  # map over emmeans %>% cld
+  emmeans_mapped <- components %>%
+    map(
+      function(r) {
+        mods$models[[r]][[model_name]] %>%
+          emmeans::emmeans(specs = ~ HABITAT_GROUP) %>%
+          multcomp::cld(Letters = letters) %>%
+          as.data.frame %>%
+          mutate(
+            across(c(emmean, matches("CL$")), exp, .names = "{.col}_response"),
+            component = str_replace(r, "_average", "")
+          )
+      }
+    ) %>%
+    do.call(bind_rows, .) %>%
+    mutate(
+      component = factor(component, levels = c("sd_r", "abs_trend"))
+    )
+
+  original_data <- components %>%
+    map(function(r) {
+      mods$models[[r]][[model_name]]$frame %>%
+        rename(
+          value = !!sym(r)
+        ) %>%
+        mutate(
+          component = str_replace(r, "_average", ""),
+          type =  "observed"
+        )
+    }) %>%
+    do.call(bind_rows, .) %>%
+    mutate(
+      component = factor(component, levels = c("sd_r", "abs_trend"))
+    )
+
+  letter_data <- original_data %>%
+    group_by(component) %>%
+    summarise(
+      mn = min(value),
+      mx = max(value)
+    ) %>%
+    right_join(
+      select(emmeans_mapped, c(HABITAT_GROUP, .group, component)), by = "component") %>%
+    mutate(
+      .group = trimws(.group)
+    )
+
+  original_data %>%
+    core_plot(font_size = font_size) +
+    facet_wrap(~component, ncol = 2, strip.position = "top", scales = "free", labeller = labeller_components()) +
+    scale_y_log10() +
+    geom_text(
+      data = letter_data,
+      aes(y = 1.1 * mx, label = .group),
+      fontface = "bold",
+      size = font_size / 2
+    ) +
+    geom_errorbar(
+      data = emmeans_mapped,
+      linewidth = 0.75,
+      width = 0.75,
+      aes(ymin = asymp.LCL_response, ymax= asymp.UCL_response)
+    ) +
+    labs(
+      y = "Stability component"
+    ) +
+    theme(strip.text = element_text(size= font_size))
+}
+
+#### Common ####
+
+#' Core plot : plot geom_sina of several metrics with optional hline
 core_plot <- function(df, point_size = 0.75, font_size = 14, hline = F) {
 
   dat_line <- df %>%
@@ -153,3 +254,8 @@ core_plot <- function(df, point_size = 0.75, font_size = 14, hline = F) {
 
   return(p)
 }
+
+labeller_components <- \() labeller(
+  component = c(sd_r = "Mean detrended population variability", abs_trend = "Mean absolute trend")
+)
+
