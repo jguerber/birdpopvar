@@ -1,7 +1,8 @@
 fixed_effects_list <- function(habitat_var = "HABITAT_GROUP") {
   list(
     full = paste0(habitat_var, " + N_POINTS_avg + HII_focal + H_fine + mu_SR"),
-    no_npoints = paste0(habitat_var, " + HII_focal + H_fine + mu_SR"),
+    habitat_controlled = paste0(habitat_var, "+ N_POINTS_avg"),
+    interacting = paste0(habitat_var, "* (HII_focal + mu_SR + H_fine) + N_POINTS_avg"),
     no_landscape = paste0(habitat_var, " + mu_SR + N_POINTS_avg"),
     no_habitat = "N_POINTS_avg + HII_focal + H_fine + mu_SR",
     no_ecology = "N_POINTS_avg",
