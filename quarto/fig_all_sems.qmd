@@ -1,8 +1,9 @@
 ```{r}
 #| fig-asp: 1.618123
-#| out-width: "66%"
-#| fig-width: 6.6
+#| out-width: "100%"
+#| fig-width: 10
 
+library(ggraph)
 build_fig_all_sems(
   store = here_from_pipeline("_targets"),
   sem_type = "nlme",
@@ -14,6 +15,7 @@ build_fig_all_sems(
     H_fine = "Complexity"
   ),
   selected_branch = 1,
-  categories = c("farmland", "woodland", "built")
+  categories = c("farmland", "woodland", "built"),
+  font_size = 14
 )
 ```

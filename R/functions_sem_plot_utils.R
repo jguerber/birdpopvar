@@ -122,7 +122,7 @@ plot_sem_output <- function(
 
   # browser()
   layout %>%
-    ggraph() +
+    ggraph::ggraph() +
     geom_edge_bend_setjust(
       aes(
         color = !!sym(color_col),

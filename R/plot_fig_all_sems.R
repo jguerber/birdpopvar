@@ -7,7 +7,8 @@ build_fig_all_sems <- function(
     label_variables,
     sem_type = "lm",
     categories = c("farmland", "woodland", "built"),
-    selected_branch = 2
+    selected_branch = 1,
+    font_size = 10
 ) {
   sem_results <- fetch_all_sem_results(store, sem_type, selected_branch = selected_branch)
 
@@ -26,7 +27,8 @@ build_fig_all_sems <- function(
     categories,
     label_variables,
     annotation_positions,
-    semplot_fig3
+    semplot_fig3,
+    font_size = 14
   )
 }
 
@@ -53,9 +55,9 @@ unpack_values <- function(all_results, names_selected = NULL) {
 }
 
 #' Map `fun_single_plot`, a function to plot a single SEM, on several modalities of `categories`
-generic_fig_sems <- function(unpacked_results, categories, label_variables, annotations, fun_single_plot) {
+generic_fig_sems <- function(unpacked_results, categories, label_variables, annotations, fun_single_plot, ...) {
   all_plots <- map(categories, function(category, results = unpacked_results, labs = label_variables) {
-    fun_single_plot(category, results, labs)
+    fun_single_plot(category, results, labs, ...)
   })
 
   model_info <- extract_sem_fit_info(unpacked_results, categories)
@@ -107,14 +109,14 @@ join_plots_and_labels <- function(all_plots, model_info, annotation_positions) {
 
 
 #' ad-hoc wrapper around [single_sem_plot]
-semplot_fig3 <- function(category, results, label_variables) {
+semplot_fig3 <- function(category, results, label_variables, font_size = 14) {
   single_sem_plot(
     results[[category]]$out_sem,
     layout_type = "sugiyama",
     labs = label_variables,
     set_stretch_scale = 0.08,
     decorate_args = decorate_args_fig_5nodes(),
-    plot_args = list(font_size = 5)
+    plot_args = list(font_size = font_size / 2)
   )  +
     theme(
       axis.title = element_blank(),

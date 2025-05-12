@@ -46,9 +46,10 @@ geom_edge_bend_setjust <- function(mapping = NULL, data = get_edges(),
     x = x, y = y, xend = xend, yend = yend, end_nudge_x = end_nudge_x, start_nudge_x = start_nudge_x,
     circular = circular, group = edge.id
   ))
+
   layer(
     data = data, mapping = mapping, stat = StatEdgeBendSetNudge,
-    geom = GeomEdgePath, position = position, show.legend = show.legend,
+    geom = ggraph::GeomEdgePath, position = position, show.legend = show.legend,
     inherit.aes = FALSE,
     params = expand_edge_aes(
       list2(
