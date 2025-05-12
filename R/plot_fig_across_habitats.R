@@ -133,7 +133,7 @@ compose_plot_across_habitats <- function(point_data, visreg_fits, font_size = 14
 
 #### emmeans ####
 
-build_fig_across_habitats_emmeans <- function(store, model_name, font_size = 14) {
+build_fig_across_habitats_emmeans <- function(store, model_name, errorbars = TRUE, font_size = 14) {
   # define list of components
   components <- c("sd_r_average", "abs_trend_average") %>%
     set_names
@@ -191,26 +191,32 @@ build_fig_across_habitats_emmeans <- function(store, model_name, font_size = 14)
       .group = trimws(.group)
     )
 
-  original_data %>%
+  p <- original_data %>%
     core_plot(font_size = font_size) +
     facet_wrap(~component, ncol = 2, strip.position = "top", scales = "free", labeller = labeller_components()) +
     scale_y_log10() +
-    geom_text(
-      data = letter_data,
-      aes(y = 1.1 * mx, label = .group),
-      fontface = "bold",
-      size = font_size / 2
-    ) +
-    geom_errorbar(
-      data = emmeans_mapped,
-      linewidth = 0.75,
-      width = 0.75,
-      aes(ymin = asymp.LCL_response, ymax= asymp.UCL_response)
-    ) +
     labs(
       y = "Stability component"
     ) +
     theme(strip.text = element_text(size= font_size))
+
+  if (errorbars) {
+    p <- p +
+      geom_text(
+        data = letter_data,
+        aes(y = 1.1 * mx, label = .group),
+        fontface = "bold",
+        size = font_size / 2
+      ) +
+      geom_errorbar(
+        data = emmeans_mapped,
+        linewidth = 0.75,
+        width = 0.75,
+        aes(ymin = asymp.LCL_response, ymax= asymp.UCL_response)
+      )
+  }
+
+  return(p)
 }
 
 #### Common ####
