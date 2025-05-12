@@ -1,7 +1,9 @@
 ```{r}
 #| fig-asp: 1.618123
-#| out-width: "100%"
-#| fig-width: 10
+#| out-width: "66%"
+#| fig-width: 6.6
+
+# 100% and 10 for slide output
 
 library(ggraph)
 build_fig_all_sems(
