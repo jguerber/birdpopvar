@@ -99,20 +99,20 @@ run_spatial_models <- function(
   return(list(models = models))
 }
 
-simulate_residuals_from_spatial_model <- function(out_spatial) {
+simulate_residuals_from_spatial_model <- function(out_spatial, model_name) {
   c(variability = "sd_r_average_log", trend = "abs_trend_average_log") %>%
     map(function(r) {
-      out_spatial$models[[r]]$full %>%
+      out_spatial$models[[r]][[model_name]] %>%
         simulate(nsim = 2000, type = "mle-mvn", re_form = NULL) %>%
-        dharma_residuals(out_spatial$models[[r]]$full, return_DHARMa = T)
+        dharma_residuals(out_spatial$models[[r]][[model_name]], return_DHARMa = T)
     })
 }
 
-extract_estimates_from_spatial_model <- function(out_spatial) {
+extract_estimates_from_spatial_model <- function(out_spatial, model_name) {
   c(variability = "sd_r_average_log", trend = "abs_trend_average_log") %>%
     map(function(r) {
       tidy(
-        out_spatial$models[[r]]$full,
+        out_spatial$models[[r]][[model_name]],
         component = "cond",
         effects = "fixed",
         conf.int = T
