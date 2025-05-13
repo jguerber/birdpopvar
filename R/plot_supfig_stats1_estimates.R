@@ -1,8 +1,8 @@
-build_fig_stats1_parameters <- function(out_glm) {
+build_fig_stats1_parameters <- function(out_glm, model_name) {
   estimates <- c(variability = "sd_r_average", trend = "abs_trend_average") %>%
     map(function(r) {
       broom.mixed::tidy(
-        out_glm$models[[r]]$full,
+        out_glm$models[[r]][[model_name]],
         component = "cond",
         effects = "fixed",
         conf.int = T
