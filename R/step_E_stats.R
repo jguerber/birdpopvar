@@ -55,17 +55,23 @@ step_stats <- function(parameters) {
         ),
       packages = c("sdmTMB")
     ),
-    tar_target(
-      residuals_spatial_models,
-      spatial_models_across_habitats %>%
-        simulate_residuals_from_spatial_model,
-      packages = c(default_dependencies(), "DHARMa", "sdmTMB")
-    ),
-    tar_target(
-      estimates_spatial_models,
-      spatial_models_across_habitats %>%
-        extract_estimates_from_spatial_model,
-      packages = c(default_dependencies(), "sdmTMB")
+    tar_map(
+      values = tibble(
+        model_name = c("full", "habitat_controlled")
+      ),
+      names = "model_name",
+      tar_target(
+        residuals_spatial_models,
+        spatial_models_across_habitats %>%
+          simulate_residuals_from_spatial_model(model_name),
+        packages = c(default_dependencies(), "DHARMa", "sdmTMB")
+      ),
+      tar_target(
+        estimates_spatial_models,
+        spatial_models_across_habitats %>%
+          extract_estimates_from_spatial_model(model_name),
+        packages = c(default_dependencies(), "sdmTMB")
+      )
     ),
     tar_map( # Supplementary 2 : re-run SEMs, but add HII in buffer as impact variable
       values = tibble(
