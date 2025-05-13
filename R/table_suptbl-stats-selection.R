@@ -1,4 +1,4 @@
-build_stats1_selection_table <- function(out_glm) {
+build_stats1_selection_table <- function(out_glm, model_names, match_vars) {
   anova_tables <- c(variability = "sd_r_average", trend = "abs_trend_average") %>%
     map(function(r) {
       anova_list(out_glm$models[[r]]) %>%
@@ -12,21 +12,14 @@ build_stats1_selection_table <- function(out_glm) {
     }) %>% do.call(bind_rows, .) %>%
     mutate(across(matches("IC"), ~round(.x))) %>%
     pivot_wider(names_from = response, values_from = c(AIC,BIC)) %>%
+    filter(model %in% model_names) %>%
     mutate(
       model = str_replace(model, "_", " "),
       model = str_to_sentence(model),
       model = str_replace(model, "npoints$", "n. points")
     ) %>%
     mutate(
-      variables = case_match(
-        model,
-        "Full" ~ "None",
-        "No landscape" ~ "Human impact and lanscape complexity",
-        "No habitat" ~ "Habitat category",
-        "No ecology" ~ "All except the number of points by community",
-        "No n. points" ~ "Number of points by community",
-        "Null" ~ "All"
-      )
+      variables = match_vars(model)
     ) %>%
     select( # reorder
       model, Df, AIC_sd_r_average, BIC_sd_r_average, AIC_abs_trend_average, BIC_abs_trend_average, variables
@@ -39,7 +32,7 @@ is_html_or_latex <- function() {
   (knitr::is_html_output() || knitr::is_latex_output())
 }
 
-format_selection_kable <- function(anova_tables, format = NULL) {
+format_selection_kable <- function(anova_tables, fixed_lbl = "Left out fixed effects", format = NULL) {
   if (is.null(format)) {
     format <- get_current_kable_format()
   }
@@ -49,7 +42,7 @@ format_selection_kable <- function(anova_tables, format = NULL) {
       across(matches("(A|B)IC"), ~ kableExtra::cell_spec(.x, bold = (.x == min(.x))))
     ) %>%
     knitr::kable(
-      col.names = c("", "df", "AIC", "BIC", "AIC", "BIC", "Left out fixed effects"),
+      col.names = c("", "df", "AIC", "BIC", "AIC", "BIC", fixed_lbl),
       align = c("l", rep("c", 5), "l"),
       booktabs = T,
       format = format,

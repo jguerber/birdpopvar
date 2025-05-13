@@ -1,15 +1,30 @@
 ```{r}
+match_labels_stats1 <- function(model) {
+  case_match(
+    model,
+    "Full" ~ "None",
+    "No landscape" ~ "Human impact and lanscape complexity",
+    "No habitat" ~ "Habitat category",
+    "No ecology" ~ "All except the number of points by community",
+    "No n. points" ~ "Number of points by community",
+    "Habitat controlled" ~ "None",
+    "Null" ~ "All"
+  )
+}
 
 build_stats1_selection_table(
   out_glm = targets::tar_read(
     models_stab_across_habitats,
     store = sel_store,
     branches = 1
-  )
+  ),
+  model_names = c("habitat_controlled", "no_ecology", "null"),
+  match_vars = match_labels_stats1
 ) %>% 
   dispatch_format(  # different formatting function depending on output document type
     other_fn = format_selection_kable,
-    docx_fn = ifelse(running_from_pipeline(), NULL, format_selection_flex) # format_selection_flex is not defined in R/, but is never called from this document
+    docx_fn = ifelse(running_from_pipeline(), NULL, format_selection_flex), # format_selection_flex is not defined in R/, but is never called from this document
+    fixed_lbl = "Left out fixed effects"
   )
 
 
