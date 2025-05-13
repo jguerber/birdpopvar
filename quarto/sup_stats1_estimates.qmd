@@ -5,7 +5,8 @@ build_fig_stats1_parameters(
     models_stab_across_habitats,
     store = sel_store,
     branches = 1
-  )
+  ),
+  model_name = "habitat_controlled"
 )
 
 ```

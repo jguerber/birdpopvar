@@ -1,12 +1,12 @@
 ```{r}
 residuals <- c(variability = "sd_r_average", trend = "abs_trend_average") %>% 
-  map(\(r) out_glm$models[[r]]$full %>% DHARMa::simulateResiduals(n = 1000))
+  map(\(r) out_glm$models[[r]]$habitat_controlled %>% DHARMa::simulateResiduals(n = 1000))
   
 
 autocor <- map(residuals, \(r) DHARMa::testSpatialAutocorrelation(r, x = data$X, y = data$Y, plot = F))
 
 residuals_spat <- targets::tar_read(
-  residuals_spatial_models,
+  residuals_spatial_models_habitat_controlled,
   branches = 1,
   store=  sel_store
 )
