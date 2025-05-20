@@ -18,6 +18,6 @@ build_fig_all_sems(
   ),
   selected_branch = 1,
   categories = c("farmland", "woodland", "built"),
-  font_size = 14
+  font_size = 12
 )
 ```

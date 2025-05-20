@@ -28,7 +28,7 @@ build_fig_all_sems <- function(
     label_variables,
     annotation_positions,
     semplot_fig3,
-    font_size = 14
+    font_size = font_size
   )
 }
 
