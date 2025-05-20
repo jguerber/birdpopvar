@@ -1,4 +1,3 @@
-run_steps: "all"
 survey_data: "STOC/fbbs_200m.csv"
 local_n_cores: 3
 remote_n_tasks: 32

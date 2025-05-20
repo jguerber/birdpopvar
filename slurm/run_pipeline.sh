@@ -12,7 +12,7 @@ module load R/4.4.1
 cd $SLURM_SUBMIT_DIR
 
 PROJECT='birdpopvar'
-LIB_NAME='birdpopvar-17b47494'
+LIB_NAME='birdpopvar-17b47494' # should match the library name shown when running renv::paths$library()
 
 # project config : we use environment variables to distinguish on which type of
 # machine the project is running
@@ -31,7 +31,7 @@ export GLOBAL_LIBRARY="/softs/apps/R/4.4.1/gcc/lib64/R/library"
 mkdir -p $SCRATCH/$PROJECT
 
 # push code to scratch
-rsync -azP --exclude={'output','_targets','.env','.Renviron'} ./* $SCRATCH/$PROJECT
+rsync -azP --exclude={'output','_targets','.env'} ./ $SCRATCH/$PROJECT
 
 # go there and execute
 cd $SCRATCH/$PROJECT

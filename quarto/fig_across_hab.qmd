@@ -1,14 +1,14 @@
 ```{r}
 #| fig-asp: 0.618
-#| out-width: "66%"
-#| fig-width: 6.6
+#| out-width: "100%"
+#| fig-width: 10
 
 # 75% and 7.5 for slide format
 
 build_fig_across_habitats_emmeans(
   store = here_from_pipeline("_targets"),
   model_name = "habitat_controlled",
-  font_size = 14,
+  font_size = 18,
   errorbars = TRUE
 )
 ```

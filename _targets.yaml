@@ -1,0 +1,6 @@
+all_steps:
+  script: _targets.R
+  store: stores/all_steps
+shortcut:
+  script: _targets.R
+  store: stores/shortcut

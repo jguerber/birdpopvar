@@ -4,7 +4,7 @@ step_data_cleaning <- function() {
     tar_target(
       raw_data,
       read_path(
-        file.path("data", parameters$survey_data), sep = ";", row.names = NULL
+        file.path("data", survey_data_file), sep = ";", row.names = NULL
       )
     ),
     tar_target(

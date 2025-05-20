@@ -5,7 +5,10 @@ library(crew.cluster)
 
 tar_source(here::here(c("R", "scripts/import_dependencies.R")))
 
+# load globals
 parameters <- yaml::read_yaml(here::here("parameters.yaml"))
+survey_data_file <- parameters$survey_data
+
 
 controller_group <- custom_controller_group(
   parameters
@@ -27,10 +30,16 @@ tar_option_set(
   controller = controller_group$controller,
   resources = tar_resources( # set controller for small jobs as default
     crew = tar_resources_crew(controller = controller_group$names$normal)
-  )
+  ),
+  error = "trim"
+)
+
+message(
+  "Running pipeline with project ", tar_get_current_project()
 )
 
 # call the correct target list in R/pipeline_*
 target_list(
-  parameters
+  parameters,
+  tar_get_current_project()
 )
