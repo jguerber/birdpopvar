@@ -3,7 +3,8 @@
 #| out-width: "70%"
 #| fig-width: 6
 
-build_fig_maps(
-  birdpopvar::here_from_pipeline("_targets")
+tar_read(
+  supfig_maps,
+  store = store_in_pipeline()
 )
 ```

@@ -5,10 +5,9 @@
 
 # 75% and 7.5 for slide format
 
-build_fig_across_habitats_emmeans(
-  store = here_from_pipeline("_targets"),
-  model_name = "habitat_controlled",
-  font_size = 18,
-  errorbars = TRUE
+
+targets::tar_read(
+  fig_across_hab,
+  store = store_in_pipeline()
 )
 ```

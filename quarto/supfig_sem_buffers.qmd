@@ -1,10 +1,10 @@
 ```{r}
-#| fig-asp: 1.2
+#| fig-asp: 1.618123
 #| out-width: "66%"
 #| fig-width: 6.6
 
 tar_read(
-  supfig_both_components,
+  supfig_sem_buffers,
   store = store_in_pipeline()
 )
 ```

@@ -1,17 +1,4 @@
-build_fig_methods_alt <- function(store, debug = T) {
-
-  # read community data
-  example_comms <- targets::tar_read(
-    example_communities_models,
-    store = store
-  )
-
-  # read summary
-  table_summary <- targets::tar_read(
-    table_summary,
-    store = store
-  ) %>%
-    select(untrended, trended) # untrended to the left
+build_fig_methods_alt <- function(example_coms, table_summary, debug = T) {
 
   # metrics summary plot (bottom panel)
   p <- table_summary %>%
@@ -75,7 +62,7 @@ build_fig_methods_alt <- function(store, debug = T) {
     )
 
   p <- cowplot::plot_grid(
-    plot_example_communities(example_comms, font_size = 12), # communities plot (top panel)
+    plot_example_communities(example_coms, font_size = 12), # communities plot (top panel)
     p,
     ncol = 1,
     labels = c("(a)", "(b)"),

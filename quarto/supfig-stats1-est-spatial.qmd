@@ -1,8 +1,7 @@
 ```{r}
 estimates_spat <- targets::tar_read(
   estimates_spatial_models_habitat_controlled,
-  branches = 1,
-  store=  sel_store
+  store = store_in_pipeline()
 )
 
 estimates_spat %>%

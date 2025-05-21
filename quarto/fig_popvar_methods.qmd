@@ -1,6 +1,8 @@
 ```{r}
-build_fig_methods_alt(
-  store = here_from_pipeline("_targets"),
-  debug = F
+# read community data
+targets::tar_read(
+  fig_popvar_methods,
+  store = store_in_pipeline()
 )
+
 ```

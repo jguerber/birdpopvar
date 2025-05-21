@@ -189,22 +189,22 @@ create_custom_layout <- function(graph, type, ...) {
   }
 
   if (type == "5 nodes") {
-    df_layout <- data.frame(
+    df_layout <- tibble(
       x = c(1,5,3,2,4),
       y = c(5,5,4,1,1)
     )
   } else if (type == "6 nodes") {
-    df_layout <- data.frame(
+    df_layout <- tibble(
       x = c(3,1,5,3,2,4),
       y = c(6,5,5,3,1,1)
     )
   } else if (type == "control_6_nodes") {
-    df_layout = data.frame(
+    df_layout = tibble(
       x = c(1,5,3,2,4,3),
       y = c(7,7,5,3,3,1)
     )
   } else if (type == "3_drivers") {
-    df_layout = data_frame(
+    df_layout = tibble(
       x = c(1,5,3,1,3,5),
       y = c(1,1,2,5,5,5)
     )

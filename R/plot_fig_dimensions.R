@@ -2,9 +2,9 @@
 #'
 #' @param type "single" or "both" for detrended variability or detrended and
 #' classical variability
-build_fig_stability_dimensions <- function(store, type = "single", font_size = 14) {
+build_fig_stability_dimensions <- function(trends_output_wrapper, pop_var_data, type = "single", font_size = 14) {
   # compute weighted population CV
-  compare <- tar_read(all_local_trends_outputs, store = store) %>%
+  compare <-  trends_output_wrapper %>%
     filter(
       model_name == "poisson",
       residual_type == "pearson",
@@ -18,10 +18,7 @@ build_fig_stability_dimensions <- function(store, type = "single", font_size = 1
     summarise(
       w_cvpop = sum(w * raw_cv),
       a_cvpop = mean(raw_cv)
-    ) %>% right_join(tar_read(
-      population_variability_data,
-      store = store
-    ), by = "COMMUNITY_ID")
+    ) %>% right_join(pop_var_data, by = "COMMUNITY_ID")
 
   regressions <- compare %>%
     split_community_id %>%
@@ -81,7 +78,7 @@ single_metric_variability_regression <- function(.x, .y) {
   spearman <- cor.test(~ abs_trend_average + variability, data = .x, method = "spearman") %>%
     broom::glance()
 
-  estimates <- mod %>% tidy %>% filter(term == "abs_trend_average")
+  estimates <- mod %>% broom::tidy() %>% filter(term == "abs_trend_average")
 
   x_range <- seq(from = 0.95*min(.x$abs_trend_average), to = 1.05*max(.x$abs_trend_average), length.out = 100)
   predict(

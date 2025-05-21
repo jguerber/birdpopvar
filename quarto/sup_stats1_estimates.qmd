@@ -1,12 +1,8 @@
 ```{r}
 
-build_fig_stats1_parameters(
-  out_glm = targets::tar_read(
-    models_stab_across_habitats,
-    store = sel_store,
-    branches = 1
-  ),
-  model_name = "habitat_controlled"
+tar_read(
+  supfig_stats1_estimates,
+  store = store_in_pipeline()
 )
 
 ```
