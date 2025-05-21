@@ -29,6 +29,6 @@ To reproduce the environment, use `renv::restore()`. Adding `TAR_PROJECT="all_st
 
 The workload is split between several R processes with the help of [`crew`](https://books.ropensci.org/targets/crew.html) workers. To better tailor the number of spawned workers to your machine or to your HPC cluster, you can edit parameters.yaml :
 
- - local_n_cores : number of available cores when the pipeline is running on a machine when the environment variable $IS_SLURM is undefined of not set to `"TRUE"`
- - remote_n_tasks : maximum number of crew workers to spawn with `crew_controller_slurm`. Outdated targets will be delegated in parallel to these workers when they are available (i.e. when your job scheduler runs them)
+ - local_n_cores : number of available cores when the pipeline is running on a machine when the environment variable $IS_SLURM is undefined or not set to `"TRUE"`. crew will spawn local_n_cores minus one workers.
+ - remote_n_tasks : maximum number of crew workers to spawn with `crew_controller_slurm`. Outdated targets will be delegated in parallel to these workers when they are available (i.e. when your job scheduler runs their script)
  - remote_r_version : R version string to pass as `module load R/4.x.x` in SLURM job scripts 
