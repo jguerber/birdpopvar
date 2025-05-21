@@ -42,5 +42,6 @@ cd $SCRATCH/$PROJECT
 cp build.Rout $SLURM_SUBMIT_DIR
 cp std* $SLURM_SUBMIT_DIR
 rsync -azP output $SLURM_SUBMIT_DIR
+rsync -azP data/processed $SLURM_SUBMIT_DIR/data
 
 exit 0
