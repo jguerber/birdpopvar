@@ -1,14 +1,13 @@
-build_fig_maps <- function(target_store) {
+build_fig_maps <- function(
+   population_variability_data,
+   community_coordinates,
+   france_shape
+  ) {
 
-  final_data <- tar_read(
-    population_variability_data,
-    store = target_store
-  )
-
-  final_data_communities <- final_data %>%
+  final_data_communities <- population_variability_data %>%
     pull(COMMUNITY_ID)
 
-  communities_info <- final_data %>%
+  communities_info <- population_variability_data %>%
     split_community_id %>%
     group_by(HABITAT_GROUP) %>%
     summarise(N = n_distinct(COMMUNITY_ID)) %>%
@@ -20,15 +19,8 @@ build_fig_maps <- function(target_store) {
       label = paste0(str_to_sentence(HABITAT_GROUP), " (", N, ")")
     )
 
-
-
-  france <- france_shp(
-    path = here_from_pipeline("data/maps/regions/regions-20180101.shp"),
-    corsica = F
-  )
-
-  community_centroids <- tar_read(community_coordinates, store = target_store) %>%
-    filter(COMMUNITY_ID %in% final_data$COMMUNITY_ID) %>%
+  community_centroids <- community_coordinates %>%
+    filter(COMMUNITY_ID %in% population_variability_data$COMMUNITY_ID) %>%
     split_community_id
 
   point_data <- community_centroids %>%
@@ -44,7 +36,7 @@ build_fig_maps <- function(target_store) {
 
   ggplot() +
     geom_sf(
-      data = france,
+      data = france_shape,
       aes(geometry = geometry),
       fill = "grey90"
     ) +

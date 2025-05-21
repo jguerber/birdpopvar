@@ -3,27 +3,21 @@
 #' Wrapper around visreg calls and compose_plot_across_habitats
 #'
 #' @param model_name name to use in the model wrapper from the pipeline
-build_fig_across_habitats_visreg <- function(store, model_name = "full", font_size = 14) {
+build_fig_across_habitats_visreg <- function(model_wrapper, model_name = "full", font_size = 14) {
   # define list of components
   components <- c("sd_r_average", "abs_trend_average") %>%
     set_names
 
-  # read model wrapper from pipeline
-  mods <- targets::tar_read(
-    models_stab_across_habitats,
-    store = store
-  )
-
   # map over ?extract_visreg_residuals
   partials_extraction <- components %>%
     map(function(r) {
-      mods$models[[r]][[model_name]] %>%
+      model_wrapper$models[[r]][[model_name]] %>%
         extract_visreg_residuals(xvar = "HABITAT_GROUP", scale = "response", plot = F, partial = T, re.form = NA)
     })
 
   # arrange all visreg residuals in the same dataframe
   projected_dat <- components %>%
-    join_frame_and_extracted_residuals(partials_extraction, mods)
+    join_frame_and_extracted_residuals(partials_extraction, model_wrapper)
 
   # arrange all visreg fits in the same dataframe
   model_predictions <- components %>%
@@ -133,22 +127,16 @@ compose_plot_across_habitats <- function(point_data, visreg_fits, font_size = 14
 
 #### emmeans ####
 
-build_fig_across_habitats_emmeans <- function(store, model_name, errorbars = TRUE, font_size = 14) {
+build_fig_across_habitats_emmeans <- function(model_wrapper, model_name, errorbars = TRUE, font_size = 14) {
   # define list of components
   components <- c("sd_r_average", "abs_trend_average") %>%
     set_names
-
-  # read model wrapper from pipeline
-  mods <- targets::tar_read(
-    models_stab_across_habitats,
-    store = store
-  )
 
   # map over emmeans %>% cld
   emmeans_mapped <- components %>%
     map(
       function(r) {
-        mods$models[[r]][[model_name]] %>%
+        model_wrapper$models[[r]][[model_name]] %>%
           emmeans::emmeans(specs = ~ HABITAT_GROUP) %>%
           multcomp::cld(Letters = letters) %>%
           as.data.frame %>%
@@ -165,7 +153,7 @@ build_fig_across_habitats_emmeans <- function(store, model_name, errorbars = TRU
 
   original_data <- components %>%
     map(function(r) {
-      mods$models[[r]][[model_name]]$frame %>%
+      model_wrapper$models[[r]][[model_name]]$frame %>%
         rename(
           value = !!sym(r)
         ) %>%

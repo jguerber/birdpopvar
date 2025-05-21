@@ -3,14 +3,15 @@
 #' In calls to single_sem_plot, decorate_args allows to tweak the *graph data passed to ggraph*, while plot_args tweaks
 #' more general ggraph behavior
 build_fig_all_sems <- function(
-    store,
+    sem_wrapper,
     label_variables,
     sem_type = "lm",
     categories = c("farmland", "woodland", "built"),
     selected_branch = 1,
     font_size = 10
 ) {
-  sem_results <- fetch_all_sem_results(store, sem_type, selected_branch = selected_branch)
+  sem_results <- sem_wrapper %>%
+    unpack_values
 
   annotation_positions <- tibble(
     # cat = c("farmland", "woodland", "built"),
@@ -33,7 +34,7 @@ build_fig_all_sems <- function(
 }
 
 #' Fetch SEM results from the pipeline
-fetch_all_sem_results <- function(store, sem_type, selected_branch = 1) {
+fetch_all_sem_results <- function(sem_wrapper, sem_type, selected_branch = 1) {
   targets::tar_read(
     spatial_sem_output,
     store = store

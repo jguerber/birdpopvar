@@ -7,8 +7,7 @@ autocor <- map(residuals, \(r) DHARMa::testSpatialAutocorrelation(r, x = data$X,
 
 residuals_spat <- targets::tar_read(
   residuals_spatial_models_habitat_controlled,
-  branches = 1,
-  store=  sel_store
+  store = store_in_pipeline()
 )
 
 autocor_spat <- map(residuals_spat, \(r) DHARMa::testSpatialAutocorrelation(r, x = data$X, y = data$Y, plot = F))

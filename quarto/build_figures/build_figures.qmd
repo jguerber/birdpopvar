@@ -20,6 +20,12 @@ execute:
 library(targets)
 source(here::here("scripts/import_dependencies.R"))
 devtools::load_all(here::here())
+
+tar_select_project("shortcut")
 ```
 
-{{< include sup_partials_covariables.qmd >}}
+Loaded pipeline project: `r tar_get_current_project()`
+
+{{< include /../../quarto/fig_popvar_methods.qmd >}}
+
+{{< include /../../quarto/fig_across_hab.qmd >}}

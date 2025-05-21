@@ -66,6 +66,15 @@ step_local_trends <- function(parameters) {
         preferred_model = "poisson",
         rtype = "pearson"
       )
+    ),
+    tar_target(
+      all_local_trends_outputs_file,
+      write_path(
+        all_local_trends_outputs,
+        rel_path = "data/processed/all_local_trends_outputs.csv",
+        row.names = F
+      ),
+      format = "file"
     )
   )
 }

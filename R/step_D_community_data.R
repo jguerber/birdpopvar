@@ -18,6 +18,13 @@ step_community_data <- function(parameters) {
         centroid_coordinates(
           coords = c("lon1", "lat1")
         )
+    ),
+    tar_target(
+      community_coordinates_file,
+      write_path(
+        community_coordinates,
+        rel_path = "data/processed/community_coordinates.csv"
+      )
     )
   )
 

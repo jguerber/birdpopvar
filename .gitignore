@@ -15,3 +15,4 @@ quarto/*_cache
 manuscript/
 man/
 tmp/
+stores/

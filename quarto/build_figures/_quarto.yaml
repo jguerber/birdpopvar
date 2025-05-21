@@ -1,0 +1,4 @@
+project:
+  output-dir: ../../output/build_figures
+render:
+  quarto/build_figures/build_figures.qmd
