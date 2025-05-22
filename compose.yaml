@@ -1,7 +1,6 @@
 services:
   pipeline:
     build: .
-    env_file: "./compose.env"
     volumes: # mount volumes
       - "./data:/workspace/data" # provide data dir to container
       - "./container_output:/workspace/output" # mount a dir to gather output
