@@ -21,6 +21,7 @@ RUN apt-get update \
     cmake \
     libnng-dev \
     curl \
+    libuv1-dev \
   && rm -rf /var/lib/apt/lists/*
 
 # Install quarto
@@ -54,7 +55,10 @@ ENV RENV_CONFIG_SANDBOX_ENABLED=FALSE
 
 COPY . . # copy everything except the content of .dockerignore
 
+# by default, select the "short" pipeline
+ENV TAR_PROJECT="shortcut"
+
 # launching an R process will create the correct libraries and install renv
 RUN R -e 'message("renv bootstrapped correctly")'
 
-CMD ["R"]
+CMD ["R", "-e", "renv::restore()"]

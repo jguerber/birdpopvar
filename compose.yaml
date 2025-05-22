@@ -2,9 +2,8 @@ services:
   pipeline:
     build: .
     env_file: "./compose.env"
-    stdin_open: true
-    tty: true
     volumes: # mount volumes
       - "./data:/workspace/data" # provide data dir to container
       - "./container_output:/workspace/output" # mount a dir to gather output
+      - "./container_stores:/workspace/stores" # target stores calculated within the container
       - "${RENV_CACHE_HOST}:/renv_cache"
