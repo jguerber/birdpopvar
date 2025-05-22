@@ -1,6 +1,6 @@
 # Code for Land use intensity destabilizes bird population variability beyond the impact of species population trends
 
-This repository is organized as a [targets](https://books.ropensci.org/targets/) pipeline that can be run fully or only step-wise, depending on the computing power of your working environment. Especially, the local time series trend models runs for several thousands of time series and should therefore only be run on a machine that can either be left alone for several days (for sequential computing), or that can spawn several dozens of parallel worker processes (most likely a HPC cluster).
+This repository is organized as a [targets](https://books.ropensci.org/targets/) pipeline. It can be run fully or only step-wise, depending on the computing power of your working environment. Especially, the local time series trend models runs for several thousands of time series and should therefore only be run on a machine that can either be left alone for several days (for sequential computing), or that can spawn several dozens of parallel worker processes (most likely a HPC cluster).
 
 # Repository structure
 
@@ -43,9 +43,9 @@ Copy the contents of .env.sample to a new file called .env, at the root of the p
 
 Build the Docker image as a compose service : `docker compose build` from a terminal at the project root, or build from Docker Desktop.
 
-Run the compose service : `docker compose run pipeline R`. You're now in a shell within the container for the pipeline.
+Run the compose service : `docker compose run pipeline bash`. You're now in a shell within the container for the pipeline.
 
-Restore the R packages : `renv::restore()`. This will take around half an hour for the first time but installed packages will be stored in the path specified by $RENV_CACHE_HOST, so later calling `renv::restore` from within the container will be almost instantaneous. Once the R environment is restored, you can select the pipeline project (defaults to `"shortcut"`, because your HPC cluster will likely not let you use a Docker container directly) and run `targets::tar_make()` to build the pipeline.
+Restore the R packages : `R; renv::restore()`. This will take around half an hour for the first time but installed packages will be stored in the path specified by $RENV_CACHE_HOST, so later calling `renv::restore` from within the container will be almost instantaneous. Once the R environment is restored, you can select the pipeline project (defaults to `"shortcut"`, because your HPC cluster will likely not let you use a Docker container directly) and run `targets::tar_make()` to build the pipeline.
 
 By default, stores and output directories are reserved for code run from outside the container, but the outputs and target objects computed from within the container can be accessed in container_output and container_stores directories. To change this behavior, remove the directories you want to share between the host and the container from the .dockerignore file, and change the host paths in compose.yaml accordingly.
 
@@ -55,11 +55,11 @@ By default, stores and output directories are reserved for code run from outside
 
 - parameters.yaml and $IS_SLURM define how the pipeline is going to run
 - $TAR_PROJECT defines what will run (select the project, either all steps or the shortcut)
-- `target_list`, defined in functions_pipeline_control.R, builds the list of targets that correspond to the selected project
+- `target_list`, defined in functions_pipeline_control.R, builds the list of targets that corresponds to the selected project
 
 ## Steps of the analyses
 
-Functions that start with step_ are defined in the corresponding .R files. They define the target lists for each step of the analyses. These targets most often call custom functions defined in functions_ files. Outputs of the targets are store in the target store for the corresponding project and can be looked up with `tar_read`.
+Functions that start with step_ are defined in the corresponding .R files. They define the target lists for each step of the analyses. These targets most often call custom functions defined in functions_ files. Outputs of the targets are stored in the target store for the corresponding project and can be looked up with `tar_read`.
 
 Using your IDE tools (e.g. for Rstudio, the F2 key can be used to go to a function's definition), you can browse back in the function definitions to access the code parts you're interested in.
 
