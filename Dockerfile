@@ -53,7 +53,8 @@ ENV RENV_CONFIG_SANDBOX_ENABLED=FALSE
 
 # **** initialize project ****
 
-COPY . . # copy everything except the content of .dockerignore
+# copy everything except the content of .dockerignore
+COPY . .
 
 # by default, select the "short" pipeline
 ENV TAR_PROJECT="shortcut"
