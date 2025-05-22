@@ -12,6 +12,8 @@ This repository is organized as a [targets](https://books.ropensci.org/targets/)
 
 # Reproducing the analyses
 
+Package dependencies are handled by [renv](https://pkgs.rstudio.com/renv/index.html).
+
 ## On a local desktop or laptop : from local trends summary statistics to manuscript figures
 
 ```r
@@ -32,3 +34,17 @@ The workload is split between several R processes with the help of [`crew`](http
  - local_n_cores : number of available cores when the pipeline is running on a machine when the environment variable $IS_SLURM is undefined or not set to `"TRUE"`. crew will spawn local_n_cores minus one workers.
  - remote_n_tasks : maximum number of crew workers to spawn with `crew_controller_slurm`. Outdated targets will be delegated in parallel to these workers when they are available (i.e. when your job scheduler runs their script)
  - remote_r_version : R version string to pass as `module load R/4.x.x` in SLURM job scripts 
+ 
+## Installation problems ?
+
+We provide a Dockerfile and a compose file to run the pipeline in a dedicated [Docker](https://docs.docker.com/) container. This allows to run the pipeline on any computer as long as Docker is installed, without worrying yourself with R and Quarto installations.
+
+Copy the contents of .env.sample to a new file called .env, at the root of the project directory. Inside, modify the RENV_CACHE_HOST path to the path to the renv cache on your computer. (if you do not know what this is, select the one corresponding to your operating system [here](https://rstudio.github.io/renv/reference/paths.html)).
+
+Build the Docker image as a compose service : `docker compose build` from a terminal at the project root, or build from Docker Desktop.
+
+Run the compose service : `docker compose run pipeline R`. You're now in a shell within the container for the pipeline.
+
+Restore the R packages : `renv::restore()`. This will take around half an hour for the first time but installed packages will be stored in the path specified by $RENV_CACHE_HOST, so later calling `renv::restore` from within the container will be almost instantaneous. Once the R environment is restored, you can select the pipeline project (defaults to `"shortcut"`, because your HPC cluster will likely not let you use a Docker container directly) and run `targets::tar_make()` to build the pipeline.
+
+By default, stores and output directories are reserved for code run from outside the container, but the outputs and target objects computed from within the container can be accessed in container_output and container_stores directories. To change this behavior, remove the directories you want to share between the host and the container from the .dockerignore file, and change the host paths in compose.yaml accordingly.
