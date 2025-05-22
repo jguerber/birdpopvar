@@ -2,7 +2,9 @@ stages:
   - deploy
 
 deploy:
-  image: ubuntu:latest
+  image:
+    name: ubuntu:latest
+    pull_policy: if-not-present
   stage: deploy
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
