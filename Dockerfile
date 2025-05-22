@@ -38,6 +38,9 @@ RUN rm quarto.tar.gz
 # symlink to make quarto CLI available
 RUN ln -s /opt/quarto/${QUARTO_VERSION}/bin/quarto /usr/local/bin/quarto
 
+# install a tiny latex distribution
+RUN quarto install tinytex
+
 # Create the working directory
 WORKDIR /workspace
 
