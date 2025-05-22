@@ -16,3 +16,5 @@ manuscript/
 man/
 tmp/
 stores/
+container_output/
+container_stores/
