@@ -48,3 +48,23 @@ Run the compose service : `docker compose run pipeline R`. You're now in a shell
 Restore the R packages : `renv::restore()`. This will take around half an hour for the first time but installed packages will be stored in the path specified by $RENV_CACHE_HOST, so later calling `renv::restore` from within the container will be almost instantaneous. Once the R environment is restored, you can select the pipeline project (defaults to `"shortcut"`, because your HPC cluster will likely not let you use a Docker container directly) and run `targets::tar_make()` to build the pipeline.
 
 By default, stores and output directories are reserved for code run from outside the container, but the outputs and target objects computed from within the container can be accessed in container_output and container_stores directories. To change this behavior, remove the directories you want to share between the host and the container from the .dockerignore file, and change the host paths in compose.yaml accordingly.
+
+# Browsing code
+
+## Pipeline definition
+
+- parameters.yaml and $IS_SLURM define how the pipeline is going to run
+- $TAR_PROJECT defines what will run (select the project, either all steps or the shortcut)
+- `target_list`, defined in functions_pipeline_control.R, builds the list of targets that correspond to the selected project
+
+## Steps of the analyses
+
+Functions that start with step_ are defined in the corresponding .R files. They define the target lists for each step of the analyses. These targets most often call custom functions defined in functions_ files. Outputs of the targets are store in the target store for the corresponding project and can be looked up with `tar_read`.
+
+Using your IDE tools (e.g. for Rstudio, the F2 key can be used to go to a function's definition), you can browse back in the function definitions to access the code parts you're interested in.
+
+## Documentation
+
+Function docstrings can be built with `devtools::document`, which enables the `?function` syntax for any function with an available docstring within the project (work in progress). See for example `?fill_absences`.
+
+
