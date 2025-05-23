@@ -21,7 +21,7 @@ tar_option_set(
   storage = "worker",
   retrieval = "worker",
   deployment = "worker",
-  trust_timestamps = F, # compare file contents
+  trust_timestamps = T, # don't compare file contents when timestamps match
   format = "qs", # compress objects in target store
   # available packages and libraries
   packages = default_dependencies(),
