@@ -7,7 +7,7 @@ library(lazyraster) # from github : remotes::install_github("hypertidy/lazyraste
 devtools::load_all()
 
 req_dates <- 2001:2020 # which dates to download ?
-containing_dir <- here::here("data/HII") # a writeable directory for data
+containing_dir <- here::here("data/raw/HII") # a writeable directory for data
 out_repo <- "HII_France" # will create a directory in containing_dir ?
 version_after_2015 <- "v1" # which HII version for 2015+ ?
 

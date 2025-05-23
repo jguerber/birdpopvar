@@ -60,7 +60,7 @@ step_build_figures <- function(parameters) {
     tar_target(
       france_shape,
       france_shp(
-        path = "data/maps/regions/regions-20180101.shp",
+        path = "data/raw/maps/regions/regions-20180101.shp",
         corsica = F
       )
     ),
