@@ -1,0 +1,2 @@
+# copy this file to .Renviron to activate shortcut pipeline by default
+TAR_PROJECT="shortcut"

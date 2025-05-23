@@ -3,6 +3,7 @@
 .RData
 .Ruserdata
 .env
+.Renviron
 
 data/*
 !data/README.md
