@@ -5,6 +5,11 @@
 
 # 100% and 10 for slide output
 
+assertthat::assert_that(
+  "ggraph" %in% .packages(),
+  msg = "Loading ggraph is required for SEM plots"
+)
+
 tar_read(
   fig_all_sems,
   store = store_in_pipeline()

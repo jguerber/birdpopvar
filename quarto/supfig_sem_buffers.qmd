@@ -3,6 +3,11 @@
 #| out-width: "66%"
 #| fig-width: 6.6
 
+assertthat::assert_that(
+  "ggraph" %in% .packages(),
+  msg = "Loading ggraph is required for SEM plots"
+)
+
 tar_read(
   supfig_sem_buffers,
   store = store_in_pipeline()
