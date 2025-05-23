@@ -65,6 +65,6 @@ Using your IDE tools (e.g. for Rstudio, the F2 key can be used to go to a functi
 
 ## Documentation
 
-Function docstrings can be built with `devtools::document`, which enables the `?function` syntax for any function with an available docstring within the project (work in progress). See for example `?fill_absences`.
+Function docstrings can be built with `devtools::document`, which enables the `?function` syntax for any function with an available docstring within the project (work in progress). See for example `?fill_absences` or `?component_correlation_plot`.
 
 
