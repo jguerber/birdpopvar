@@ -3,7 +3,7 @@ spatial_psem_call <- function(data) {
   # todo : metaprogramming to parse any passed formula list directly
   sem_obj <- psem(
     lme(
-      fixed = sd_r_average_log ~  HII_focal  + H_fine  + mu_SR,
+      fixed = sd_r_average_log ~ HII_focal  + H_fine  + mu_SR,
       random = ~ 1|dummy,
       correlation = corExp(form = ~ lon + lat),
       method = "ML",
@@ -32,7 +32,6 @@ spatial_psem_call <- function(data) {
   ))
 }
 
-
 run_spatial_sems <- function(sem_data, sems_type = "no_cv_com", fun_runsem = spatial_psem_call, habitat_col = "HABITAT_GROUP") {
   if (nrow(sem_data) == 0) return(list())
 
@@ -60,7 +59,7 @@ spatial_psem_buffered <- function(data) {
   # todo : metaprogramming to parse flist directly
   sem_obj <- psem(
     lme(
-      fixed = sd_r_average_log ~  HII_focal + HII_buffer + H_fine  + mu_SR,
+      fixed = sd_r_average_log ~ HII_focal + HII_buffer + H_fine  + mu_SR,
       random = ~ 1|dummy,
       correlation = corExp(form = ~ lon + lat),
       method = "ML",
