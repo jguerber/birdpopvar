@@ -9,6 +9,23 @@ generate_species_notrend <- function(sd, alpha, nyears = 25) {
   )
 }
 
+generate_species_trend <- function( sd, beta, alpha, nyears = 25, seed = 2025) {
+
+  set.seed(seed)
+
+  t_range = 1:nyears
+  t_scale = scale(t_range, scale = F)
+
+  # means on the log scale
+  mu_log <- rnorm(t_range, mean = 0, sd = sd) + beta*t_scale + alpha
+
+  data.frame(
+    y = unlist(map(mu_log, \(m) rpois(1, lambda = exp(m)))),
+    t = t_range,
+    l = exp(mu_log)
+  )
+}
+
 reorder_series <- function(p, df) {
   new_t <- df %>%
     pull(t) %>%
