@@ -44,7 +44,7 @@ generate_example_communities <- function(seed = 1876) {
   com_notrend <- data.frame(
     species = c("A", "B", "C"),
     sd = c(0.01, 0.02, 0.1),
-    alpha = c(3.1, 2.5, 3)
+    alpha = c(3.1, 2.5, 3.2)
   ) %>%
     group_by(species) %>%
     nest(.key = "params") %>%
