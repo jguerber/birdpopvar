@@ -21,6 +21,7 @@ library(targets)
 source(here::here("scripts/import_dependencies.R"))
 devtools::load_all(here::here())
 
+library(ggraph)
 tar_select_project("shortcut")
 ```
 
@@ -28,4 +29,8 @@ Loaded pipeline project: `r tar_get_current_project()`
 
 {{< include /../../quarto/fig_popvar_methods.qmd >}}
 
+{{< include /../../quarto/fig_components.qmd >}}
+
 {{< include /../../quarto/fig_across_hab.qmd >}}
+
+{{< include /../../quarto/fig_all_sems.qmd >}}
