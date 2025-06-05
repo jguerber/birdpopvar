@@ -34,3 +34,35 @@ Loaded pipeline project: `r tar_get_current_project()`
 {{< include /../../quarto/fig_across_hab.qmd >}}
 
 {{< include /../../quarto/fig_all_sems.qmd >}}
+
+## Supplementary information
+
+{{< include /../../quarto/sup_maps.qmd >}}
+
+{{< include /../../quarto/supfig_both_components.qmd >}}
+
+{{< include /../../quarto/suptbl-stats1-selection.qmd >}}
+
+{{< include /../../quarto/sup_stats1_estimates.qmd >}}
+
+```{r}
+
+out_glm <- targets::tar_read(
+  models_stab_across_habitats,
+  store = store_in_pipeline()
+)
+
+data <- targets::tar_read(
+  population_variability_data,
+  store = store_in_pipeline()
+)
+```
+
+{{< include /../../quarto/suptbl-stats1-autocor.qmd >}}
+
+{{< include /../../quarto/supfig-stats1-est-spatial.qmd >}}
+
+{{< include /../../quarto/supfig_stats1b_estimates.qmd >}}
+
+{{< include /../../quarto/supfig_sem_buffers.qmd >}}
+
