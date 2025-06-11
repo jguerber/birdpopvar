@@ -1,11 +1,18 @@
 ```{r}
-#| fig-asp: 0.618355
-#| out-width: "66%"
-#| fig-width: 6.6
+#| fig-asp: 1.618355
+#| out-width: "47.4%"
+#| fig-width: 4.74
+#| cache: false
 
 targets::tar_read(
   fig_components,
   store = store_in_pipeline()
 )
+# 
+# build_fig_stability_dimensions(
+#   tar_read(all_local_trends_outputs, store = store_in_pipeline()),
+#   tar_read(population_variability_data, store = store_in_pipeline()),
+#   type = "both"
+# )
 ```
 
