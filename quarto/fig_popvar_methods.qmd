@@ -1,8 +1,12 @@
 ```{r}
-# read community data
+#| cache: false
+#| out-width: "66%"
+#| fig-width: 6.6
+#| fig-asp: 0.618
+
+
 targets::tar_read(
   fig_popvar_methods,
   store = store_in_pipeline()
 )
-
 ```

@@ -22,7 +22,9 @@ source(here::here("scripts/import_dependencies.R"))
 devtools::load_all(here::here())
 
 library(ggraph)
-tar_select_project("shortcut")
+
+trigger <- tar_read(trigger_document_dependencies)
+rm(trigger)
 ```
 
 Loaded pipeline project: `r tar_get_current_project()`
@@ -38,8 +40,6 @@ Loaded pipeline project: `r tar_get_current_project()`
 ## Supplementary information
 
 {{< include /../../quarto/sup_maps.qmd >}}
-
-{{< include /../../quarto/supfig_both_components.qmd >}}
 
 {{< include /../../quarto/suptbl-stats1-selection.qmd >}}
 

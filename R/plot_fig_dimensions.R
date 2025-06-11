@@ -24,7 +24,8 @@ build_fig_stability_dimensions <- function(trends_output_wrapper, pop_var_data, 
     split_community_id %>%
     pivot_longer(cols = c(w_cvpop, sd_r_average), names_to = "metric", values_to = "variability") %>%
     mutate(
-      across(c(variability, abs_trend_average), log10)
+      across(c(variability, abs_trend_average), log10),
+      metric = factor(metric, levels = c("w_cvpop", "sd_r_average"))
     ) %>%
     group_by(metric) %>%
     group_map(single_metric_variability_regression) %>%
@@ -46,7 +47,8 @@ build_fig_stability_dimensions <- function(trends_output_wrapper, pop_var_data, 
     split_community_id %>%
     pivot_longer(cols = c(w_cvpop, sd_r_average), names_to = "metric", values_to = "variability") %>%
     mutate(
-      HABITAT_GROUP = factor(HABITAT_GROUP, levels = c("woodland", "farmland", "built"))
+      HABITAT_GROUP = factor(HABITAT_GROUP, levels = c("woodland", "farmland", "built")),
+      metric = factor(metric, levels = c("w_cvpop", "sd_r_average"))
     ) %>%
     component_correlation_plot(
       regression_data = regressions,
@@ -63,7 +65,7 @@ build_fig_stability_dimensions <- function(trends_output_wrapper, pop_var_data, 
         scales = "free",
         ncol = 1,
         strip.position = "left",
-        labeller = labeller(metric = c(w_cvpop = "Classical", sd_r_average = "Detrended"))
+        labeller = labeller(metric = c(sd_r_average = "Detrended", w_cvpop = "Not detrended"))
       ) +
       theme(strip.placement = "outside")
   }
@@ -172,7 +174,7 @@ component_correlation_plot <- function(
     ) +
     scale_habitats() +
     scale_x_log10() +
-    coord_cartesian(xlim = c(0.95*unique(lims$mn_x), 1.1*unique(lims$mx_x))) +
+    coord_cartesian(xlim = c(0.95*unique(lims$mn_x), 1.4*unique(lims$mx_x))) +
     scale_y_log10() +
     cowplot::theme_cowplot(font_size = font_size) +
     scale_alpha_manual(
@@ -209,8 +211,11 @@ component_correlation_plot <- function(
     p <- p +
       geom_label(
         data = left_join(lims, correlations, by = "metric"),
-        aes(x = 0.9*mx_x, y = 1.1*mn_y, label = latex2exp::TeX(txt_clean, output = "character")),
+        aes(x = Inf, y = Inf,  label = latex2exp::TeX(txt_clean, output = "character")),
+        # enforce label at the top-right to enable axis-based positioning with just
         size = 5,
+        vjust = 5.35, # downwards direction (no clue why)
+        hjust = 1.05, # leftwards direction
         label.r = unit(0, "mm"),
         parse = T,
         alpha = 0

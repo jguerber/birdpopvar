@@ -2,7 +2,7 @@ step_build_figures <- function(parameters) {
   figures <- list(
     tar_target(
       fig_popvar_methods,
-      build_fig_methods_alt(
+      build_fig_methods_alt2(
         example_communities_models,
         table_summary,
         debug = F
@@ -13,7 +13,7 @@ step_build_figures <- function(parameters) {
       build_fig_stability_dimensions(
         all_local_trends_outputs,
         population_variability_data,
-        type = "single"
+        type = "both"
       )
     ),
     tar_target(
@@ -73,14 +73,6 @@ step_build_figures <- function(parameters) {
       )
     ),
     tar_target(
-      supfig_both_components,
-      build_fig_stability_dimensions(
-        all_local_trends_outputs,
-        population_variability_data,
-        type = "both"
-      )
-    ),
-    tar_target(
       supfig_stats1_estimates,
       build_fig_stats1_parameters(
         models_stab_across_habitats,
@@ -123,11 +115,20 @@ step_build_figures <- function(parameters) {
     )
   )
 
+  # dummy target to invalidate build_figures if targets loaded in child documents
+  # are invalidated
+  combined <- tarchetypes::tar_combine(
+    trigger_document_dependencies,
+    list(figures, tables, supplementary_figures, supplementary_tables),
+    command = list(!!!.x)
+  )
+
   list(
     figures,
     tables,
     supplementary_figures,
-    supplementary_tables
+    supplementary_tables,
+    combined
   )
 }
 
