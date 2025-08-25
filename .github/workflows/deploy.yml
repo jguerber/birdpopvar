@@ -15,5 +15,5 @@ jobs:
           script: |
             cd /home/${{ secrets.HPC_USER }}/${{ secrets.HPC_PATH }}
             git checkout main
-            git pull
-            sbatch slurm/run_pipeline.sh
+            git pull https://${{ secrets.GITHUB_TOKEN }}@github.com/birdpopvar.git main
+            git status
