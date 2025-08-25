@@ -7,13 +7,16 @@ jobs:
     steps:
       - name: Execute remote git pull via SSH
         uses: appleboy/ssh-action@v1
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           host: ${{ secrets.HPC_HOST }}
           username: ${{ secrets.HPC_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
+          envs: GH_TOKEN
           script: |
             cd /home/${{ secrets.HPC_USER }}/${{ secrets.HPC_PATH }}
             git checkout main
-            git pull https://${{ secrets.GITHUB_TOKEN }}@github.com/jguerber/birdpopvar.git main
+            git pull https://${GH_TOKEN}@github.com/jguerber/birdpopvar.git main
             git status
