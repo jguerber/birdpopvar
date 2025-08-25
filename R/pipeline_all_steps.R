@@ -12,7 +12,11 @@ target_list_all <- function(parameters) {
 
   build_figures <- step_build_figures(parameters) # F1
 
-  build_document <- step_build_document(parameters) # F2
+  build_document <- ifelse(
+    !is.null(quarto::quarto_path()),
+    step_build_document(parameters), # F2
+    list() # don't try to build if quarto is not available
+  )
 
   list(
     data_cleaning,
@@ -33,7 +37,11 @@ target_list_shortcut <- function(parameters) {
 
   build_figures <- step_build_figures(parameters) # F1
 
-  build_document <- step_build_document(parameters) # F2
+  build_document <- ifelse(
+    !is.null(quarto::quarto_path()),
+    step_build_document(parameters), # F2
+    list() # don't try to build if quarto is not available
+  )
 
   list(
     load_targets,
