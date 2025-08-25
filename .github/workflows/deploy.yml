@@ -12,4 +12,8 @@ jobs:
           username: ${{ secrets.HPC_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: ls /home/${{ secrets.HPC_USER }}
+          script: |
+            cd /home/${{ secrets.HPC_USER }}/${{ secrets.HPC_PATH }}
+            git checkout main
+            git pull
+            sbatch slurm/run_pipeline.sh
