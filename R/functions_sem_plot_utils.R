@@ -7,7 +7,8 @@ decorate_sem_graph_data <- function(
     scale_edge_stretch = 0.05,
     hjust_label_rules = NULL,
     hjust_edges_rules = NULL,
-    label_pos_rules = NULL
+    label_pos_rules = NULL,
+    show_ns_coefs = FALSE
 ) {
 
   if (is.null(hjust_label_rules)) {
@@ -44,7 +45,7 @@ decorate_sem_graph_data <- function(
       sign = ifelse(as.numeric(label) > 0, "positive", "negative"),
       color_clean = ifelse(style == "solid", sign, "unsign."),
       color_clean = factor(color_clean, levels = c("unsign.", "negative", "positive")),
-      label = ifelse(color_clean != "unsign.", as.character(signif(as.numeric(label), digits = 2)), ""),
+      label = handle_sem_labels(color_clean, label, show_ns_coefs),
       idx = 1:length(tidygraph::.E()$label),
       cap_rect_width = case_match(
         as.character(idx),
@@ -66,6 +67,17 @@ decorate_sem_graph_data <- function(
       label_txt = ifelse(label %in% names(labels_variables), labels_variables[label], label),
       hjust_label = hjust_label_rules(label)
     )
+}
+
+handle_sem_labels <- function(color, label, show_ns) {
+
+  converted_digits <- as.character(signif(as.numeric(label), digits = 2))
+
+  if (!show_ns) {
+    return(ifelse(color != "unsign.", converted_digits, ""))
+  }
+
+  return(converted_digits)
 }
 
 #' Wrapper around utility functions for SEM plots

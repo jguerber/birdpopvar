@@ -110,13 +110,19 @@ join_plots_and_labels <- function(all_plots, model_info, annotation_positions) {
 
 
 #' ad-hoc wrapper around [single_sem_plot]
-semplot_fig3 <- function(category, results, label_variables, font_size = 14) {
+semplot_fig3 <- function(
+    category,
+    results,
+    label_variables,
+    font_size = 14,
+    decorate_fn = decorate_args_fig_5nodes
+  ) {
   single_sem_plot(
     results[[category]]$out_sem,
     layout_type = "sugiyama",
     labs = label_variables,
     set_stretch_scale = 0.08,
-    decorate_args = decorate_args_fig_5nodes(),
+    decorate_args = decorate_fn(),
     plot_args = list(font_size = font_size / 2)
   )  +
     theme(
@@ -159,4 +165,11 @@ decorate_args_fig_5nodes <- function() {
       .default = 0.5
     )
   )
+}
+
+decorate_args_fig_5nodes_with_ns <- function() {
+    c(
+      decorate_args_fig_5nodes(),
+      show_ns_coefs = TRUE
+    )
 }
