@@ -18,5 +18,5 @@ jobs:
           script: |
             cd /home/${{ secrets.HPC_USER }}/${{ secrets.HPC_PATH }}
             git checkout main
-            git pull https://${GH_TOKEN}@github.com/jguerber/birdpopvar.git main
+            git pull https://x-access-token:${GH_TOKEN}@github.com/jguerber/birdpopvar.git main
             git status
