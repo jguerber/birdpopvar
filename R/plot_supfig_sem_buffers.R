@@ -26,12 +26,24 @@ decorate_rules_sem_buffers <- function() {
   )
 }
 
-semplot_buffers <- function(category, results, labs) {
+decorate_rules_sem_buffers_with_ns <- function() {
+  c(
+    decorate_rules_sem_buffers(),
+    show_ns_coefs = TRUE
+  )
+}
+
+semplot_buffers <- function(
+    category,
+    results,
+    labs,
+    decorate_fn = decorate_rules_sem_buffers
+  ) {
   results[[category]]$out_sem %>%
     single_sem_plot(
       "3_drivers",
       labs = labs,
-      decorate_args = decorate_rules_sem_buffers(),
+      decorate_args = decorate_fn(),
       plot_args = list(node_label_opacity = 1, font_size = 6),
     ) +
     scale_y_reverse(limits = c(6, 1))

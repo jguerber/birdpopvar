@@ -56,6 +56,8 @@ unpack_values <- function(all_results, names_selected = NULL) {
 }
 
 #' Map `fun_single_plot`, a function to plot a single SEM, on several modalities of `categories`
+#'
+#' @param ... optional arguments passed to function specified by fun_single_plot
 generic_fig_sems <- function(unpacked_results, categories, label_variables, annotations, fun_single_plot, ...) {
   all_plots <- map(categories, function(category, results = unpacked_results, labs = label_variables) {
     fun_single_plot(category, results, labs, ...)
