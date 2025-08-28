@@ -1,0 +1,26 @@
+name: Remote SSH pull
+on:
+  push:
+    branches:
+     - 'main'
+
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute remote git pull via SSH
+        uses: appleboy/ssh-action@v1
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          host: ${{ secrets.HPC_HOST }}
+          username: ${{ secrets.HPC_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          envs: GH_TOKEN
+          script: |
+            cd /home/${{ secrets.HPC_USER }}/${{ secrets.HPC_PATH }}
+            git checkout main
+            git pull https://x-access-token:${GH_TOKEN}@github.com/jguerber/birdpopvar.git main
+            git status
