@@ -55,9 +55,9 @@ build_fig_sem_buffers <- function(results, categories, buffer_size = "10km", ann
     label_variables <- c(
       sd_r_average_log = "Variability",
       abs_trend_average_log = "Trend",
-      HII_focal = "Impact (local)",
-      HII_buffer = paste0("Impact (",buffer_size,")"),
-      H_fine = "Complexity",
+      HII_focal = "HII (local)",
+      HII_buffer = paste0("HII (",buffer_size,")"),
+      H_fine = "Land. Comp.",
       mu_SR = "Richness"
     )
   }

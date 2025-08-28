@@ -33,9 +33,9 @@ step_build_figures <- function(parameters) {
         label_variables = c(
           sd_r_average_log = "Variability",
           abs_trend_average_log = "Trend",
-          HII_focal = "Impact",
+          HII_focal = "Hum. Imp.",
           mu_SR = "Richness",
-          H_fine = "Complexity"
+          H_fine = "Land. Comp."
         ),
         selected_branch = 1,
         categories = c("farmland", "woodland", "built"),
