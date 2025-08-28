@@ -2,9 +2,10 @@
 #| fig-asp: 1.618123
 #| out-width: "66%"
 #| fig-width: 6.6
+#| echo: false
 
-assertthat::assert_that(
-  "ggraph" %in% .packages(),
+catch_assert <- assertthat::assert_that(
+ "ggraph" %in% .packages(),
   msg = "Loading ggraph is required for SEM plots"
 )
 
