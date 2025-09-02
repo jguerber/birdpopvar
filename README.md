@@ -4,17 +4,27 @@ This repository is organized as a [targets](https://books.ropensci.org/targets/)
 
 # Repository structure
 
-- `data`: extract raw data from the archive here
-- `processed`: extract processed data from the archive here
+By order of decreasing relevance for an interested reader who wants to reproduce the results:
+
+- `data`: extract data from the archive (raw and processed) here
 - `R`, `scripts` : custom R files and scripts called within the pipeline, sorted by subject or main functionality they relate to
-- `renv`, `stores` : directories used by `renv`, the R package version manager and by `targets`, the pipeline management package. Best not modified by hand.
+- `quarto` : chunks of quarto documents to reproduce the figures from the manuscript. `quarto/build_figures` contains a small Quarto project to build all figures at once
 - `slurm` : job files and utility scripts to run the pipeline on a HPC cluster managed by [SLURM](https://slurm.schedmd.com/overview.html).
+- `renv`, `stores` : directories used by `renv`, the R package version manager and by `targets`, the pipeline management package. Best not modified by hand
 
 # Reproducing the analyses
 
-Package dependencies are handled by [renv](https://pkgs.rstudio.com/renv/index.html).
+## 1. Preparing data
 
-## On a local desktop or laptop : from local trends summary statistics to manuscript figures
+For bird survey data, extract the `raw` and `processed` folder in the digital archive to the `data` directory. If you're only interested in reproducing our statistical analyses, jump to step 2.
+
+Land cover, human footprint and maps data were extracted from data sources who all have their own licensing terms. We therefore only share these information as processed data, calculated for each of the communities whose bird data we included in our results (in `data/processed/bird_population_variability.csv`).
+
+For reproducing our estimations of local landscape complexity and human impact index as well as to reproduce the maps, we provide instructions and helper scripts to retrieve raw data from each of the data sources, to be found in `data/external_sources.md`
+
+## 2. On a local desktop or laptop : from local trends summary statistics to manuscript figures
+
+Package dependencies are handled by the R package [renv](https://pkgs.rstudio.com/renv/index.html).
 
 ```r
 renv::restore() # setup R packages, might take several minutes
