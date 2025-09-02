@@ -99,16 +99,6 @@ unpack_from_list <- function(l, key) {
   )
 }
 
-single_series_trends <- function(df, ...) {
-  browser()
-  return (
-    list(
-      predictions = df %>% select(series_id) %>% unique,
-      summaries = df %>% summarise(n_distinct(series_id))
-    )
-  )
-}
-
 mutate_center_year <- function(df, cy = T) {
   if (cy) {
     df <- df %>%
@@ -149,8 +139,6 @@ single_series_trends <- function(
   if (data_deficient) {
     return(data.frame())
   }
-
-  browser()
 
   # safely fit models and return output for non-errored ones
   model_fits <- single_series_local_trend(
