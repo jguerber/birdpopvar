@@ -13,7 +13,7 @@ clean_fbbs <- function(survey) {
       lon = V9,
       lat = V10
     ) %>%
-    filter(id_carre != "id_carre") %>% # the real header is at a weird position, filter it out
+    filter(id_carre != "id_carre") %>% # the header may be at a weird row index, ensure it is out of the data
     mutate(
       id_carre = stringr::str_pad(id_carre, 6, pad = "0", side = "left"),
       id_point = paste0(id_carre, "P", stringr::str_pad(num_point, 2, pad = "0", side = "left")),
