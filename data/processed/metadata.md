@@ -70,3 +70,7 @@
  - lat: wgs84 latitude of the center of the community's points
  - X: UTM 31 easting (in meters) of the center of the community's points
  - Y: UTM 31 northing (in meters) of the center of the community's points
+ 
+## `france_shape.rda`: Rdata file
+
+Modified from the raw contours of France by OpenStreetMap.
