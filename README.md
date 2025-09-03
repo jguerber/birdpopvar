@@ -24,7 +24,7 @@ For reproducing our estimations of local landscape complexity and human impact i
 
 ## 2. On a local desktop or laptop : from local trends summary statistics to manuscript figures
 
-Package dependencies are handled by the R package [renv](https://pkgs.rstudio.com/renv/index.html).
+Package dependencies are handled by the R package [renv](https://pkgs.rstudio.com/renv/index.html). Building the final PDF document with the figures requires a working [Quarto](https://quarto.org/docs/get-started/) installation, that `quarto::quarto_path()` can find.
 
 *Important*: copy `.Renviron.sample` to `.Renviron` in the project directory to enable the shortcut pipeline. Then, start an R shell which will start renv. Then,
 
