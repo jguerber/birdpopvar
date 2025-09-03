@@ -34,16 +34,14 @@ tar_option_set(
   error = "trim"
 )
 
-tar_proj <- tar_get_current_project() # safely read $TAR_PROJECT
-
 message(
-  "Running pipeline with project ", tar_proj
+  "Running pipeline with project ", tar_get_current_project()
 )
 
-invisible(assert_data_files(tar_proj))
+invisible(assert_data_files(tar_get_current_project()))
 
 # call the correct target list in R/pipeline_*
 target_list(
   parameters,
-  tar_proj
+  tar_get_current_project()
 )

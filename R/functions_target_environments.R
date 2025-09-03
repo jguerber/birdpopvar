@@ -11,7 +11,7 @@ tar_select_project <- function(project = "all_steps") {
     msg = "Provided project is not valid"
   )
 
-  Sys.setenv(TAR_PROJECT = project)
+  Sys.setenv("TAR_PROJECT" = project)
 }
 
 tar_get_current_project <- function() {
