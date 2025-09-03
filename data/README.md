@@ -13,6 +13,8 @@ These files are not to be altered manually: they are outputs of analyses within 
 
 ## `raw`: Raw data from the [French Breeding Bird survey](https://www.vigienature.fr/fr/suivi-temporel-des-oiseaux-communs-stoc)
 
+Located in the `data/raw/STOC` directory (STOC stands for FBBS in French).
+
 Cleaned French Bird Survey database extraction (extracted by Benoît Fontaine on 23/01/2025). If you want to re-use the data for your own projects, please inform Benoît Fontaine at benoit.fontaine@mnhn.fr .
 
  - `fbbs_200m.csv`  bird abundances in distances <= 200m by year and sampling site. Bird counts from survey sites that were not used for our statistical analyses are not included. Contact benoit.fontaine@mnhn.fr for access to the whole survey.
