@@ -7,6 +7,9 @@
 
 data/*
 !data/README.md
+!data/external_sources.md
+!data/raw/metadata.md
+!data/processed/metadata.md
 output/
 quarto/build/
 _targets/
