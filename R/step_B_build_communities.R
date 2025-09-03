@@ -25,19 +25,19 @@ step_build_communities <- function() {
         aggregate_communities
     ),
     tar_target(
-      aggregate_survey_file,
-      write_path(
-        aggregate_survey,
-        rel_path = "data/processed/aggregate_survey.csv",
-        method = write.csv
-      )
-    ),
-    tar_target(
       aggregate_survey_filtered,
       aggregate_survey %>%
         filter_survey_coverage %>%
         filter_species_presence %>%
         filter_habitats(col_check = "COMMUNITY_ID")
+    ),
+    tar_target(
+      aggregate_survey_file,
+      write_path(
+        aggregate_survey_filtered,
+        rel_path = "data/processed/aggregate_survey.csv",
+        method = write.csv
+      )
     ),
     tar_target( # from survey and point data, built community_id, year, group, site2, site1
       communities_points,
