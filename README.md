@@ -16,7 +16,7 @@ By order of decreasing relevance for an interested reader who wants to reproduce
 
 ## 1. Preparing data
 
-For bird survey data, extract the `raw` and `processed` folder in the digital archive to the `data` directory. If you're only interested in reproducing our statistical analyses, jump to step 2.
+For bird survey data, extract the `data/raw` and `data/processed` folder in the digital archive to the `data` sub-directory in this project. If you're only interested in reproducing our statistical analyses, jump to step 2.
 
 Land cover, human footprint and maps data were extracted from data sources who all have their own licensing terms. We therefore only share these information as processed data, calculated for each of the communities whose bird data we included in our results (in `data/processed/bird_population_variability.csv`).
 
