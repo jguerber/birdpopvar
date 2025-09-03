@@ -10,6 +10,20 @@ target_list_all <- function(parameters) {
 
   stats_and_plots <- step_stats(parameters) # E
 
+  france_shapeobj <- list(
+    tar_target(
+      france_shape,
+      france_shp(
+        path = "data/raw/maps/regions/regions-20180101.shp",
+        corsica = F
+      )
+    ),
+    tar_target(
+      france_obj,
+      save(france_shape, file = "data/processed/france_shape.rda")
+    )
+  )
+
   build_figures <- step_build_figures(parameters) # F1
 
   build_document <- ifelse(
@@ -24,6 +38,7 @@ target_list_all <- function(parameters) {
     local_trends,
     community_data,
     stats_and_plots,
+    france_shapeobj,
     build_figures,
     build_document
   )

@@ -58,13 +58,6 @@ step_build_figures <- function(parameters) {
 
   supplementary_figures <- list(
     tar_target(
-      france_shape,
-      france_shp(
-        path = "data/raw/maps/regions/regions-20180101.shp",
-        corsica = F
-      )
-    ),
-    tar_target(
       supfig_maps,
       build_fig_maps(
         population_variability_data,
@@ -77,14 +70,16 @@ step_build_figures <- function(parameters) {
       build_fig_stats1_parameters(
         models_stab_across_habitats,
         model_name = "habitat_controlled"
-      )
+      ),
+      packages = c(default_dependencies(), "glmmTMB")
     ),
     tar_target(
       supfig_stats1b_estimates,
       build_fig_stats1_parameters(
         models_stab_across_habitats,
         model_name = "full"
-      )
+      ),
+      packages = c(default_dependencies(), "glmmTMB")
     ),
     tar_target(
       supfig_sem_buffers,

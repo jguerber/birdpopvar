@@ -16,3 +16,9 @@ write_path <- function(df, rel_path, method = write.csv, ...) {
 
   return(rel_path)
 }
+
+extract_from_rda <- function(file_path, name) {
+  e <- new.env()
+  load(file = file_path, envir = e)
+  return(e[[name]])
+}

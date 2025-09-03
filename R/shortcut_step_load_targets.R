@@ -15,26 +15,34 @@ step_load_targets <- function(parameters) {
     )
   )
 
-  tar_eval(
-    list(
-      tar_target(
-        file_target_name,
-        command = file_rel_path,
-        format = "file"
-      ),
-      tar_target(
-        data_target_name,
-        command = read_path(
+  list(
+    tar_eval(
+      list(
+        tar_target(
           file_target_name,
-          method = read.csv
+          command = file_rel_path,
+          format = "file"
+        ),
+        tar_target(
+          data_target_name,
+          command = read_path(
+            file_target_name,
+            method = read.csv
+          )
         )
+      ),
+      values = list(
+        file_target_name = rlang::syms(paste0(loading_targets$name, "_file")),
+        data_target_name = rlang::syms(loading_targets$name),
+        file_rel_path = loading_targets$path
       )
     ),
-    values = list(
-      file_target_name = rlang::syms(paste0(loading_targets$name, "_file")),
-      data_target_name = rlang::syms(loading_targets$name),
-      file_rel_path = loading_targets$path
+    tar_target(
+      france_shape,
+      extract_from_rda(
+        "data/processed/france_shape.rda",
+        "france_shape"
+      )
     )
   )
-
 }
