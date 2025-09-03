@@ -5572,6 +5572,11 @@
       "Maintainer": "Torsten Hothorn <Torsten.Hothorn@R-project.org>",
       "Repository": "CRAN"
     },
+    "multcompView": {
+      "Package": "multcompView",
+      "Version": "0.1-10",
+      "Source": "Repository"
+    },
     "mvtnorm": {
       "Package": "mvtnorm",
       "Version": "1.3-3",
