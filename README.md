@@ -26,10 +26,11 @@ For reproducing our estimations of local landscape complexity and human impact i
 
 Package dependencies are handled by the R package [renv](https://pkgs.rstudio.com/renv/index.html).
 
+*Important*: copy `.Renviron.sample` to `.Renviron` in the project directory to enable the shortcut pipeline. Then, start an R shell which will start renv. Then,
+
 ```r
 renv::restore() # setup R packages, might take several minutes
 source(here::here("scripts/import_dependencies.R")) # load packages
-tar_select_project(project = "shortcut") # select the shortcut project
 source(here::here("scripts/build.R")) # run the targets pipeline. should take around 10 minutes
 ```
 
