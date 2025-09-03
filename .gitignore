@@ -5,7 +5,8 @@
 .env
 .Renviron
 
-data/*
+data/raw/*
+data/processed/*
 !data/README.md
 !data/external_sources.md
 !data/raw/metadata.md
