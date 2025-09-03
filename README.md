@@ -82,7 +82,7 @@ Function docstrings can be built with `devtools::document`, which enables the `?
 
 # Possible errors
 
-When some targets error, you can run `targets::tar_meta(fields = error, complete_only = T) |> pull(error)` to get details error messages.
+When some targets error, you can run `targets::tar_meta(fields = error, complete_only = T) |> pull(error)` to get details of error messages.
 
 `libgdal.so.36: cannot open shared object file`. Ensure that you have a working installation of GDAL (for Debian/Ubuntu, `sudo apt install libgdal-dev` ; for Windows, install [Rtools](https://cran.r-project.org/bin/windows/Rtools/)). Then rebuild sf with `renv::install("sf", rebuild = T)`.
 
