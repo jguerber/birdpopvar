@@ -11,7 +11,7 @@ if (check_ok == "yes") {
   unlink(here::here("data"), recursive = T)
 
   dir.create(here::here("data"), recursive = T)
-  file.copy(here::here("../data"), here::here("data"), recursive = T)
+  file.copy(here::here("../data"), here::here(""), recursive = T)
 
 } else {
   print("Cancelled by user")
