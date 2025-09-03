@@ -129,13 +129,9 @@ step_build_figures <- function(parameters) {
 
 step_build_document <- function(parameters) {
 
-   list(
-    tar_target(
-      current_pipeline_store,
-      targets::tar_config_get("store")
-    ),
+  list(
     tar_quarto(
-      build_figs,
+      name = build_figs,
       path = here::here("quarto/build_figures"),
       working_directory = here::here()
     )
