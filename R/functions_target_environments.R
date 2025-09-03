@@ -4,6 +4,9 @@ tar_init_project_env <- function() {
   }
 }
 
+#' Select the project in an interactive shell
+#'
+#' To use this, call tar_make(callr = NULL) instead of the default way
 tar_select_project <- function(project = "all_steps") {
 
   assertthat::assert_that(
