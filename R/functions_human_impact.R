@@ -46,7 +46,7 @@ extract_hii_focal <- function(hii, coords_sf, ...) {
   coords_matrix <- st_coordinates(coords_sf)
 
   hii %>%
-    st_extract(coords_matrix) %>%
+    st_extract(coords_matrix, resampling = "cubic") %>%
     as_tibble()
 }
 
