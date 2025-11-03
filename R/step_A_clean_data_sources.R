@@ -10,12 +10,12 @@ step_data_cleaning <- function() {
     tar_target(
       fbbs_names_ref,
       read_path(
-        file.path("data", "raw", "STOC", "species_names.csv"), sep = ",", row.names = NULL
+        file.path("data", "raw", "STOC", "species_names.csv"), sep = ",", row.names = NULL, header = T
       )
     ),
     tar_target(
       data_clean,
-      clean_fbbs(raw_data, fbbs_names_ref)
+      clean_fbbs(raw_data, fbbs_names_ref$pk_species)
     ),
     tar_target(
       sampling_info,
