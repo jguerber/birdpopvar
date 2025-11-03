@@ -25,7 +25,7 @@ tar_option_set(
   format = "qs", # compress objects in target store
   # available packages and libraries
   packages = default_dependencies(),
-  library = c(renv::paths$library(), .libPaths()),
+  library = renv::paths$library(),
   # crew settings :
   controller = controller_group$controller,
   resources = tar_resources( # set controller for small jobs as default
