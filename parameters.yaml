@@ -1,4 +1,4 @@
 survey_data: "STOC/fbbs_200m.csv"
 local_n_cores: 3
 remote_n_tasks: 32
-remote_r_version: "4.4.1"
+remote_r_version: "4.5.1"
