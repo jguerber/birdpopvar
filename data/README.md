@@ -19,3 +19,4 @@ Cleaned French Bird Survey database extraction (extracted by Benoît Fontaine on
 
  - `fbbs_200m.csv`  bird abundances in distances <= 200m by year and sampling site. Bird counts from survey sites that were not used for our statistical analyses are not included. Contact benoit.fontaine@mnhn.fr for access to the whole survey.
  - `sampling.csv` sampling information (number of sessions, locations and habitat for each listening point each year)
+ - `species_names.csv` TaxRef and EURing code as well as scientific and English names for species codes present in the survey database

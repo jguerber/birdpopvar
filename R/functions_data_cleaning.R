@@ -1,5 +1,5 @@
 #' clean function for "short" version of FBBS : with species codes + coordinates already present
-clean_fbbs <- function(survey) {
+clean_fbbs <- function(survey, names_ref) {
   survey %>%
     rename(
       id_carre = V1,
@@ -35,7 +35,8 @@ clean_fbbs <- function(survey) {
       ABUNDANCE = maxabd
     ) %>%
     select(SITE2, SITE1, YEAR, SPECIES, ABUNDANCE, SAMPLING, lon, lat, habitat_p, habitat_s) %>%
-    filter(SITE2 != "" & SITE1 != "" & str_detect(SITE2, "[0-9]{6}"))
+    filter(SITE2 != "" & SITE1 != "" & str_detect(SITE2, "[0-9]{6}")) %>%
+    filter(SPECIES %in% names_ref$pk_species)
 }
 
 clean_sampling_info <- function(df) {
