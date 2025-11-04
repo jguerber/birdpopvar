@@ -45,9 +45,16 @@ build_yearly_hii_focal <- function(
 extract_hii_focal <- function(hii, coords_sf, ...) {
   coords_matrix <- st_coordinates(coords_sf)
 
-  hii %>%
-    st_extract(coords_matrix) %>%
-    as_tibble()
+  do.call(bind_rows, map(1:nrow(coords_matrix), function(i) {
+    buffer_box <- coords_sf[i,] %>%
+      st_buffer(dist = 500) %>%
+      st_bbox
+
+    hii %>%
+      st_crop(buffer_box) %>%
+      st_extract(coords_matrix[i,]) %>%
+      as_tibble()
+  }))
 }
 
 #### Buffered Human Impact ####

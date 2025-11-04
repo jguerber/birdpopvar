@@ -59,6 +59,21 @@ step_community_data <- function(parameters) {
       hii_proxy_relative_path,
       "data/raw/HII/HII_France"
     ), # for each point (focal) or community, extract the 20-year time series of HII
+    tar_target(
+      yearly_hii_focal,
+      communtities_points %>%
+        select(-YEAR) %>%
+        unique %>%
+        build_yearly_hii_focal(
+          stack_from_repo(
+            hii_proxy_relative_path,
+            as_proxy = T
+          ),
+          .,
+          crs_epsg = 4326,
+          buffer_size = "focal"
+        )
+    ),
     # extracting HII in buffers is a bit slow :
     # parallelize via dynamic (over community batches)-within-static
     # (over buffer size) branching
