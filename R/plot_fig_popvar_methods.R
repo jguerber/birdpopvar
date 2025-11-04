@@ -129,7 +129,7 @@ build_fig_methods_alt2 <- function(sims, table, font_size = 14, ...) {
     )
 
   # Bottom part : barplot of component values by community
-  p_compare = metrics %>%
+  p_compare <- metrics %>%
     pivot_longer(
       cols = matches("trended"),
       names_to = "comm",
@@ -168,6 +168,7 @@ build_fig_methods_alt2 <- function(sims, table, font_size = 14, ...) {
     ncol = 1,
     labels = c("(a)", "(b)")
   )
+
 }
 
 
