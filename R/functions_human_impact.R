@@ -48,10 +48,10 @@ extract_hii_focal <- function(hii, coords_sf, ...) {
 
   do.call(bind_rows, map(1:nrow(coords_sf), function(i) {
 
-    tried <- catchConditions({hii %>%
-      st_crop(buffer_box) %>%
-      st_extract(st_coordinates(coords_sf[i,])) %>%
-      as_tibble()
+    tried <- catchConditions({
+      hii %>%
+        st_extract(st_coordinates(coords_sf[i,])) %>%
+        as_tibble()
     })
 
     if (length(tried$error) > 0) {
