@@ -44,7 +44,7 @@ build_yearly_hii_focal <- function(
 
 extract_hii_focal <- function(hii, coords_sf, ...) {
 
-  empty_row <- as_tibble(t(set_names(rep(NA, 20), years)))
+  empty_row <- as_tibble(t(set_names(rep(NA, 20), names(hii$attr))))
 
   do.call(bind_rows, map(1:nrow(coords_sf), function(i) {
 
