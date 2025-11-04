@@ -44,15 +44,21 @@ build_yearly_hii_focal <- function(
 
 extract_hii_focal <- function(hii, coords_sf, ...) {
 
-  do.call(bind_rows, map(1:nrow(coords_sf), function(i) {
-    buffer_box <- coords_sf[i,] %>%
-      st_buffer(dist = 500) %>%
-      st_bbox
+  empty_row <- as_tibble(t(set_names(rep(NA, 20), years)))
 
-    hii %>%
+  do.call(bind_rows, map(1:nrow(coords_sf), function(i) {
+
+    tried <- catchConditions({hii %>%
       st_crop(buffer_box) %>%
       st_extract(st_coordinates(coords_sf[i,])) %>%
       as_tibble()
+    })
+
+    if (length(tried$error) > 0) {
+      return(empty_row)
+    } else {
+      return(tried$value)
+    }
   }))
 }
 
