@@ -106,8 +106,8 @@ step_community_data <- function(parameters) {
     tar_target(
       all_yearly_hii,
       yearly_hii_all_buffers %>%
-        mutate(
-          buffer_size = ifelse(buffer_size == "150m", "focal", buffer_size)
+        mutate( # TODO : fix here, not working for now
+          buffer = ifelse(buffer == "150m", "focal", buffer)
         )
     ),
     tar_target(
