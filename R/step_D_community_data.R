@@ -61,7 +61,7 @@ step_community_data <- function(parameters) {
     ), # for each point (focal) or community, extract the 20-year time series of HII
     tar_target(
       yearly_hii_focal,
-      communtities_points %>%
+      communities_points %>%
         select(-YEAR) %>%
         unique %>%
         build_yearly_hii_focal(
@@ -72,7 +72,8 @@ step_community_data <- function(parameters) {
           .,
           crs_epsg = 4326,
           buffer_size = "focal"
-        )
+        ),
+      packages = c(default_dependencies(), "sf", "stars")
     ),
     # extracting HII in buffers is a bit slow :
     # parallelize via dynamic (over community batches)-within-static
