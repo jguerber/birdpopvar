@@ -31,7 +31,7 @@ build_yearly_hii_focal <- function(
       coords = coords_col,
       crs_code = crs_epsg
     )
-  browser()
+
   hii_proxy %>%
     extract_hii_focal(
       coords_sf
