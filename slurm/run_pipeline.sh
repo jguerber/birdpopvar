@@ -7,7 +7,7 @@
 #SBATCH -o stdout.txt
 #SBATCH -e stderr.txt
 
-module load R/4.5.1
+module load R/4.4.1
 
 cd $SLURM_SUBMIT_DIR
 
