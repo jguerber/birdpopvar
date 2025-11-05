@@ -89,7 +89,7 @@ step_community_data <- function(parameters) {
 
   human_impact_mapped <- tar_map(
       values = tibble(
-        buffer_size = c("150m", "5km", "10km", "25km")
+        buffer_size = c("5km", "10km", "25km")
       ),
       names = "buffer_size",
       unlist = F,
@@ -121,10 +121,10 @@ step_community_data <- function(parameters) {
   human_impact_summaries <- list(
     tar_target(
       all_yearly_hii,
-      yearly_hii_all_buffers %>%
-        mutate( # TODO : fix here, not working for now
-          buffer = ifelse(buffer == "150m", "focal", buffer)
-        )
+      bind_rows(
+        yearly_hii_focal,
+        yearly_hii_all_buffers
+      )
     ),
     tar_target(
       human_impact,

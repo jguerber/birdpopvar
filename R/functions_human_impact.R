@@ -44,22 +44,11 @@ build_yearly_hii_focal <- function(
 
 extract_hii_focal <- function(hii, coords_sf, ...) {
 
-  empty_row <- as_tibble(t(set_names(rep(NA, 20), names(hii$attr))))
+  coords_mat <- st_coordinates(coords_sf)
 
-  do.call(bind_rows, map(1:nrow(coords_sf), function(i) {
-
-    tried <- catchConditions({
-      hii %>%
-        st_extract(st_coordinates(coords_sf[i,])) %>%
-        as_tibble()
-    })
-
-    if (length(tried$error) > 0) {
-      return(empty_row)
-    } else {
-      return(tried$value)
-    }
-  }))
+  hii %>%
+    st_extract(coords_mat) %>%
+    as_tibble()
 }
 
 #### Buffered Human Impact ####
