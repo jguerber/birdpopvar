@@ -86,4 +86,6 @@ When some targets error, you can run `targets::tar_meta(fields = error, complete
 
 `libgdal.so.36: cannot open shared object file`. Ensure that you have a working installation of GDAL (for Debian/Ubuntu, `sudo apt install libgdal-dev` ; for Windows, install [Rtools](https://cran.r-project.org/bin/windows/Rtools/)). Then rebuild sf with `renv::install("sf", rebuild = T)`.
 
+In the `all_steps` pipeline, targets related to HII extraction may fail with `Error in InterpolateAtPoint()` due to a bug in GDAL 3.10. Roll back to an older GDAL version (works in 3.6.x and 3.8.x), or install a newer one. 
+
 
