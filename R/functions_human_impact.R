@@ -143,7 +143,8 @@ clean_hii_extraction <- function(tbl, coords_sf, buffer_size) {
       names_transform = \(s) as.numeric(str_extract(s, "[0-9]{4}"))
     ) %>%
     mutate(
-      HII = HII / 100
+      HII = HII / 100,
+      HII = ifelse(HII == 0, NA, HII)
     )
 
   # communities are already separated
