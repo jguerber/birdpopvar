@@ -8,7 +8,7 @@ knitr:
     fig.asp: 0.618
     fig.align: "center"
 execute: 
-  cache: true
+  cache: false
   echo: false
 ---
 
