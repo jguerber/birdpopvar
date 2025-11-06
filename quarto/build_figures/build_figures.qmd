@@ -23,7 +23,7 @@ devtools::load_all(here::here())
 
 library(ggraph)
 
-trigger <- tar_read(trigger_document_dependencies)
+trigger <- tar_read(trigger_document_dependencies, store = store_in_pipeline())
 rm(trigger)
 ```
 
