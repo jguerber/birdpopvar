@@ -7,7 +7,7 @@
 #SBATCH -o stdout.txt
 #SBATCH -e stderr.txt
 
-module load R/4.4.1
+module load R/4.5.1
 
 cd $SLURM_SUBMIT_DIR
 
@@ -25,7 +25,7 @@ export RENV_PATHS_LIBRARY=$HOME/.cache/R/renv/library/$LIB_NAME
 # make sure the global R installation is accessible :
 # disable sandbox and point to correct path
 export RENV_CONFIG_SANDBOX_ENABLED=FALSE
-export GLOBAL_LIBRARY="/softs/apps/R/4.4.1/gcc/lib64/R/library"
+export GLOBAL_LIBRARY="/softs/apps/R/4.5.1/gcc/lib64/R/library"
 
 # setup directories on /scratch
 mkdir -p $SCRATCH/$PROJECT
