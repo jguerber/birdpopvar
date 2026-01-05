@@ -23,3 +23,5 @@ tmp/
 stores/
 container_output/
 container_stores/
+notebooks/*_files/
+notebooks/*.html/
