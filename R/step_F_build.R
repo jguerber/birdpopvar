@@ -133,7 +133,8 @@ step_build_document <- function(parameters) {
     tar_quarto(
       name = build_figs,
       path = here::here("quarto/build_figures"),
-      working_directory = here::here()
+      working_directory = here::here(),
+      quiet = F
     )
   )
 
