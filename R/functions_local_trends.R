@@ -61,11 +61,10 @@ wrap_local_trends <- function(df, type = "species", override_arguments = NULL) {
   response_var <- ifelse(type == "species", "AB_SUM", "AB_COMM")
 
   output_list <- df %>%
-    mutate_center_year(T) %>%
     group_by_at(all_single_series_names) %>%
     group_map(
       ~ single_series_trends(
-        .x,
+        mutate_center_year(.x, T),
         response_var = response_var,
         series_name = "series_id",
         lm_covariables = lm_covariables,
