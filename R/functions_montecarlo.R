@@ -63,7 +63,7 @@ summarise_mc <- function(mc_samples, R) {
   ids_current <- sample(unique(mc_samples$rep), size = R, replace = F)
 
   mc_samples %>% 
-    filter(rep %in% ids_current, !is.na(estimate), , !is.na(std.error)) %>% 
+    filter(rep %in% ids_current, !is.na(estimate), !is.na(std.error)) %>% 
     pivot_longer(
         cols = c(estimate, std.error),
         names_to = "component",
