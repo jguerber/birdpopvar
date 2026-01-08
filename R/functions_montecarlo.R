@@ -1,0 +1,62 @@
+# length(reps) iterations
+draw_mc_samples <- function(species_trends, covariates, reps) {
+  map(reps, function(r) {
+    mc_iterate(
+        species_trends,
+        covariates,
+        .r = r
+    )
+  }) %>% bind_rows()
+}
+
+# single iteration : redraw all species trends in their estimated interval and fit model
+mc_iterate <- function(dat, covariates, .r = NA) {
+    dat <- dat %>% 
+        mutate(
+            trend_mc = rnorm(n = n(), mean = trend, sd = se)
+        ) %>% 
+        group_by(COMMUNITY_ID) %>% 
+        summarise(
+            abs_trend_average_mc = mean(abs(trend_mc))
+        ) %>% 
+        left_join(covariates, by = "COMMUNITY_ID") 
+  
+  model <- suppressWarnings({glmmTMB::glmmTMB(
+            formula = abs_trend_average_mc ~HABITAT_GROUP + N_POINTS_avg + (1|SITE2),
+            family = "lognormal",
+            data = dat
+        )})
+  
+  model %>% 
+        broom.mixed::tidy() %>% 
+        select(effect, term, group, estimate, std.error) %>% 
+        mutate(
+            rep = .r
+        )
+}
+
+# after sampling, summarise over all iterations
+summarise_mc <- function(mc_samples, R) {
+  ids_current <- sample(unique(mc_samples$rep), size = R, replace = F)
+
+  mc_samples %>% 
+    filter(rep %in% ids_current, !is.na(estimate), , !is.na(std.error)) %>% 
+    pivot_longer(
+        cols = c(estimate, std.error),
+        names_to = "component",
+        values_to = "mc_output"
+    ) %>% 
+    group_by(effect, term, group, component) %>% 
+    summarise(
+        med = median(mc_output),
+        lwr = quantile(mc_output, 0.025),
+        upr = quantile(mc_output, 0.975),
+        se = sd(mc_output)/sqrt(n()),
+        mean = mean(mc_output),
+        n_models_ok = n(),
+        .groups = "drop"
+    ) %>% 
+    mutate(
+        N_replicates = R
+    )
+}
