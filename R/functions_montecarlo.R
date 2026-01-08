@@ -63,12 +63,20 @@ summarise_mc <- function(mc_samples, R) {
   ids_current <- sample(unique(mc_samples$rep), size = R, replace = F)
 
   mc_samples %>% 
-    filter(rep %in% ids_current, !is.na(estimate), !is.na(std.error)) %>% 
+    filter(rep %in% ids_current) %>% 
+    group_by(rep) %>% 
+    mutate(
+      n_errors = sum(is.na(estimate)) + sum(is.na(std.error))
+    ) %>% 
+    filter(n_errors == 1) %>% # 1 error is allowed:  no std.error for sd_Intercept
+    select(-n_errors) %>% 
+    ungroup() %>% 
     pivot_longer(
         cols = c(estimate, std.error),
         names_to = "component",
         values_to = "mc_output"
     ) %>% 
+    filter(!(component == "std.error" & term == "sd__(Intercept)")) %>% # no std.error for sd_Intercept
     group_by(effect, term, group, component) %>% 
     summarise(
         med = median(mc_output),
