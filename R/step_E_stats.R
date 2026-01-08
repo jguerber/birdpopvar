@@ -90,6 +90,39 @@ step_stats <- function(parameters) {
           run_spatial_sems(fun_runsem = spatial_psem_buffered),
         packages = c(default_dependencies(), c("piecewiseSEM", "nlme"))
       )
+    ),
+    tar_group_by(
+      mc_replicate_batches,
+      tibble::tibble(
+        rep_id = 1:10,
+        batch = rep(1:2, each = 5)
+      ),
+      batch
+    ),
+    tar_target(
+      mc_samples,
+      draw_mc_samples(
+        all_local_trends_outputs,
+        data_for_models_across_habitats
+      ),
+      pattern = map(batch),
+      resources = tar_resources( # select the heavy-duty crew controller
+        crew = tar_resources_crew(controller_group$names$heavy)
+      )
+    ),
+    tar_map(
+      values = tibble(
+        N_replicates = c(2, 4, 10)
+      ),
+      names = "N_replicates",
+      tar_target(
+        mc_summary,
+        summarise_mc(
+          mc_samples,
+          R = N_replicates
+        )
+      )
+      
     )
   )
 
