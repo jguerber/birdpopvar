@@ -94,8 +94,8 @@ step_stats <- function(parameters) {
     tar_group_by(
       mc_replicate_batches,
       tibble::tibble(
-        rep_id = 1:10,
-        batch = rep(1:2, each = 5)
+        rep_id = 1:10000,
+        batch = rep(1:100, each = 100)
       ),
       batch
     ),
@@ -114,7 +114,7 @@ step_stats <- function(parameters) {
     ),
     tar_map(
       values = tibble(
-        N_replicates = c(2, 4, 10)
+        N_replicates = c(100, 500, 1000, 2500, 5000, 10000)
       ),
       names = "N_replicates",
       tar_target(
