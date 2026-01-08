@@ -103,9 +103,10 @@ step_stats <- function(parameters) {
       mc_samples,
       draw_mc_samples(
         all_local_trends_outputs,
-        data_for_models_across_habitats
+        data_for_models_across_habitats,
+        mc_replicate_batches$rep_id
       ),
-      pattern = map(batch),
+      pattern = map(mc_replicate_batches),
       resources = tar_resources( # select the heavy-duty crew controller
         crew = tar_resources_crew(controller_group$names$heavy)
       )
