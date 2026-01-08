@@ -113,13 +113,16 @@ step_stats <- function(parameters) {
         crew = tar_resources_crew(controller_group$names$heavy)
       ),
       packages = c(default_dependencies(), "glmmTMB", "broom.mixed")
-    ),
-    tar_map(
+    )
+  )
+
+  mapped_summaries <- tar_map(
       values = tibble(
         N_replicates = c(100, 500, 1000, 2500, 5000, 10000)
         # N_replicates = c(2,4, 10) # for tests
       ),
       names = "N_replicates",
+      unlist = FALSE,
       tar_target(
         mc_summary,
         summarise_mc(
@@ -127,8 +130,12 @@ step_stats <- function(parameters) {
           R = N_replicates
         )
       )
-      
-    )
+  )
+
+  all_mc_summaries <- tar_combine(
+    mc_summary_all,
+    mapped_summaries[["mc_summary"]],
+    command = bind_rows(!!!.x, .id = "N_replicates")
   )
 
   simulate_examples <- list(
@@ -147,6 +154,8 @@ step_stats <- function(parameters) {
 
   list(
     run_stats,
+    mapped_summaries,
+    all_mc_summaries,
     simulate_examples
   )
 }
