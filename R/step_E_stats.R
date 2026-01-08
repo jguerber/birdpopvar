@@ -109,7 +109,8 @@ step_stats <- function(parameters) {
       pattern = map(mc_replicate_batches),
       resources = tar_resources( # select the heavy-duty crew controller
         crew = tar_resources_crew(controller_group$names$heavy)
-      )
+      ),
+      packages = c(default_dependencies(), "glmmTMB", "broom.mixed")
     ),
     tar_map(
       values = tibble(

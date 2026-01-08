@@ -1,5 +1,9 @@
 # length(reps) iterations
 draw_mc_samples <- function(species_trends, covariates, reps) {
+  # first filter only trends that are in communities in covariates
+  species_trends <- species_trends %>%
+    split_series_id %>% 
+    filter(COMMUNITY_ID %in% covariates$COMMUNITY_ID)
   map(reps, function(r) {
     mc_iterate(
         species_trends,
