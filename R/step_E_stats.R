@@ -96,6 +96,8 @@ step_stats <- function(parameters) {
       tibble::tibble(
         rep_id = 1:10000,
         batch = rep(1:100, each = 100)
+        # rep_id = 1:10, # for tests
+        # batch = rep(1:2, each = 5) # for tests
       ),
       batch
     ),
@@ -115,6 +117,7 @@ step_stats <- function(parameters) {
     tar_map(
       values = tibble(
         N_replicates = c(100, 500, 1000, 2500, 5000, 10000)
+        # N_replicates = c(2,4, 10) # for tests
       ),
       names = "N_replicates",
       tar_target(
