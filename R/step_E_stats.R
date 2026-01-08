@@ -94,7 +94,7 @@ step_stats <- function(parameters) {
     tar_group_by(
       mc_replicate_batches,
       tibble::tibble(
-        rep_id = 1:10000,
+        rep_id = 1:10000, # ~ 10000 reps take around 15 min on 32 workers
         batch = rep(1:100, each = 100)
         # rep_id = 1:10, # for tests
         # batch = rep(1:2, each = 5) # for tests
