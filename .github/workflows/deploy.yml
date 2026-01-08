@@ -3,6 +3,7 @@ on:
   push:
     branches:
      - 'main'
+     - 'dev'
 
 jobs:
   build:
@@ -13,14 +14,15 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURRENT_BRANCH: ${{ github.ref_name }}
         with:
           host: ${{ secrets.HPC_HOST }}
           username: ${{ secrets.HPC_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          envs: GH_TOKEN
+          envs: GH_TOKEN,CURRENT_BRANCH # pass gh env variables to action script
           script: |
             cd /home/${{ secrets.HPC_USER }}/${{ secrets.HPC_PATH }}
-            git checkout main
-            git pull https://x-access-token:${GH_TOKEN}@github.com/jguerber/birdpopvar.git main
+            git checkout ${CURRENT_BRANCH}
+            git pull https://x-access-token:${GH_TOKEN}@github.com/jguerber/birdpopvar.git ${CURRENT_BRANCH}
             sbatch slurm/run_pipeline.sh
