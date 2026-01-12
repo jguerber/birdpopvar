@@ -129,17 +129,20 @@ extract_sem_coefficients <- function(wrapper, categories) {
 
   if (length(categories == 0)) {
     return(tibble::tibble(
-      estimate = head(wrapper[[1]]$error, n = 1)
+      Std.Estimate = NA
     ))
   }
 
   fit_info <- extract_sem_fit_info(map(wrapper, \(x) x$value), categories_ok) %>% 
     rename(
-      estimate = Fisher.C,
-      Response = N,
+      Std.Estimate = Fisher.C,
       DF = df,
       HABITAT = category
-    ) %>% select(-label_clean)
+    ) %>% select(-label_clean, -N) %>% 
+    mutate(
+      Response = "Fisher.C",
+      Predictor = "Fisher.C"
+    )
 
   categories_ok %>% 
     set_names() %>% 

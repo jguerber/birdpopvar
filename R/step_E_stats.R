@@ -161,13 +161,23 @@ step_stats <- function(parameters) {
     tar_target(
       mc_summaries_stats1,
       mc_stats1_estimates %>% 
-        filter(!is.na(term), term != "sd__(Intercept)") %>% 
+        filter(!is.na(term), term != "sd__(Intercept)") %>% # remove models that did not run properly
         group_by(term, model) %>% 
         summarise_mc_vars(
           vars = c("estimate", "std.error"),
           R = N_replicates
         )
-      )
+    ),
+    tar_target(
+      mc_summaries_sem,
+      mc_sem_estimates %>% 
+        filter(!is.na(Std.Estimate)) %>% # remove models that did not run properly
+        group_by(Response, Predictor, HABITAT) %>% 
+        summarise_mc_vars(
+          vars = "Std.Estimate",
+          R = N_replicates
+        )
+    )
   )
 
   # all_mc_summaries <- tar_combine(
