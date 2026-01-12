@@ -20,6 +20,11 @@ draw_mc_meanabstrend <- function(species_trends, reps, communities = NULL) {
       split_series_id %>% 
       ungroup
   }
+
+  if (!is.null(communities)) {
+    species_trends <- species_trends %>% 
+      filter(COMMUNITY_ID %in% communities)
+  }
     
   map(reps, function(r) {
     species_trends %>% 
@@ -84,6 +89,68 @@ single_rep_stats1 <- function(sample, covariates, .r) {
     mutate(
       rep_id = .r
     )
+}
+
+single_rep_sem <- function(sample, covariates, .r) {
+    dat <- sample %>% 
+      split_community_id() %>% 
+      left_join(covariates, by = "COMMUNITY_ID") %>% 
+      mutate(
+        across( # don't scale covariates because piecewiseSEM scales within communities later,
+          # but scale coordinates for nlme corExp object
+          c(X, Y), ~ scale(.x)
+        ),
+        across(c(sd_r_average), log, .names = "{.col}_log"),
+        HABITAT_GROUP = factor(HABITAT_GROUP, levels = c("woodland", "farmland", "built")),
+        ata_log = log(mean_abs_trend_mc)
+    )
+
+    run_spatial_sems(sem_data = dat, fun_runsem = spatial_psem_call_mc) %>% 
+      extract_sem_coefficients(c("woodland", "farmland", "built")) %>% 
+      mutate(
+        rep_id = .r
+      )
+}
+
+extract_sem_coefficients <- function(wrapper, categories) {
+
+  n_errors <- sapply(categories, function(c) { # fetch numbers of errors and warnings from SEM outputs
+    length(wrapper[[c]]$error) + length(wrapper[[c]]$warnings)
+  })
+
+  dat_out <- tibble::tibble(
+    category = categories,
+    n_errors = n_errors
+  )
+
+  categories_ok <- dat_out %>% 
+    filter(n_errors == 0) %>% 
+    pull(category)
+
+  if (length(categories == 0)) {
+    return(tibble::tibble(
+      estimate = head(wrapper[[1]]$error, n = 1)
+    ))
+  }
+
+  fit_info <- extract_sem_fit_info(map(wrapper, \(x) x$value), categories_ok) %>% 
+    rename(
+      estimate = Fisher.C,
+      Response = N,
+      DF = df,
+      HABITAT = category
+    ) %>% select(-label_clean)
+
+  categories_ok %>% 
+    set_names() %>% 
+    map(function(c) {
+      wrapper[[c]]$value$summary_out$coefficients %>% 
+        as.data.frame %>% 
+        mutate(
+          HABITAT = c
+        )
+    }) %>% 
+    bind_rows(fit_info)
 }
 
 safe_model_call <- function(data, form, ...) {

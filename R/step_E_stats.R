@@ -105,7 +105,8 @@ step_stats <- function(parameters) {
       mc_meanabstrend_samples, # grouped by rep, batched in groups of replicates
       draw_mc_meanabstrend(
         all_local_trends_outputs,
-        mc_replicate_batches$rep_id
+        mc_replicate_batches$rep_id,
+        communities = population_variability_data$COMMUNITY_ID
       ),
       pattern = map(mc_replicate_batches),
       resources = tar_resources( # select the heavy-duty crew controller
@@ -125,6 +126,19 @@ step_stats <- function(parameters) {
         crew = tar_resources_crew(controller_group$names$heavy)
       ),
       packages = c(default_dependencies(), "glmmTMB", "broom.mixed")
+    ),
+    tar_target(
+      mc_sem_estimates,
+      stats_fun_on_mc(
+        mc_meanabstrend_samples,
+        population_variability_data,
+        stats_fun = single_rep_sem
+      ),
+      pattern = map(mc_meanabstrend_samples),
+      resources = tar_resources( # select the heavy-duty crew controller
+        crew = tar_resources_crew(controller_group$names$heavy)
+      ),
+      packages = c(default_dependencies(), "piecewiseSEM", "nlme")
     )
   )
 

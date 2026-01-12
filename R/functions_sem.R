@@ -32,6 +32,41 @@ spatial_psem_call <- function(data) {
   ))
 }
 
+# SEM call function when working on MC replicates
+spatial_psem_call_mc <- function(data) {
+
+  # todo : metaprogramming to parse any passed formula list directly
+  sem_obj <- psem(
+    lme(
+      fixed = sd_r_average_log ~ HII_focal  + H_fine  + mu_SR,
+      random = ~ 1|dummy,
+      correlation = corExp(form = ~ X + Y),
+      method = "ML",
+      data = data
+    ),
+    lme(
+      fixed = ata_log ~  HII_focal  + H_fine   + mu_SR,
+      random = ~ 1|dummy,
+      correlation = corExp(form = ~ X + Y),
+      method = "ML",
+      data = data
+    ),
+    lme(
+      fixed = mu_SR ~HII_focal  + H_fine,
+      random = ~ 1|dummy,
+      correlation = corExp(form = ~ X + Y),
+      method = "ML",
+      data = data
+    ),
+    data = data
+  )
+
+  return(list(
+    out_sem = sem_obj,
+    summary_out = summary(sem_obj)
+  ))
+}
+
 run_spatial_sems <- function(sem_data, sems_type = "no_cv_com", fun_runsem = spatial_psem_call, habitat_col = "HABITAT_GROUP") {
   if (nrow(sem_data) == 0) return(list())
 
