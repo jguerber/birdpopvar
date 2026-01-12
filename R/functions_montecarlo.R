@@ -127,7 +127,7 @@ extract_sem_coefficients <- function(wrapper, categories) {
     filter(n_errors == 0) %>% 
     pull(category)
 
-  if (length(categories == 0)) {
+  if (length(categories_ok) == 0) {
     return(tibble::tibble(
       Std.Estimate = NA
     ))
@@ -148,12 +148,13 @@ extract_sem_coefficients <- function(wrapper, categories) {
     set_names() %>% 
     map(function(c) {
       wrapper[[c]]$value$summary_out$coefficients %>% 
-        as.data.frame %>% 
+        data.frame %>% 
         mutate(
           HABITAT = c
         )
     }) %>% 
-    bind_rows(fit_info)
+    bind_rows() %>%  # rejoin the different habitat categories for SEM coefficients
+    bind_rows(., fit_info) # and join with the fit info df
 }
 
 safe_model_call <- function(data, form, ...) {
