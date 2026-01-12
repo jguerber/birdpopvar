@@ -97,7 +97,7 @@ step_stats <- function(parameters) {
         # rep_id = 1:10000, # ~ 10000 reps take around 15 min on 32 workers
         # batch = rep(1:100, each = 100)
         rep_id = 1:10, # for tests
-        batch = rep(1:2, each = 5) # for tests
+        batch = rep(1:5, each = 2) # for tests
       ),
       batch
     ),
