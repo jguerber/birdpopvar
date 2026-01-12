@@ -13,7 +13,7 @@ draw_mc_samples <- function(species_trends, covariates, reps) {
   }) %>% bind_rows()
 }
 
-draw_mc_meanabstrend <- function(species_trends, reps) {
+draw_mc_meanabstrend <- function(species_trends, reps, communities = NULL) {
 
   if (!("COMMUNITY_ID" %in% colnames(species_trends))) {
     species_trends <- species_trends %>% 
