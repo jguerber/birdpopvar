@@ -13,49 +13,115 @@ draw_mc_samples <- function(species_trends, covariates, reps) {
   }) %>% bind_rows()
 }
 
-# single iteration : redraw all species trends in their estimated interval and fit model
-mc_iterate <- function(dat, covariates, .r = NA, try_max = 3) {
-  
-  errors <- 1
-  tries <- 0
+draw_mc_meanabstrend <- function(species_trends, reps) {
 
-  while (errors > 0 && tries < try_max) {
-
-    dat_s <- dat %>% 
+  if (!("COMMUNITY_ID" %in% colnames(species_trends))) {
+    species_trends <- species_trends %>% 
+      split_series_id %>% 
+      ungroup
+  }
+    
+  map(reps, function(r) {
+    species_trends %>% 
       mutate(
           trend_mc = rnorm(n = n(), mean = trend, sd = se)
       ) %>% 
       group_by(COMMUNITY_ID) %>% 
       summarise(
-          abs_trend_average_mc = mean(abs(trend_mc))
+          mean_abs_trend_mc = mean(abs(trend_mc))
       ) %>% 
-      left_join(covariates, by = "COMMUNITY_ID") 
-  
-    model <- catchConditions({glmmTMB::glmmTMB(
-      formula = abs_trend_average_mc ~HABITAT_GROUP + N_POINTS_avg + (1|SITE2),
-      family = "lognormal",
-      data = dat_s
-    )})
+      mutate(
+        rep_id = r
+      )
+  }) %>% 
+    bind_rows()
+} 
 
-    errors <- length(model$error)
-    tries <- tries + 1
+stats_fun_on_mc <- function(samples, covariates, stats_fun = identity) {
+    
+  samples %>% 
+    group_by(rep_id) %>% 
+    group_map(
+      ~ stats_fun(.x, covariates, .y$rep_id)
+    ) %>% 
+    bind_rows()
 
-  }
+}
 
-  # after while loop : either tries == try_max and model may be ok, or model succeeded
-
-  if (tries == try_max) {
-    if (errors > 0) {
-      stop(glue::glue("Model failed with {{ tries }} attempts"))
-    }
-  }
-
-  model$value %>% 
-        broom.mixed::tidy() %>% 
-        select(effect, term, group, estimate, std.error) %>% 
+single_rep_stats1 <- function(sample, covariates, .r) {
+  dat <- sample %>% 
+        split_community_id() %>% 
+        left_join(covariates, by = "COMMUNITY_ID") %>% 
         mutate(
-            rep = .r
-        )
+            across(
+            c(HII_focal, H_fine, N_POINTS_avg, mu_SR), ~ scale(.x)
+            ),
+            HABITAT_GROUP = factor(HABITAT_GROUP, levels = c("woodland", "farmland", "built"))
+        ) 
+
+  mod_hc <- safe_model_call(
+    form = mean_abs_trend_mc ~HABITAT_GROUP + N_POINTS_avg + (1|SITE2),
+    data = dat,
+    family= "lognormal"
+  ) %>% 
+  mutate(
+      model = "habitat_controlled"
+  )
+
+  mod_full <- safe_model_call(
+    form = mean_abs_trend_mc ~HABITAT_GROUP + H_fine + HII_focal + mu_SR + N_POINTS_avg + (1|SITE2),
+    data = dat,
+    family = "lognormal"
+  ) %>% 
+  mutate(
+      model = "full"
+  )
+
+  bind_rows(
+      mod_full,
+      mod_hc
+  ) %>% 
+    mutate(
+      rep_id = .r
+    )
+}
+
+safe_model_call <- function(data, form, ...) {
+  obj <- catchConditions({
+    glmmTMB::glmmTMB(
+      formula = form,
+      data = data,
+      ...
+    )
+  })
+
+  if ((length(obj$warnings) > 0) || (length(obj$error) > 0)) {
+    return(tibble::tibble(estimate = NA))
+  }
+
+  obj$value %>% 
+    broom.mixed::tidy()
+}
+
+summarise_mc_vars <- function(mc_samples, vars, R) {
+  ids_current <- sample(unique(mc_samples$rep_id), size = R, replace = F)
+
+  mc_samples %>% 
+    filter(rep_id %in% ids_current) %>% 
+    pivot_longer(cols = vars, names_to = "variable", values_to = "mc_output") %>% 
+    group_by(variable, add = T) %>% # add variable as a grouping variable
+    summarise(
+        med = median(mc_output),
+        lwr = quantile(mc_output, 0.025),
+        upr = quantile(mc_output, 0.975),
+        sd = sd(mc_output),
+        mean = mean(mc_output),
+        n_models_ok = n(),
+        .groups = "drop"
+    ) %>% 
+    mutate(
+        N_replicates = R
+    )
 }
 
 # after sampling, summarise over all iterations

@@ -94,21 +94,33 @@ step_stats <- function(parameters) {
     tar_group_by(
       mc_replicate_batches,
       tibble::tibble(
-        rep_id = 1:10000, # ~ 10000 reps take around 15 min on 32 workers
-        batch = rep(1:100, each = 100)
-        # rep_id = 1:10, # for tests
-        # batch = rep(1:2, each = 5) # for tests
+        # rep_id = 1:10000, # ~ 10000 reps take around 15 min on 32 workers
+        # batch = rep(1:100, each = 100)
+        rep_id = 1:10, # for tests
+        batch = rep(1:2, each = 5) # for tests
       ),
       batch
     ),
     tar_target(
-      mc_samples,
-      draw_mc_samples(
+      mc_meanabstrend_samples, # grouped by rep, batched in groups of replicates
+      draw_mc_meanabstrend(
         all_local_trends_outputs,
-        data_for_models_across_habitats,
         mc_replicate_batches$rep_id
       ),
       pattern = map(mc_replicate_batches),
+      resources = tar_resources( # select the heavy-duty crew controller
+        crew = tar_resources_crew(controller_group$names$heavy)
+      ),
+      packages = c(default_dependencies(), "glmmTMB", "broom.mixed")
+    ),
+    tar_target(
+      mc_stats1_estimates,
+      stats_fun_on_mc(
+        mc_meanabstrend_samples,
+        population_variability_data,
+        stats_fun = single_rep_stats1
+      ),
+      pattern = map(mc_meanabstrend_samples),
       resources = tar_resources( # select the heavy-duty crew controller
         crew = tar_resources_crew(controller_group$names$heavy)
       ),
@@ -117,26 +129,29 @@ step_stats <- function(parameters) {
   )
 
   mapped_summaries <- tar_map(
-      values = tibble(
-        N_replicates = c(100, 500, 1000, 2500, 5000, 10000)
-        # N_replicates = c(2,4, 10) # for tests
-      ),
-      names = "N_replicates",
-      unlist = FALSE,
-      tar_target(
-        mc_summary,
-        summarise_mc(
-          mc_samples,
+    values = tibble(
+      # N_replicates = c(100, 500, 1000, 2500, 5000, 10000)
+      N_replicates = c(2,4, 10) # for tests
+    ),
+    names = "N_replicates",
+    unlist = FALSE,
+    tar_target(
+      mc_summaries_meanabstrend,
+      mc_stats1_estimates %>% 
+        filter(!is.na(term), term != "sd__(Intercept)") %>% 
+        group_by(term, model) %>% 
+        summarise_mc_vars(
+          vars = c("estimate", "std.error"),
           R = N_replicates
         )
       )
   )
 
-  all_mc_summaries <- tar_combine(
-    mc_summary_all,
-    mapped_summaries[["mc_summary"]],
-    command = bind_rows(!!!.x, .id = "N_replicates")
-  )
+  # all_mc_summaries <- tar_combine(
+  #   mc_summary_all,
+  #   mapped_summaries[["mc_summary"]],
+  #   command = bind_rows(!!!.x, .id = "N_replicates")
+  # )
 
   simulate_examples <- list(
       tar_target(
@@ -155,7 +170,7 @@ step_stats <- function(parameters) {
   list(
     run_stats,
     mapped_summaries,
-    all_mc_summaries,
+    # all_mc_summaries,
     simulate_examples
   )
 }
