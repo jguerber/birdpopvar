@@ -95,7 +95,7 @@ step_stats <- function(parameters) {
       mc_replicate_batches,
       tibble::tibble(
         rep_id = 1:10000, 
-        batch = rep(1:10, each = 100)
+        batch = rep(1:1000, each = 10)
         # rep_id = 1:10, # for tests
         # batch = rep(1:5, each = 2) # for tests
       ),
