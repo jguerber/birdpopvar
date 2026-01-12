@@ -94,10 +94,10 @@ step_stats <- function(parameters) {
     tar_group_by(
       mc_replicate_batches,
       tibble::tibble(
-        # rep_id = 1:10000, # ~ 10000 reps take around 15 min on 32 workers
-        # batch = rep(1:100, each = 100)
-        rep_id = 1:10, # for tests
-        batch = rep(1:5, each = 2) # for tests
+        rep_id = 1:10000, 
+        batch = rep(1:10, each = 100)
+        # rep_id = 1:10, # for tests
+        # batch = rep(1:5, each = 2) # for tests
       ),
       batch
     ),
@@ -144,8 +144,8 @@ step_stats <- function(parameters) {
 
   mapped_summaries <- tar_map(
     values = tibble(
-      # N_replicates = c(100, 500, 1000, 2500, 5000, 10000)
-      N_replicates = c(2,4, 10) # for tests
+      N_replicates = c(1000, 2500, 5000, 10000)
+      # N_replicates = c(2,4, 10) # for tests
     ),
     names = "N_replicates",
     unlist = FALSE,
