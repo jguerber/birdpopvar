@@ -103,6 +103,8 @@ safe_model_call <- function(data, form, ...) {
     broom.mixed::tidy()
 }
 
+#' From a grouped samples dataframe, compute summary stats for the resampled distribution of vars
+#' in each group
 summarise_mc_vars <- function(mc_samples, vars, R) {
   ids_current <- sample(unique(mc_samples$rep_id), size = R, replace = F)
 
@@ -116,7 +118,7 @@ summarise_mc_vars <- function(mc_samples, vars, R) {
         upr = quantile(mc_output, 0.975),
         sd = sd(mc_output),
         mean = mean(mc_output),
-        n_models_ok = n(),
+        n_replicates_ok = n(),
         .groups = "drop"
     ) %>% 
     mutate(

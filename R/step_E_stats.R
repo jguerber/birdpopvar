@@ -137,6 +137,15 @@ step_stats <- function(parameters) {
     unlist = FALSE,
     tar_target(
       mc_summaries_meanabstrend,
+      mc_meanabstrend_samples %>% 
+        group_by(COMMUNITY_ID) %>% 
+        summarise_mc_vars(
+          "mean_abs_trend_mc",
+          R = N_replicates
+        )
+    ),
+    tar_target(
+      mc_summaries_stats1,
       mc_stats1_estimates %>% 
         filter(!is.na(term), term != "sd__(Intercept)") %>% 
         group_by(term, model) %>% 
