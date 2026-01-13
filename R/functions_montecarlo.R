@@ -182,7 +182,7 @@ summarise_mc_vars <- function(mc_samples, vars, R) {
   mc_samples %>% 
     filter(rep_id %in% ids_current) %>% 
     pivot_longer(cols = vars, names_to = "variable", values_to = "mc_output") %>% 
-    group_by(variable, add = T) %>% # add variable as a grouping variable
+    group_by(variable, .add = T) %>% # add variable as a grouping variable
     summarise(
         med = median(mc_output),
         lwr = quantile(mc_output, 0.025),
