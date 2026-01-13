@@ -1,4 +1,4 @@
-```{r}
+```{r fig-components}
 #| fig-asp: 1.618355
 #| out-width: "47.4%"
 #| fig-width: 4.74
