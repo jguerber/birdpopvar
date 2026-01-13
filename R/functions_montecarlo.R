@@ -1,18 +1,4 @@
 # length(reps) iterations
-draw_mc_samples <- function(species_trends, covariates, reps) {
-  # first filter only trends that are in communities in covariates
-  species_trends <- species_trends %>%
-    split_series_id %>% 
-    filter(COMMUNITY_ID %in% covariates$COMMUNITY_ID)
-  map(reps, function(r) {
-    mc_iterate(
-        species_trends,
-        covariates,
-        .r = r
-    )
-  }) %>% bind_rows()
-}
-
 draw_mc_meanabstrend <- function(species_trends, reps, communities = NULL) {
 
   if (!("COMMUNITY_ID" %in% colnames(species_trends))) {
@@ -190,40 +176,6 @@ summarise_mc_vars <- function(mc_samples, vars, R) {
         sd = sd(mc_output),
         mean = mean(mc_output),
         n_replicates_ok = n(),
-        .groups = "drop"
-    ) %>% 
-    mutate(
-        N_replicates = R
-    )
-}
-
-# after sampling, summarise over all iterations
-summarise_mc <- function(mc_samples, R) {
-  ids_current <- sample(unique(mc_samples$rep), size = R, replace = F)
-
-  mc_samples %>% 
-    filter(rep %in% ids_current) %>% 
-    group_by(rep) %>% 
-    mutate(
-      n_errors = sum(is.na(estimate)) + sum(is.na(std.error))
-    ) %>% 
-    filter(n_errors == 1) %>% # 1 error is allowed:  no std.error for sd_Intercept
-    select(-n_errors) %>% 
-    ungroup() %>% 
-    pivot_longer(
-        cols = c(estimate, std.error),
-        names_to = "component",
-        values_to = "mc_output"
-    ) %>% 
-    filter(!(component == "std.error" & term == "sd__(Intercept)")) %>% # no std.error for sd_Intercept
-    group_by(effect, term, group, component) %>% 
-    summarise(
-        med = median(mc_output),
-        lwr = quantile(mc_output, 0.025),
-        upr = quantile(mc_output, 0.975),
-        se = sd(mc_output)/sqrt(n()),
-        mean = mean(mc_output),
-        n_models_ok = n(),
         .groups = "drop"
     ) %>% 
     mutate(
