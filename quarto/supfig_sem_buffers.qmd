@@ -1,16 +1,21 @@
-```{r}
+```{r supfig-sem-buffers}
 #| fig-asp: 1.618123
 #| out-width: "66%"
 #| fig-width: 6.6
 #| echo: false
+#| message: false
+#| warning: false
 
 catch_assert <- assertthat::assert_that(
  "ggraph" %in% .packages(),
   msg = "Loading ggraph is required for SEM plots"
 )
 
-tar_read(
-  supfig_sem_buffers,
-  store = store_in_pipeline()
+build_fig_sem_buffers(
+  tar_read(
+    spatial_sem_buffer_output_10km,
+    store = store_in_pipeline()
+  ),
+  c("farmland", "woodland", "built")
 )
 ```

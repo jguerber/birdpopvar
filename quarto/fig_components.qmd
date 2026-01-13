@@ -4,15 +4,15 @@
 #| fig-width: 4.74
 #| cache: false
 
-targets::tar_read(
-  fig_components,
-  store = store_in_pipeline()
-)
-# 
-# build_fig_stability_dimensions(
-#   tar_read(all_local_trends_outputs, store = store_in_pipeline()),
-#   tar_read(population_variability_data, store = store_in_pipeline()),
-#   type = "both"
+# targets::tar_read(
+#   fig_components,
+#   store = store_in_pipeline()
 # )
+
+build_fig_stability_dimensions(
+  tar_read(all_local_trends_outputs, store = store_in_pipeline()),
+  tar_read(population_variability_data, store = store_in_pipeline()),
+  type = "both"
+)
 ```
 

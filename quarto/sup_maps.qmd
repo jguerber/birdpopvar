@@ -1,10 +1,20 @@
-```{r}
+```{r supfig-maps}
 #| fig-asp: 1
 #| out-width: "70%"
 #| fig-width: 6
 
-tar_read(
-  supfig_maps,
-  store = store_in_pipeline()
+build_fig_maps(
+  tar_read(
+    population_variability_data,
+    store = store_in_pipeline()
+  ),
+  tar_read(
+    community_coordinates,
+    store = store_in_pipeline()
+  ),
+  tar_read(
+    france_shape,
+    store= store_in_pipeline()
+  )
 )
 ```
