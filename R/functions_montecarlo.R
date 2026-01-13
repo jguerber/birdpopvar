@@ -28,7 +28,19 @@ draw_mc_meanabstrend <- function(species_trends, reps, communities = NULL) {
     bind_rows()
 } 
 
-stats_fun_on_mc <- function(samples, covariates, stats_fun = identity) {
+#' run a function on a MC samples dataframe
+#' 
+#' Used to generate MC distributions of statistics on the resampled dataframes.
+#' 
+#' @param stats_fun A function that takes three arguments:
+#' `.x`, a dataframe that corresponds to a single MC-resampled dataframe
+#' `covariates`, community-level covariates dataframe
+#' `.r`, the current id of MC resampling.
+#' Make sure that, if it modifies `.x`, `stats_fun` add the information in `.r`
+#' somewhere in its output
+#' 
+#' The default `stats_fun` passes `.x` through without summarising
+stats_fun_on_mc <- function(samples, covariates, stats_fun = \(.x,.c,.r) .x) {
     
   samples %>% 
     group_by(rep_id) %>% 
