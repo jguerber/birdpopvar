@@ -176,7 +176,8 @@ safe_model_call <- function(data, form, ...) {
 #' From a grouped samples dataframe, compute summary stats for the resampled distribution of vars
 #' in each group
 summarise_mc_vars <- function(mc_samples, vars, R) {
-  ids_current <- sample(unique(mc_samples$rep_id), size = R, replace = F)
+  rep_ids <- unique(mc_samples$rep_id)
+  ids_current <- sample(rep_ids, size = min(R, length(rep_ids)), replace = F)
 
   mc_samples %>% 
     filter(rep_id %in% ids_current) %>% 
