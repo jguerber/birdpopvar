@@ -1,4 +1,5 @@
-# length(reps) iterations
+#' Draw `length(reps)` repetitions of species trends around their estimated
+#' standard deviations, and summarise as `mean(abs(trend))`
 draw_mc_meanabstrend <- function(species_trends, reps, communities = NULL) {
 
   if (!("COMMUNITY_ID" %in% colnames(species_trends))) {
