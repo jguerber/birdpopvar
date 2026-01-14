@@ -1,13 +1,18 @@
-```{r}
+```{r fig-across-habitats}
 #| fig-asp: 0.618
 #| out-width: "100%"
 #| fig-width: 10
+#| cache: false
 
 # 75% and 7.5 for slide format
 
-
-targets::tar_read(
-  fig_across_hab,
-  store = store_in_pipeline()
+build_fig_across_habitats_emmeans(
+  model_wrapper = tar_read(
+    models_stab_across_habitats,
+    store = store_in_pipeline()
+  ),
+  model_name = "habitat_controlled",
+  font_size = 18,
+  errorbars = TRUE
 )
 ```

@@ -1,8 +1,10 @@
-```{r}
+```{r supfig-stats-estimates}
 
-tar_read(
-  supfig_stats1_estimates,
-  store = store_in_pipeline()
+build_fig_stats1_parameters(
+  tar_read(
+    models_stab_across_habitats,
+    store = store_in_pipeline()
+  ),
+  model_name = "habitat_controlled"
 )
-
 ```
