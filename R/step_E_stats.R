@@ -144,7 +144,7 @@ step_stats <- function(parameters) {
 
   mapped_summaries <- tar_map(
     values = tibble(
-      N_replicates = c(1000, 2500, 5000, 10000)
+      N_replicates = c(100, 500, 1000, 2500, 5000, 10000)
       # N_replicates = c(2,4, 10) # for tests
     ),
     names = "N_replicates",
