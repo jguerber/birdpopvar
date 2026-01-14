@@ -111,19 +111,24 @@ single_rep_sem <- function(sample, covariates, .r) {
       )
 }
 
-extract_sem_coefficients <- function(wrapper, categories) {
+extract_sem_coefficients <- function(wrapper, categories, warnings_tol = 0) {
 
   n_errors <- sapply(categories, function(c) { # fetch numbers of errors and warnings from SEM outputs
-    length(wrapper[[c]]$error) + length(wrapper[[c]]$warnings)
+    length(wrapper[[c]]$error) 
+  })
+
+  n_warnings <- sapply(categories, function(c) { # fetch numbers of errors and warnings from SEM outputs
+    length(wrapper[[c]]$warnings) 
   })
 
   dat_out <- tibble::tibble(
     category = categories,
-    n_errors = n_errors
+    n_errors = n_errors,
+    n_warnings = n_warnings
   )
 
   categories_ok <- dat_out %>% 
-    filter(n_errors == 0) %>% 
+    filter(n_errors == 0 & n_warnings <= warnings_tol) %>% 
     pull(category)
 
   if (length(categories_ok) == 0) {
