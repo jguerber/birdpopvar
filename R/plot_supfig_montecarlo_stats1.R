@@ -57,7 +57,7 @@ all_estimates %>%
     facet_wrap(~model, ncol = 1, scales = "free_y", labeller = labeller(
       model = c(
         full = "Full model",
-        habitat_controlled = "Model for Fig. 2"
+        habitat_controlled = "Model for Fig. 3"
       )
     )) +
     scale_color_viridis_d(end = 0.9) +

@@ -1,8 +1,8 @@
 
 ```{r build-supfig-montecarlo-meanabstrend}
 #| fig-asp: 0.618
-#| out-width: "100%"
-#| fig-width: 10
+#| out-width: "75%"
+#| fig-width: 7.5
 
 tar_read(
     mc_summaries_meanabstrend_10000,
