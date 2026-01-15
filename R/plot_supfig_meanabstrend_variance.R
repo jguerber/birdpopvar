@@ -57,7 +57,7 @@ build_supfig_meanabstrend_variance <- function(
     )) +
     labs(
         x = "Species richness",
-        y = "Aggregate value"
+        y = "Community value"
     )
   } else {
     p <- p + labs(
