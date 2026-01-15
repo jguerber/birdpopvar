@@ -137,3 +137,15 @@ build_summary_table <- function(metrics_summary) {
     tibble::column_to_rownames("metric")
 }
 
+simulate_null_abstrend <- function(N_com, mean_sr_log, sd_sr_log, sd_trend) {
+  tibble::tibble(
+      com_id = 1:N_com,
+      SR = round(exp(rnorm(N_com, mean = mean_sr_log, sd = sd_sr_log)))
+  ) %>% 
+      group_by(com_id, SR) %>% 
+      reframe(
+          id_sp = 1:SR,
+          trend = rnorm(n = SR, mean = 0, sd = sd_trend)
+      )
+}
+

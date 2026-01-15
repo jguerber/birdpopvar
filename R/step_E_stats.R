@@ -205,6 +205,15 @@ step_stats <- function(parameters) {
         example_communities_models %>%
           summarise_metrics() %>%
           build_summary_table()
+      ),
+      tar_target(
+        simulated_null_abstrend,
+        simulate_null_abstrend(
+          N_com = 300,
+          mean_sr_log = 2.5,
+          sd_sr_log = 0.5,
+          sd_trend = 0.05
+        )
       )
     )
 
