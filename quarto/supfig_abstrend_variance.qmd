@@ -1,0 +1,15 @@
+
+```{r build-supfig-meanabstrend}
+#| fig-asp: 0.618
+#| out-width: "60%"
+#| fig-width: 6
+
+build_supfig_meanabstrend_variance(
+    tar_read(
+        simulated_null_abstrend,
+        store = store_in_pipeline()
+    ),
+    sd_trend = 0.05,
+    plot_abs_mean_trend = F
+)
+```
