@@ -1,0 +1,17 @@
+
+```{r}
+#| fig-asp: 1.618
+#| out-width: "95%"
+#| fig-width: 9.5
+
+build_supfig_montecarlo_sem(
+    tar_read(
+        spatial_sem_output,
+        store = store_in_pipeline()
+    ),
+    tar_read(
+        mc_summaries_sem_10000,
+        store = store_in_pipeline()
+    )
+)
+```

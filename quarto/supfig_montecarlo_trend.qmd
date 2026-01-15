@@ -1,0 +1,31 @@
+
+```{r build-supfig-montecarlo-meanabstrend}
+#| fig-asp: 0.618
+#| out-width: "100%"
+#| fig-width: 10
+
+tar_read(
+    mc_summaries_meanabstrend_10000,
+    store = store_in_pipeline()
+)%>%
+    split_community_id %>%
+    mutate(
+        HABITAT_GROUP = factor(HABITAT_GROUP, levels = c("woodland", "farmland", "built"))
+    ) %>% 
+    ggplot(aes(x = HABITAT_GROUP)) +
+    geom_pointrange(
+        aes(
+        y = mean,
+        ymin = lwr,
+        ymax = upr,
+        color =COMMUNITY_ID
+    ), position = position_jitter(height = 0, width = 0.33), size = 0.1, alpha = 0.5) +
+    scale_y_log10() +
+    scale_color_viridis_d() +
+    labs(
+        y = "Monte Carlo mean absolute trend",
+        x = "Habitat category"
+    ) +
+    cowplot::theme_cowplot() +
+    theme(legend.position = "none")
+```

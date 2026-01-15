@@ -1,0 +1,17 @@
+
+```{r build-supfig-montecarlo-stats1}
+#| fig-asp: 1.118
+#| out-width: "75%"
+#| fig-width: 7.5
+
+build_supfig_montecarlo_stats1(
+    tar_read(
+        models_stab_across_habitats,
+        store = store_in_pipeline()
+    )$models$abs_trend_average,
+    tar_read(
+        mc_summaries_stats1_10000,
+        store = store_in_pipeline()
+    )
+)
+```

@@ -1,0 +1,13 @@
+
+```{r build-supfig-montecarlo-chisq}
+#| fig-asp: 0.618
+#| out-width: "100%"
+#| fig-width: 10
+
+build_supfig_montecarlo_chisq(
+    tar_read(
+        mc_sem_estimates,
+        store = store_in_pipeline()
+    )
+)
+```
