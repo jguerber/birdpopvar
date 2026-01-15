@@ -170,13 +170,21 @@ step_stats <- function(parameters) {
     ),
     tar_target(
       mc_summaries_sem,
-      mc_sem_estimates %>% 
-        filter(!is.na(Std.Estimate)) %>% # remove models that did not run properly
-        group_by(Response, Predictor, HABITAT) %>% 
-        summarise_mc_vars(
-          vars = "Std.Estimate",
-          R = N_replicates
-        )
+      mc_sem_estimates %>%
+        filter(Response != "Fisher.C") %>% 
+        mutate(
+            relative_sd = Std.Estimate / Estimate,
+            error_on_std_scale = Std.Error * relative_sd
+        ) %>%
+        select(Response, Predictor, HABITAT, rep_id, Std.Estimate, error_on_std_scale) %>% 
+        group_by(HABITAT, rep_id) %>%  # reject models for which at least one path is weird
+        mutate(
+            n_problems = sum(Std.Estimate == 0) + sum(error_on_std_scale == 0) + sum(is.na(Std.Estimate)) + sum(is.na(error_on_std_scale)) + sum(is.infinite(error_on_std_scale))
+        ) %>% 
+        filter(n_problems == 0) %>% 
+        select(-n_problems) %>% 
+        group_by(HABITAT, Response, Predictor) %>% # extract estimate and MC error for coef and error
+        summarise_mc_vars(vars = c("Std.Estimate", "error_on_std_scale"), R = N_replicates)
     )
   )
 
