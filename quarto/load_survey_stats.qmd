@@ -1,0 +1,21 @@
+```{r load-survey-stats}
+
+survey_stats <- targets::tar_read(
+  survey_stats,
+  store = store_in_pipeline()
+)
+
+summaries <- survey_stats$table %>% 
+  ungroup %>% 
+  mutate(
+    step_short = rep(1:6, each = 3)
+  )
+
+missing_hii <- survey_stats$table %>% 
+  compare_two_data_subsets("ncom", c("Convergent local trends", "Correct pressure data"))
+
+non_convergent <- survey_stats$table %>% 
+  compare_two_data_subsets("nseries", c("Abundant enough species", "Convergent local trends"))
+
+r_version_clean <- R.version$version.string %>% str_replace(" \\(.+", "")
+```
