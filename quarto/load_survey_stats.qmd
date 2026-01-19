@@ -1,4 +1,5 @@
 ```{r load-survey-stats}
+#| cache: false
 
 survey_stats <- targets::tar_read(
   survey_stats,
