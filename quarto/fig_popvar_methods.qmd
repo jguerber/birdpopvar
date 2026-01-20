@@ -5,8 +5,16 @@
 #| fig-asp: 0.618
 
 
-targets::tar_read(
-  fig_popvar_methods,
-  store = store_in_pipeline()
+build_fig_methods_alt2(
+  targets::tar_read(
+    example_communities_models,
+    store = store_in_pipeline()
+  ),
+  targets::tar_read(
+    table_summary,
+    store = store_in_pipeline()
+  ),
+  debug = F
 )
+
 ```
