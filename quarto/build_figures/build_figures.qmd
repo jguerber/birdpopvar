@@ -22,9 +22,6 @@ source(here::here("scripts/import_dependencies.R"))
 devtools::load_all(here::here())
 
 library(ggraph)
-
-trigger <- tar_read(trigger_document_dependencies, store = store_in_pipeline())
-rm(trigger)
 ```
 
 Loaded pipeline project: `r tar_get_current_project()`
@@ -66,3 +63,15 @@ data <- targets::tar_read(
 
 {{< include /../../quarto/supfig_sem_buffers.qmd >}}
 
+```{r}
+rm(out_glm)
+rm(data)
+```
+
+{{< include /../../quarto/supfig_montecarlo_trend.qmd >}}
+
+{{< include /../../quarto/supfig_montecarlo_stats1.qmd >}}
+
+{{< include /../../quarto/supfig_montecarlo_sem.qmd >}}
+
+{{< include /../../quarto/supfig_montecarlo_chisq.qmd >}}

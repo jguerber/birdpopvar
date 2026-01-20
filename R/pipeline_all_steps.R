@@ -26,7 +26,7 @@ target_list_all <- function(parameters) {
     )
   )
 
-  build_figures <- step_build_figures(parameters) # F1
+  outputs_ok <- step_read_outputs(parameters) # F1
 
   build_document <- ifelse(
     !is.null(quarto::quarto_path()),
@@ -42,7 +42,7 @@ target_list_all <- function(parameters) {
     stats_and_plots,
     stats_montecarlo,
     france_shapeobj,
-    build_figures,
+    outputs_ok,
     build_document
   )
 }
@@ -53,7 +53,7 @@ target_list_shortcut <- function(parameters) {
 
   stats_and_plots <- step_stats(parameters) # E
 
-  build_figures <- step_build_figures(parameters) # F1
+  outputs_ok <- step_read_outputs(parameters) # F1
 
   build_document <- ifelse(
     !is.null(quarto::quarto_path()),
@@ -64,7 +64,7 @@ target_list_shortcut <- function(parameters) {
   list(
     load_targets,
     stats_and_plots,
-    build_figures,
+    outputs_ok,
     build_document
   )
 
