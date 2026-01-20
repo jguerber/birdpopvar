@@ -6,7 +6,7 @@
 
 build_supfig_montecarlo_chisq(
     tar_read(
-        mc_sem_estimates,
+        mc_summaries_chisq_sem_10000,
         store = store_in_pipeline()
     )
 )

@@ -94,6 +94,18 @@ step_montecarlo_stats <- function(params) {
         select(-n_problems) %>% 
         group_by(HABITAT, Response, Predictor) %>% # extract estimate and MC error for coef and error
         summarise_mc_vars(vars = c("Std.Estimate", "error_on_std_scale"), R = N_replicates)
+    ),
+    tar_target(
+      mc_summaries_chisq_sem,
+      mc_sem_estimates %>% 
+        filter(Response == "Fisher.C") %>%
+        group_by(HABITAT) %>% 
+        summarise_mc_vars(
+            vars = c("Std.Estimate"),
+            R = N_replicates
+        )
+    )
+  )
     )
   )
 

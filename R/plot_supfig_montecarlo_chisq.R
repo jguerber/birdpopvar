@@ -1,11 +1,4 @@
-build_supfig_montecarlo_chisq <- function(mc_sem_estimates) {
-  chi_estimates <- mc_sem_estimates %>%
-    filter(Response == "Fisher.C") %>%
-    group_by(HABITAT) %>% 
-    summarise_mc_vars(
-        vars = c("Std.Estimate"),
-        R = 10000
-    )
+build_supfig_montecarlo_chisq <- function(chi_estimates) {
 
   tibble::tibble(
       HABITAT = "Null hypothesis",
