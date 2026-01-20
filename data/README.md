@@ -11,8 +11,11 @@ These files are not to be altered manually: they are outputs of analyses within 
 - **all_local_trends_outputs.csv** : for each species time series, several summary statistics for the local trend model (trend, se, p) and for the variability of residuals around the trend (sd, mse)
 - **bird_population_variability.csv** : community-level aggregated population variability metrics. In particular, sd_r_average and abs_trend_average are the mean detrended population variability and the mean absolute population trend (see Methods in the manuscript text). Also includes anthropogenic pressure indices: Landscape complexity H_fine for the smallest available Corine Land Cover categories, mean Human Impact Index values over 2001-2014, for focal points and for several buffer sizes, mean species richness and mean number of points
 
+
 The other files are necessary to build the figures for the Supporting Information only:
 
+
+- **france_shape.rda** : a precomputed shapefile of the French map
 - **mc_summaries_meanabstrend_10000.csv** : quantiles of the MC resampled distribution for mean absolute trend in all communities
 - **mc_summaries_stats1_10000.csv** : quantiles of the MC resampled distributions for effect sizes and standard errors in the model across habitat categories
 - **mc_summaries_sem_10000.csv** : quantiles of the MC resampled distributions for effect sizes and standard errors in the structural equation models
