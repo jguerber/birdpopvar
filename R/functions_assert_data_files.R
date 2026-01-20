@@ -68,7 +68,11 @@ processed_expected_files <- function() {
     "all_local_trends_outputs.csv",
     "bird_population_variability.csv",
     "community_coordinates.csv",
-    "metadata.md"
+    "metadata.md",
+    "mc_summaries_chisq_sem_10000.csv",
+    "mc_summaries_meanabstrend_10000.csv",
+    "mc_summaries_sem_10000.csv",
+    "mc_summaries_stats1_10000.csv"
   )
 }
 
