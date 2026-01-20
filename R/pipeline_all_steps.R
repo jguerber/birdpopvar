@@ -10,6 +10,8 @@ target_list_all <- function(parameters) {
 
   stats_and_plots <- step_stats(parameters) # E
 
+  stats_montecarlo <- step_montecarlo_stats(parameters) # Eb
+
   france_shapeobj <- list(
     tar_target(
       france_shape,
@@ -38,6 +40,7 @@ target_list_all <- function(parameters) {
     local_trends,
     community_data,
     stats_and_plots,
+    stats_montecarlo,
     france_shapeobj,
     build_figures,
     build_document
