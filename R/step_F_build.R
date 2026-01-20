@@ -22,8 +22,7 @@ step_build_document <- function(parameters) {
       name = build_figs,
       path = here::here("quarto/build_figures"),
       working_directory = here::here(),
-      quiet = F,
-      cue = tar_cue(mode = "never")
+      quiet = F
     )
   )
 
