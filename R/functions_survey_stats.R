@@ -160,5 +160,23 @@ fetch_survey_stats <- function(
   )
 }
 
+compare_two_data_subsets <- function(survey_table, scale, steps) {
+  if (length(steps) != 2) {
+    stop("Need to compare two steps")
+  }
+
+  survey_table %>%
+    filter(data_type == scale & step %in% steps) %>%
+    select(-c(freq, clean)) %>%
+    pivot_wider(
+      names_from = step,
+      values_from = N
+    ) %>%
+    mutate(
+      out := abs(!!sym(steps[1]) - !!sym(steps[2]))
+    ) %>%
+    pull(out)
+}
+
 
 

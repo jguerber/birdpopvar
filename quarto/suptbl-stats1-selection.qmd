@@ -1,7 +1,19 @@
 ```{r build-suptbl-statssel}
-tar_read(
-  suptbl_stats1_selection,
-  store = store_in_pipeline()
+build_stats1_selection_table(
+  tar_read(
+    models_stab_across_habitats,
+    store = store_in_pipeline()
+  ),
+  model_names = c("full","habitat_controlled", "no_ecology", "null"),
+  match_vars = function(model) {
+    case_match(
+      model,
+      "Full" ~ "All",
+      "No ecology" ~ "Number of points by community",
+      "Habitat controlled" ~ "Habitat category and number of points",
+      "Null" ~ "None (intercept only)"
+    )
+  }
 ) %>% 
   dispatch_format(  # different formatting function depending on output document type
     other_fn = format_selection_kable,
