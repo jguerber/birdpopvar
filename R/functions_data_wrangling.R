@@ -26,6 +26,7 @@ split_series_id <- function(df, series_col = "series_id", keep = T) {
     )
 }
 
+#' unused ?
 mutate_community_id <- function(df, group_col = "HABITAT_GROUP", keep = T) {
   df %>%
     unite(
