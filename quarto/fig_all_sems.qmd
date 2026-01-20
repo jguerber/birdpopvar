@@ -2,6 +2,8 @@
 #| fig-asp: 1.618123
 #| out-width: "66%"
 #| fig-width: 6.6
+#| warning: false
+#| message: false
 
 # 100% and 10 for slide output
 
