@@ -74,3 +74,44 @@
 ## `france_shape.rda`: Rdata file
 
 Modified from the raw contours of France by OpenStreetMap.
+
+# Processed data for the supporting information only
+
+## `mc_summaries_meanabstrend_10000.csv` : Summary statistics of Monte Carlo (MC) mean absolute trend resamples
+
+- COMMUNITY_ID: unique identifier of community
+- variable: mean absolute trend
+- med: median of MC resamples
+- lwr: 2.5% quantile of MC resamples
+- upr: 97.5% quantile of MC resamples
+- sd: standard deviation of MC resamples
+- mean: mean of MC resamples
+- n_replicates_ok: how many resampled datasets were used to compute the summary statistics
+- N_replicates: how many resampled datasets were tried
+
+## `mc_summaries_stats1_10000.csv`: Summary statistics of MC fixed effects across habitats
+
+- term: identifier for fixed effect
+- model: `"full"` or `"habitat_controlled`, i.e. models with or without anthropogenic pressures and richness as fixed effects
+- variable: `"estimate"` or `"std.error"`, the estimate or its error as estimated by running the model on the resampled datasets
+- med: median of MC resamples
+- lwr: 2.5% quantile of MC resamples
+- upr: 97.5% quantile of MC resamples
+- sd: standard deviation of MC resamples
+- mean: mean of MC resamples
+- n_replicates_ok: how many resampled datasets were used to compute the summary statistics
+- N_replicates: how many resampled datasets were tried
+
+## `mc_summaries_sem_10000.csv`: Summary statistics of MC structural equation model paths
+
+- HABITAT: habitat category of the communities used
+- Response: response variable for the path
+- Predictor: predictor variable for the path
+- variable: "Std.Estimate" or "error_on_std_scale", the standardized estimate or its corresponding error as estimated by running the SEM on the resampled datasets
+- med: median of MC resamples
+- lwr: 2.5% quantile of MC resamples
+- upr: 97.5% quantile of MC resamples
+- sd: standard deviation of MC resamples
+- mean: mean of MC resamples
+- n_replicates_ok: how many resampled datasets were used to compute the summary statistics
+- N_replicates: how many resampled datasets were tried
