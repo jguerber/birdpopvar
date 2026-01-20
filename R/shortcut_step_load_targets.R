@@ -5,13 +5,21 @@ step_load_targets <- function(parameters) {
       "aggregate_survey",
       "all_local_trends_outputs",
       "community_coordinates",
-      "population_variability_data"
+      "population_variability_data",
+      "mc_summaries_chisq_sem_10000",
+      "mc_summaries_sem_10000",
+      "mc_summaries_stats1_10000",
+      "mc_summaries_meanabstrend_10000"
     ),
     path = c(
       "data/processed/aggregate_survey.csv",
       "data/processed/all_local_trends_outputs.csv",
       "data/processed/community_coordinates.csv",
-      "data/processed/bird_population_variability.csv"
+      "data/processed/bird_population_variability.csv",
+      "data/processed/mc_summaries_chisq_sem_10000.csv",
+      "data/processed/mc_summaries_sem_10000.csv",
+      "data/processed/mc_summaries_stats1_10000.csv",
+      "data/processed/mc_summaries_meanabstrend_10000.csv"
     )
   )
 

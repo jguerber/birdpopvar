@@ -106,11 +106,45 @@ step_montecarlo_stats <- function(params) {
         )
     )
   )
+
+  save_outputs <- list(
+    tar_target(
+      mc_summaries_sem_10000_file,
+      write_path(
+        mc_summaries_sem_10000,
+        rel_path = "data/processed/mc_summaries_sem_10000.csv",
+        row.names = F
+      )
+    ),
+    tar_target(
+      mc_summaries_stats1_10000_file,
+      write_path(
+        mc_summaries_stats1_10000,
+        rel_path = "data/processed/mc_summaries_stats1_10000.csv",
+        row.names = F
+      )
+    ),
+    tar_target(
+      mc_summaries_meanabstrend_10000_file,
+      write_path(
+        mc_summaries_meanabstrend_10000,
+        rel_path = "data/processed/mc_summaries_meanabstrend_10000.csv",
+        row.names = F
+      )
+    ),
+    tar_target(
+      mc_summaries_chisq_sem_10000_file,
+      write_path(
+        mc_summaries_chisq_sem_10000,
+        rel_path = "data/processed/mc_summaries_chisq_sem_10000.csv",
+        row.names = F
+      )
     )
   )
 
   list(
     run_replicates,
-    mapped_summaries
+    mapped_summaries,
+    save_outputs
   )
 }
