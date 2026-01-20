@@ -1,4 +1,4 @@
-```{r fig-across-habitats}
+```{r build-fig-across-habitats}
 #| fig-asp: 0.618
 #| out-width: "100%"
 #| fig-width: 10

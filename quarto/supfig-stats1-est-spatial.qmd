@@ -1,4 +1,4 @@
-```{r supfig-spatial-estimates}
+```{r build-supfig-spatial-estimates}
 estimates_spat <- targets::tar_read(
   estimates_spatial_models_habitat_controlled,
   store = store_in_pipeline()

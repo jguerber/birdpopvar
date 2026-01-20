@@ -1,4 +1,4 @@
-```{r}
+```{r build-supfig-both-components}
 #| fig-asp: 1.2
 #| out-width: "66%"
 #| fig-width: 6.6

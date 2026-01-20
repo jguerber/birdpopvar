@@ -1,4 +1,4 @@
-```{r}
+```{r build-suptbl-selection}
 match_labels_stats1b <- function(model) {
   case_match(
     model,

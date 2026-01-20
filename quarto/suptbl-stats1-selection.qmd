@@ -1,4 +1,4 @@
-```{r}
+```{r build-suptbl-statssel}
 tar_read(
   suptbl_stats1_selection,
   store = store_in_pipeline()

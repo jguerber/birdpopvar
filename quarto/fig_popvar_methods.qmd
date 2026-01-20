@@ -1,4 +1,4 @@
-```{r fig-popvar-methods}
+```{r build-fig-popvar-methods}
 #| cache: false
 #| out-width: "66%"
 #| fig-width: 6.6

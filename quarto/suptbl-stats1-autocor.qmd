@@ -1,4 +1,4 @@
-```{r}
+```{r build-suptbl-autocor}
 residuals <- c(variability = "sd_r_average", trend = "abs_trend_average") %>% 
   map(\(r) out_glm$models[[r]]$habitat_controlled %>% DHARMa::simulateResiduals(n = 1000, simulateREs = "conditional"))
   

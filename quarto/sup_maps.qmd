@@ -1,4 +1,4 @@
-```{r supfig-maps}
+```{r build-supfig-maps}
 #| fig-asp: 1
 #| out-width: "70%"
 #| fig-width: 6

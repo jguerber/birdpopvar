@@ -1,4 +1,4 @@
-```{r supfig-sem-buffers}
+```{r build-supfig-sem-buffers}
 #| fig-asp: 1.618123
 #| out-width: "66%"
 #| fig-width: 6.6

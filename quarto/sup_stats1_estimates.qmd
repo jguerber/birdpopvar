@@ -1,4 +1,4 @@
-```{r supfig-stats-estimates}
+```{r build-supfig-stats-estimates}
 
 build_fig_stats1_parameters(
   tar_read(

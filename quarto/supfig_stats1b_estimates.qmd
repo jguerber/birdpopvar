@@ -1,4 +1,4 @@
-```{r supfig-stats1-estimates}
+```{r build-supfig-stats1-estimates}
 build_fig_stats1_parameters(
   tar_read(
     models_stab_across_habitats,

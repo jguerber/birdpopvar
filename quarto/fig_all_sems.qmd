@@ -1,4 +1,4 @@
-```{r fig-all-sems}
+```{r build-fig-all-sems}
 #| fig-asp: 1.618123
 #| out-width: "66%"
 #| fig-width: 6.6
