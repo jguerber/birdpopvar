@@ -130,7 +130,7 @@ build_summary_table <- function(metrics_summary) {
       metric = case_match(
         as.character(metric),
         "cv_w" ~ "Weighted average\npopulation variability",
-        "abstrend" ~ "Average absolute trend",
+        "abstrend" ~ "Average of\nabsolute trends",
         "sdr" ~ "Average detrended\npopulation variability"
       )
     ) %>%
