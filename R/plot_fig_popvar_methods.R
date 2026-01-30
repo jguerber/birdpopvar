@@ -122,7 +122,7 @@ build_fig_methods_alt2 <- function(sims, table, font_size = 14, ...) {
         y,
         levels = c(
           "Weighted mean\npopulation variability",
-          "Mean of absolute\ntrends",
+          "Mean of\nabsolute trends",
           "Mean detrended\npopulation variability"
         )
       )
