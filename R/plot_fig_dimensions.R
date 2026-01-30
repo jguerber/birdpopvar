@@ -203,7 +203,7 @@ component_correlation_plot <- function(
       color = "Habitat category",
       shape = "Habitat category",
       y = y_lab,
-      x =  "Mean absolute trend"
+      x =  "Mean of absolute trends"
     )
 
   # browser()

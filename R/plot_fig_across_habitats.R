@@ -123,6 +123,6 @@ core_plot <- function(df, point_size = 0.75, font_size = 14, hline = F) {
 }
 
 labeller_components <- \() labeller(
-  component = c(sd_r = "Mean detrended population variability", abs_trend = "Mean absolute trend")
+  component = c(sd_r = "Mean detrended population variability", abs_trend = "Mean of absolute trends")
 )
 
