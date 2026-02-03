@@ -51,7 +51,7 @@ build_supfig_meanabstrend_variance <- function(
     p <- p +
     facet_wrap(~metric, scales = "free", labeller = labeller(
         metric = c(
-            mean_abs_trend = "Mean absolute trend",
+            mean_abs_trend = "Mean of absolute trends",
             abs_mean_trend = "Absolute value of mean trend"
         )
     )) +
