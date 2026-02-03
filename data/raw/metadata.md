@@ -1,6 +1,10 @@
 # Metadata for raw French Breeding Bird Survey data
 
-## species_names.csv
+## STOC
+
+French Breeding Bird survey data. See Methods in the manuscript for details about the sampling protocol. Both files were subsetted to include only square plots relevant to the corresponding manuscript.
+
+### species_names.csv
 
 Species codes used in the French Breeding Bird survey datasets. 10 columns with headers, comma-separated. Version-controlled file available online on [GitHub](https://github.com/romainlorrilliere/STOC_eps_database/blob/master/data_generic/espece.csv).
 
@@ -16,10 +20,6 @@ Species codes used in the French Breeding Bird survey datasets. 10 columns with 
  - family_tax: Family name in French (TaxRef)
 
 Species codes in the datasets are checked against species, subspecies and hybrid names in this table to ensure that time series match actual bird species.
-
-## STOC
-
-French Breeding Bird survey data. See Methods in the manuscript for details about the sampling protocol. Both files were subsetted to include only square plots relevant to the corresponding manuscript.
 
 ### fbbs_200m.csv
 
