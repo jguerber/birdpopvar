@@ -1,8 +1,27 @@
 # Metadata for raw French Breeding Bird Survey data
 
-See Methods in the manuscript for details about the sampling protocol. Both files were subsetted to include only square plots relevant to the corresponding manuscript.
+## species_names.csv
 
-## STOC/fbbs_200m.csv
+Species codes used in the French Breeding Bird survey datasets. 10 columns with headers, comma-separated. Version-controlled file available online on [GitHub](https://github.com/romainlorrilliere/STOC_eps_database/blob/master/data_generic/espece.csv).
+
+ - pk_species: species code
+ - euring: [EURING](https://euring.org/data-and-codes/euring-codes) bird ringing code
+ - taxref: [TaxRef](https://www.patrinat.fr/fr/referentiel-taxonomique-taxref-6057) taxonomic identifier
+ - scientific_name: Scientific name of species
+ - french_name: French vernacular species name
+ - english_name: English vernacular species name
+ - niveau_taxo: Taxonomic level of code. Most often "espece" (species), "sous-espece" (subspecies). Can also be "generique" (genus or higher) or "hybride" (hybrid)
+ - class_tax: Class name in French (TaxRef)
+ - order_tax: Order name in French (TaxRef)
+ - family_tax: Family name in French (TaxRef)
+
+Species codes in the datasets are checked against species, subspecies and hybrid names in this table to ensure that time series match actual bird species.
+
+## STOC
+
+French Breeding Bird survey data. See Methods in the manuscript for details about the sampling protocol. Both files were subsetted to include only square plots relevant to the corresponding manuscript.
+
+### fbbs_200m.csv
 
 10 unnamed columns, no header, semi-colon separated. Column names used here are defined in `clean_fbbs` in `R/functions_data_cleaning.R`
 
@@ -17,7 +36,7 @@ See Methods in the manuscript for details about the sampling protocol. Both file
  - lon: WGS84 longitude of the listening point, as entered by the observer
  - lat: WGS84 latitude of the listening point, as entered by the observer
 
-## STOC/sampling.csv
+### sampling.csv
 
 10 names columns, with header, comma-separated.
 
