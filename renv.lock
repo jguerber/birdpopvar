@@ -6965,6 +6965,12 @@
       "Author": "Matteo Fasiolo [aut, cre], Ben Griffiths [aut], Simon N. Wood [ctb], Margaux Zaffran [ctb], Yannig Goude [ctb], Raphael Nedellec [ctb]",
       "Repository": "RSPM"
     },
+    "qs2": {
+      "Package": "qs2",
+      "Version": "0.1.7",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
     "quadmesh": {
       "Package": "quadmesh",
       "Version": "0.5.5",
