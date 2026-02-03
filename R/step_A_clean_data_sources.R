@@ -11,7 +11,8 @@ step_data_cleaning <- function() {
       fbbs_names_ref,
       read_path(
         file.path("data", "raw", "STOC", "species_names.csv"), sep = ",", row.names = NULL, header = T
-      )
+      ) %>% 
+        filter(niveau_taxo %in% c("espece", "sous-espece", "hybride"))
     ),
     tar_target(
       data_clean,
