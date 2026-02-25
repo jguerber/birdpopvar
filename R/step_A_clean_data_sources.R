@@ -36,12 +36,29 @@ step_data_cleaning <- function() {
       read_path(file.path("data", "raw", "CLC", "clc_legend.csv"), method = read.csv) %>% clean_clc_legend
     ),
 
-    tar_target(
-      clc_2018,
-      load_clc(
-        file.path("data", "raw", "CLC","CLC_2018", "U2018_CLC2018_V2020_20u1.shp"), clc_legend
+    tar_map(
+      values = tibble(
+        clc_year = c("2000", "2006", "2012", "2018"),
+        file_name = c(
+          "U2006_CLC2000_V2020_20u1.shp",
+          "U2012_CLC2006_V2020_20u1.shp",
+          "U2018_CLC2012_V2020_20u1.shp",
+          "U2018_CLC2018_V2020_20u1.shp"
+        ),
+        clc_code_name = c("code_00", "Code_06", "Code_12", "Code_18")
       ),
-      packages = "sf"
+      names = "clc_year",
+      tar_target(
+        clc,
+        load_clc(
+          file.path(
+            "data", "raw", "CLC", paste0("CLC_", clc_year), file_name
+          ),
+          clc_legend,
+          legend_code = clc_code_name
+        ),
+        packages = "sf"
+      )
     )
   )
 
