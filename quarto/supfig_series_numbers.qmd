@@ -3,8 +3,9 @@
 #| fig-asp: 0.618
 #| out-width: "90%"
 #| fig-width: 9
+#| cache: false
 
-build_supfig_timeseries_number(
+obj <- build_supfig_timeseries_number(
     tar_read(
         population_variability_data,
         store = store_in_pipeline()
@@ -18,4 +19,8 @@ build_supfig_timeseries_number(
         store = store_in_pipeline()
     ) 
 )
+
+summaries_series <- obj$summaries
+
+cowplot::ggdraw(obj$plot)
 ```

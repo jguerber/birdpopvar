@@ -8,11 +8,20 @@ build_supfig_timeseries_number <- function(
     pull(COMMUNITY_ID) %>%
     unique()
 
-  plot_communities <- community_survey %>% 
+  communities_dat <- community_survey %>% 
     filter(COMMUNITY_ID %in% coms_final) %>% 
     select(COMMUNITY_ID,  NYEARS)%>% 
     split_community_id %>% 
-    unique %>%
+    unique
+
+  series_dat <- trends_outputs %>% 
+    split_series_id %>% 
+    filter(COMMUNITY_ID %in% coms_final) %>%
+    mutate(
+        N_present = N - N_ab
+    )
+
+  plot_communities <- communities_dat %>% 
     ggplot(aes(x = NYEARS)) +
     geom_bar(aes(fill = HABITAT_GROUP), width = 0.75) +
     scale_habitats(geom = "fill") +
@@ -25,12 +34,7 @@ build_supfig_timeseries_number <- function(
         x = "Years of survey"
     )
   
-  plot_timeseries <- trends_outputs %>% 
-    split_series_id %>% 
-    filter(COMMUNITY_ID %in% coms_final) %>%
-    mutate(
-        N_present = N - N_ab
-    ) %>%
+  plot_timeseries <- series_dat %>%
     ggplot(aes(x = N_present)) +
     geom_bar((aes(fill = type_milieu)), width = 0.75) +
     scale_habitats(geom = "fill") +
@@ -45,7 +49,7 @@ build_supfig_timeseries_number <- function(
         fill = "Habitat category"
     )
   
-  cowplot::plot_grid(
+  plot_both <- cowplot::plot_grid(
     plot_communities,
     plot_timeseries,
     ncol = 2,
@@ -53,4 +57,24 @@ build_supfig_timeseries_number <- function(
     axis = "btl",
     rel_widths = c(1,1.75)
   )
+
+  summaries <- tibble::tibble(
+    mean = c(
+      mean(communities_dat$NYEARS),
+      mean(series_dat$N_present)
+    ),
+    sd = c(
+      sd(communities_dat$NYEARS),
+      sd(series_dat$N_present)
+    )
+  ) %>% 
+    mutate(
+      across(c(mean, sd), ~signif(.x, 3)),
+      lab = paste0(mean, "(",sd,")")
+    )
+  
+  return(list(
+    plot = plot_both,
+    summaries = summaries
+  ))
 }
