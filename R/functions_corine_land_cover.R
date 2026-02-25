@@ -28,11 +28,11 @@ clean_clc_legend <- function(df) {
 load_clc <- function(rel_path, legend_df, legend_code = "Code_18") {
   path <- here::here(rel_path)
   # read corine land cover
-  clc18 <- read_sf(
+  sf::read_sf(
     path
   ) %>%
     st_transform(crs = 2154) %>% # Lambert-93 projection for France
-    left_join(legend_df, by = join_by(Code_18 == CLC_CODE))
+    left_join(legend_df, by = join_by(!!sym(legend_code) == CLC_CODE))
 }
 
 
