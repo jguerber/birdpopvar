@@ -30,21 +30,22 @@ step_community_data <- function(parameters) {
 
   landscape_complexity <- tar_map(
       values = tibble(
-        buffer_size = c(250, 500)
+        year = c("2000", "2006", "2012", "2018"),
+        clc_obj = syms(c("clc_2000", "clc_2006", "clc_2012", "clc_2018"))
       ),
-      names = "buffer_size",
+      names = "year",
       tar_target(
         buffers_landuse,
         communities_points %>%
           select(-YEAR) %>%
           unique %>%
-          intersect_buffer_clc(clc_2018, buffer_radius_m = buffer_size),
+          intersect_buffer_clc(clc_obj, buffer_radius_m = 250),
         packages = c(default_dependencies(), "sf")
       ),
       tar_target(
         habitat_proportions,
         buffers_landuse %>%
-          build_habitat_proportions(clc_year = "2018"),
+          build_habitat_proportions(clc_year = year),
         packages = c(default_dependencies(), "sf")
       ),
       tar_target(
@@ -193,7 +194,7 @@ step_community_data <- function(parameters) {
           community_coordinates, by = "COMMUNITY_ID"
         ) %>%
         left_join(
-          landscape_complexity_250, by = "COMMUNITY_ID"
+          landscape_complexity_2018, by = "COMMUNITY_ID"
         ) %>%
         left_join(
           filter(human_impact, hii_version == "v1"), by = "COMMUNITY_ID"
