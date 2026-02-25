@@ -83,9 +83,15 @@ build_habitat_proportions <- function(intersections, clc_year = "2018") {
 
 
 clc_code_column <- function(year) {
-  if (!(year %in% c("2018"))) stop("Bad CLC year in build_habitat_proportions")
+  if (!(year %in% c("2000", "2006", "2012", "2018"))) stop("Bad CLC year in build_habitat_proportions")
 
-  return(str_replace(year, "^20", "Code_"))
+  case_match(
+    year,
+    "2000"~ "code_00",
+    "2006" ~"Code_06",
+    "2012" ~"Code_12",
+    "2018" ~"Code_18"
+  )
 }
 
 summarise_areas <- function(df, area_col = "area", col_label = "LABEL_CUSTOM", names_suffix = "") {
