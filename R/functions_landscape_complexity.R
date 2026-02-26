@@ -63,11 +63,11 @@ build_habitat_proportions <- function(intersections, clc_year = "2018") {
   # take the coarsest proportions, pivot wider on rel_area, and join back
   # H, area_buffer and H_fine
 
-  proportions_coarse$polygons %>%
+  proportions_fine$polygons %>%
     select(!area) %>%
     pivot_wider(
-      names_from = LABEL_CUSTOM,
-      values_from = "rel_area",
+      names_from = clc_code_column(clc_year),
+      values_from = "rel_area_fine",
       names_prefix = "prop_",
       values_fill = 0
     ) %>%

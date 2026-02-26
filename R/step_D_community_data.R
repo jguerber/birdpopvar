@@ -28,7 +28,7 @@ step_community_data <- function(parameters) {
     )
   )
 
-  landscape_complexity <- tar_map(
+  landscape_complexity_mapped <- tar_map(
       values = tibble(
         year = c("2000", "2006", "2012", "2018"),
         clc_obj = syms(c("clc_2000", "clc_2006", "clc_2012", "clc_2018"))
@@ -54,6 +54,30 @@ step_community_data <- function(parameters) {
           select(COMMUNITY_ID, area_buffer, H, H_fine)
       )
     )
+  
+  landscape_complexity_combined <- tar_combine(
+   habitat_proportions_all,
+   landscape_complexity_mapped[["habitat_proportions"]],
+   command = dplyr::bind_rows(!!!.x, .id = "CLC_year")
+  )
+
+  landscape_complexity_final <- list(
+    tar_target(
+      landscape_complexity_mean,
+      habitat_proportions_all %>% 
+        group_by(COMMUNITY_ID) %>% 
+        summarise(
+          across(c(area_buffer, H, H_fine, matches("prop_")), mean) # mean proportions across year
+        ) %>% 
+        pivot_longer(matches("prop_"), names_to = "category", values_to = "prop") %>% 
+        rename(H_fine_old = H_fine) %>% 
+        group_by(COMMUNITY_ID, area_buffer, H, H_fine_old) %>% 
+        filter(prop > 0) %>% 
+        summarise(
+          H_fine = shannon(prop, quiet = T)
+        )
+    )
+  )
 
   human_impact_sequential <- list(
     tar_target(
@@ -194,7 +218,7 @@ step_community_data <- function(parameters) {
           community_coordinates, by = "COMMUNITY_ID"
         ) %>%
         left_join(
-          landscape_complexity_2018, by = "COMMUNITY_ID"
+          landscape_complexity_mean, by = "COMMUNITY_ID"
         ) %>%
         left_join(
           filter(human_impact, hii_version == "v1"), by = "COMMUNITY_ID"
@@ -224,7 +248,9 @@ step_community_data <- function(parameters) {
 
   list(
     geography,
-    landscape_complexity,
+    landscape_complexity_mapped, # by clc year
+    landscape_complexity_combined, # bind_rows()
+    landscape_complexity_final, # mean for each community
     human_impact_sequential, # first target group of single operation per community
     human_impact_mapped, # static branching over buffer sizes
     human_impact_combined, # aggregate static branches in the same dataframe
