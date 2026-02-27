@@ -17,6 +17,7 @@ roi_bbox = c(-5.225, 9.55, 41.333,	51.2)
 
 prefix_pre_2015 <- "https://storage.googleapis.com/hii-export/"
 
+# see https://www.wcshumanfootprint.org/data-access : the URL of HII v1 changes in 2015
 prefix_2015_onwards <- ifelse(
   version_after_2015 == "v1",
   "https://storage.googleapis.com/hii-no-osm-export/",
