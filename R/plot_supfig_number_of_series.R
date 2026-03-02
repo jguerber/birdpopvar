@@ -30,7 +30,7 @@ build_supfig_timeseries_number <- function(
         legend.position = "none"
     ) +
     labs(
-        y = "Communities",
+        y = "Number of communities",
         x = "Years of survey"
     )
   
@@ -44,7 +44,7 @@ build_supfig_timeseries_number <- function(
         legend.text = element_text(size = 10)
     ) +
     labs(
-        y = "Time series",
+        y = "Number of time series",
         x = "Years without absences",
         fill = "Habitat category"
     )
