@@ -30,7 +30,7 @@ save_and_output(
     categories = c("farmland", "woodland", "built"),
     font_size = 12
   ),
-  filename = here::here("output/fig_all_sems.pdf"),
+  filename = here_from_pipeline("output/fig_all_sems.pdf"),
   bg = "white",
   width = 6.6,
   height = 1.618123 * 6.6,

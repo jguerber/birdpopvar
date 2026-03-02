@@ -16,7 +16,7 @@ save_and_output(
     font_size = 18,
     errorbars = TRUE
   ),
-  filename = here::here("output/fig_across_habitats.pdf"),
+  filename = here_from_pipeline("output/fig_across_habitats.pdf"),
   bg = "white",
   width = 10,
   height = 0.618 * 10,

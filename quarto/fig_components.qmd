@@ -15,7 +15,7 @@ save_and_output(
     tar_read(population_variability_data, store = store_in_pipeline()),
     type = "both"
   ),
-  filename = here::here("output/fig_components.pdf"),
+  filename = here_from_pipeline("output/fig_components.pdf"),
   width = 4.74,
   height = 1.618355 * 4.74,
   units = "in",
