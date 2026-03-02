@@ -6,13 +6,20 @@
 
 # 75% and 7.5 for slide format
 
-build_fig_across_habitats_emmeans(
-  model_wrapper = tar_read(
-    models_stab_across_habitats,
-    store = store_in_pipeline()
+save_and_output(
+  build_fig_across_habitats_emmeans(
+    model_wrapper = tar_read(
+      models_stab_across_habitats,
+      store = store_in_pipeline()
+    ),
+    model_name = "habitat_controlled",
+    font_size = 18,
+    errorbars = TRUE
   ),
-  model_name = "habitat_controlled",
-  font_size = 18,
-  errorbars = TRUE
+  filename = here::here("output/fig_across_habitats.pdf"),
+  bg = "white",
+  width = 10,
+  height = 0.618 * 10,
+  units = "in"
 )
 ```

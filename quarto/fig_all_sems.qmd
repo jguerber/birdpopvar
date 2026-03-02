@@ -12,21 +12,28 @@ catch_assert <- assertthat::assert_that(
   msg = "Loading ggraph is required for SEM plots"
 ) # otherwise outputs TRUE
 
-build_fig_all_sems(
-  tar_read(
-    spatial_sem_output,
-    store = store_in_pipeline()
+save_and_output(
+  build_fig_all_sems(
+    tar_read(
+      spatial_sem_output,
+      store = store_in_pipeline()
+    ),
+    sem_type = "nlme",
+    label_variables = c(
+      sd_r_average_log = "Variability",
+      abs_trend_average_log = "Trend",
+      HII_focal = "Hum. Imp.",
+      mu_SR = "Richness",
+      H_fine = "Land. Comp."
+    ),
+    selected_branch = 1,
+    categories = c("farmland", "woodland", "built"),
+    font_size = 12
   ),
-  sem_type = "nlme",
-  label_variables = c(
-    sd_r_average_log = "Variability",
-    abs_trend_average_log = "Trend",
-    HII_focal = "Hum. Imp.",
-    mu_SR = "Richness",
-    H_fine = "Land. Comp."
-  ),
-  selected_branch = 1,
-  categories = c("farmland", "woodland", "built"),
-  font_size = 12
+  filename = here::here("output/fig_all_sems.pdf"),
+  bg = "white",
+  width = 6.6,
+  height = 1.618123 * 6.6,
+  units = "in"
 )
 ```
