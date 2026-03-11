@@ -1,6 +1,8 @@
 # Code for Populations trends and variability within bird communities are amplified by intense land use
 
-This repository is organized as a [targets](https://books.ropensci.org/targets/) pipeline. It can be run fully or only step-wise, depending on the computing power of your working environment. Especially, the local time series trend models runs for several thousands of time series and should therefore only be run on a machine that can either be left alone for several days (for sequential computing), or that can spawn several dozens of parallel worker processes (most likely a HPC cluster).
+Raw and processed data available on [Dryad](https://doi.org/10.5061/dryad.2rbnzs82z). Manuscript online soon !
+
+The repository is organized as a [targets](https://books.ropensci.org/targets/) pipeline. It can be run fully or only step-wise, depending on the computing power of your working environment. Especially, the local time series trend models runs for several thousands of time series and should therefore only be run on a machine that can either be left alone for several days (for sequential computing), or that can spawn several dozens of parallel worker processes (most likely a HPC cluster).
 
 # Repository structure
 
