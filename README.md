@@ -1,6 +1,16 @@
-# Code for Populations trends and variability within bird communities are amplified by intense land use
+# Code for [Populations trends and variability within bird communities are amplified by intense land use](https://doi.org/10.1111/1365-2656.70254)
 
-Raw and processed data available on [Dryad](https://doi.org/10.5061/dryad.2rbnzs82z). Manuscript online soon !
+Raw and processed data available on [Dryad](https://doi.org/10.5061/dryad.2rbnzs82z). Please cite the paper as:
+
+```
+@article{guerber_population_2026,
+  title = {Population trends and variability within bird communities are amplified by intense land use},
+  author = {Guerber, Josquin and Fontaine, Colin and Th{\'e}bault, Elisa},
+  year = 2026,
+  journal = {Journal of Animal Ecology},
+  doi = {10.1111/1365-2656.70254}
+}
+```
 
 The repository is organized as a [targets](https://books.ropensci.org/targets/) pipeline. It can be run fully or only step-wise, depending on the computing power of your working environment. Especially, the local time series trend models runs for several thousands of time series and should therefore only be run on a machine that can either be left alone for several days (for sequential computing), or that can spawn several dozens of parallel worker processes (most likely a HPC cluster).
 
