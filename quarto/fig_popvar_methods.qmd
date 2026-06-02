@@ -17,7 +17,7 @@ save_and_output(
     ),
     debug = F
   ),
-  filename = here_from_pipeline("output/Figure_1.pdf"),
+  filename = here_from_pipeline("output/Figure_1.png"),
   width = 6.6,
   height = 0.618 * 6.6,
   units = "in",

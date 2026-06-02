@@ -16,7 +16,7 @@ save_and_output(
     font_size = 18,
     errorbars = TRUE
   ),
-  filename = here_from_pipeline("output/Figure_3.pdf"),
+  filename = here_from_pipeline("output/Figure_3.png"),
   bg = "white",
   width = 10,
   height = 0.618 * 10,
