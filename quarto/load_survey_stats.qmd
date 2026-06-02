@@ -6,6 +6,9 @@ survey_stats <- targets::tar_read(
   store = store_in_pipeline()
 )
 
+survey_stats$table %>% 
+  readr::write_csv(file = here::here("manuscript/resources/survey_stats.csv"))
+
 summaries <- survey_stats$table %>% 
   ungroup %>% 
   mutate(
