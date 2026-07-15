@@ -1,10 +1,16 @@
 ```{r build-supfig-stats-estimates}
 
-build_fig_stats1_parameters(
+save_and_output(
+  build_fig_stats1_parameters(
   tar_read(
     models_stab_across_habitats,
     store = store_in_pipeline()
   ),
   model_name = "habitat_controlled"
+),
+filename = here::here("output/Fig_S3.png"),
+width = 7,
+height = 0.618 * 7,
+unit = "in"
 )
 ```

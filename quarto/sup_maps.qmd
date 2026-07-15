@@ -3,7 +3,8 @@
 #| out-width: "70%"
 #| fig-width: 6
 
-build_fig_maps(
+save_and_output(
+  build_fig_maps(
   tar_read(
     population_variability_data,
     store = store_in_pipeline()
@@ -16,5 +17,11 @@ build_fig_maps(
     france_shape,
     store= store_in_pipeline()
   )
+),
+  filename = here_from_pipeline("output/Figure_S1.png"),
+  bg = "white",
+  width = 7,
+  height = 7,
+  units = "in"
 )
 ```

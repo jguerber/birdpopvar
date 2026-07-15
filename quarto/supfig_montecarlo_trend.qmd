@@ -4,7 +4,7 @@
 #| out-width: "75%"
 #| fig-width: 7.5
 
-tar_read(
+plot_trend <- tar_read(
     mc_summaries_meanabstrend_10000,
     store = store_in_pipeline()
 )%>%
@@ -28,4 +28,12 @@ tar_read(
     ) +
     cowplot::theme_cowplot() +
     theme(legend.position = "none")
+
+save_and_output(
+    plot_trend,
+    filename = here::here("output/Fig_S9.png"),
+    width = 8.5,
+    height = 0.618 * 8.5,
+    unit = "in"
+)
 ```

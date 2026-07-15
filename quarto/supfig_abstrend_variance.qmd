@@ -4,12 +4,18 @@
 #| out-width: "60%"
 #| fig-width: 6
 
-build_supfig_meanabstrend_variance(
+save_and_output(
+    build_supfig_meanabstrend_variance(
     tar_read(
         simulated_null_abstrend,
         store = store_in_pipeline()
     ),
     sd_trend = 0.05,
     plot_abs_mean_trend = F
+),
+filename = here::here("output/Fig_S7.png"),
+width = 7,
+height = 0.618 * 7,
+unit = "in"
 )
 ```

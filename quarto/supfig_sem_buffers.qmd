@@ -11,11 +11,18 @@ catch_assert <- assertthat::assert_that(
   msg = "Loading ggraph is required for SEM plots"
 )
 
-build_fig_sem_buffers(
+save_and_output(
+  build_fig_sem_buffers(
   tar_read(
     spatial_sem_buffer_output_10km,
     store = store_in_pipeline()
   ),
   c("farmland", "woodland", "built")
+),
+filename = here::here("output/Fig_S6.png"),
+width = 7.6,
+height = 1.618 * 7.6,
+unit = "in",
+bg = "white"
 )
 ```

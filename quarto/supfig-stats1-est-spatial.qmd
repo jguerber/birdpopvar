@@ -4,7 +4,7 @@ estimates_spat <- targets::tar_read(
   store = store_in_pipeline()
 )
 
-estimates_spat %>%
+plot_autocor <- estimates_spat %>%
   mutate(
     response_lab = factor(case_match(
       response,
@@ -31,4 +31,12 @@ estimates_spat %>%
     y = "",
     x = "Estimates for the spatial model (on the log scale)"
   )
+
+save_and_output(
+  plot_autocor,
+filename = here::here("output/Fig_S5.png"),
+width = 7,
+height = 0.618 * 7,
+unit = "in"
+)
 ```

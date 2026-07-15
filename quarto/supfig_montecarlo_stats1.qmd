@@ -12,14 +12,20 @@ n_replicates_ok <- tar_read(
     summarise(R_eff = unique(n_replicates_ok)) %>% 
     pivot_wider(names_from = model, values_from = R_eff)
 
-build_supfig_montecarlo_stats1(
-    tar_read(
-        models_stab_across_habitats,
-        store = store_in_pipeline()
-    )$models$abs_trend_average,
-    tar_read(
-        mc_summaries_stats1_10000,
-        store = store_in_pipeline()
-    )
+save_and_output(
+    build_supfig_montecarlo_stats1(
+        tar_read(
+            models_stab_across_habitats,
+            store = store_in_pipeline()
+        )$models$abs_trend_average,
+        tar_read(
+            mc_summaries_stats1_10000,
+            store = store_in_pipeline()
+        )
+    ),
+filename = here::here("output/Fig_S10.png"),
+width = 8.5,
+height =1.118 * 8.5,
+unit = "in"
 )
 ```

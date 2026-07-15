@@ -22,5 +22,12 @@ obj <- build_supfig_timeseries_number(
 
 summaries_series <- obj$summaries
 
-cowplot::ggdraw(obj$plot)
+save_and_output(
+    cowplot::ggdraw(obj$plot),
+  filename = here_from_pipeline("output/Figure_S2.png"),
+  bg = "white",
+  width = 10,
+  height = 0.618123 * 10,
+  units = "in"
+)
 ```
