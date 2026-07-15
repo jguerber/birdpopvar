@@ -32,8 +32,9 @@ plot_trend <- tar_read(
 save_and_output(
     plot_trend,
     filename = here::here("output/Fig_S9.png"),
-    width = 8.5,
-    height = 0.618 * 8.5,
-    unit = "in"
+    width = 7.5,
+    height = 0.618 * 7.5,
+    unit = "in",
+    bg = "white"
 )
 ```

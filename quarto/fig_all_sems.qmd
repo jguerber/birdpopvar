@@ -32,8 +32,8 @@ save_and_output(
   ),
   filename = here_from_pipeline("output/Figure_4.png"),
   bg = "white",
-  width = 7.6,
-  height = 1.618123 * 7.6,
+  width = 6.6,
+  height = 1.618123 * 6.6,
   units = "in"
 )
 ```

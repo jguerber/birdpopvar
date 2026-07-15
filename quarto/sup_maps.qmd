@@ -20,8 +20,8 @@ save_and_output(
 ),
   filename = here_from_pipeline("output/Figure_S1.png"),
   bg = "white",
-  width = 7,
-  height = 7,
+  width = 5,
+  height = 5,
   units = "in"
 )
 ```

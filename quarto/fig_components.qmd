@@ -16,8 +16,8 @@ save_and_output(
     type = "both"
   ),
   filename = here_from_pipeline("output/Figure_2.png"),
-  width = 5.74,
-  height = 1.618355 * 5.74,
+  width = 4.74,
+  height = 1.618355 * 4.74,
   units = "in",
   bg = "white"
 )

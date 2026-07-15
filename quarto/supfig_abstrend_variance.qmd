@@ -14,8 +14,8 @@ save_and_output(
     plot_abs_mean_trend = F
 ),
 filename = here::here("output/Fig_S7.png"),
-width = 7,
-height = 0.618 * 7,
+width = 6,
+height = 0.618 * 6,
 unit = "in"
 )
 ```

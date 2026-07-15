@@ -24,8 +24,9 @@ save_and_output(
         )
     ),
 filename = here::here("output/Fig_S11.png"),
-width = 7.5,
-height = 1.618 * 7.5,
+width = 6.5,
+height = 1.618 * 6.5,
+bg = "white",
 unit = "in"
 )
 ```
